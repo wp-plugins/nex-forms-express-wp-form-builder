@@ -16,7 +16,8 @@ Build awesome forms in seconds using this advanced user friendly form creator! I
 If you have a need to create and customize professional good looking forms on your WordPress website, **you came to the right place!**
 
 = Features: =
-* [Awesome support system](http://basix.ticksy.com/)
+
+### [Awesome new support system](http://basix.ticksy.com/)
 * Listed below is some of the favourites...there are way to many list them all!*
 * Fully responsive forms
 * 35+ form elements
