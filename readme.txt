@@ -3,7 +3,7 @@
 Contributors: Basix
 Tags: form, forms, custom form, form creator, form builder, form generator, contact form, form widget, form plugin, Widget, post, page, plugin
 Requires at least: 3.5
-Tested up to: 3.8.2
+Tested up to: 3.9
 Stable tag: 1.0.5
 License: GPLv2
 
@@ -16,9 +16,8 @@ Build awesome forms in seconds using this advanced user friendly form creator! I
 If you have a need to create and customize professional good looking forms on your WordPress website, **you came to the right place!**
 
 = Features: =
-
-*Listed below is some of the favourites...there are way to many list them all!*
-
+* [Awesome support system](http://basix.ticksy.com/)
+* Listed below is some of the favourites...there are way to many list them all!*
 * Fully responsive forms
 * 35+ form elements
 * Create custom fields
