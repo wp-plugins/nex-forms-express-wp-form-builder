@@ -17,7 +17,6 @@ If you have a need to create and customize professional good looking forms on yo
 
 = Features: =
 
-
 * Listed below is some of the favourites...there are way to many list them all!*
 * Fully responsive forms
 * 35+ form elements
