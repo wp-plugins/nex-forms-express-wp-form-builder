@@ -7,7 +7,6 @@ Tested up to: 3.9
 Stable tag: 1.0.5
 License: GPLv2
 
-
 Build awesome forms in seconds using this advanced user friendly form creator! Includes some amazing technology and easy to use features! 
 
 == Description ==
