@@ -102,15 +102,25 @@ NEX-Forms...Online form building made so easy, your grandma could do it!
 
 == Installation ==
 
+= VIA WordPress =
 1. After your download log into your WordPress admin interface
-2. After login click on Plugins from the left hand menu
-3. Click on "Add new"
-4. Click on "Upload"
-5. Browse to the directory you downloaded the plugin to and click "Install Now"
-6. After WordPress has finished unpacking the file click on "Activate Plugin"
-7. After the plugin has been activated you will notice a new menu item on the left hand navigation labelled NEX-Forms Express
-8. Done, start building forms
+2. After login click on  Plugins from the left  hand menu
+3. Click on “Add new”
+4. Click on “Upload”
+5. Browse to the directory you downloaded the plugin to and click “Install Now”
+6. After Wordpress has finished unpacking the file click on “Activate Plugin”
+7. After the plugin has been activated you will notice a new menu item on the left hand navigation labelled NEX-Form
+8. Done. Start creating froms!
 
+= VIA FTP =
+1. After your download unzip Nex-Forms from your download .zip
+2. Open your FTP client
+3. Browse to /your_wp_instalation/wp-content/plugins/ on your hosting server
+4. Uplaod Nex-Forms into this directory
+5. Go to your wordpress admin panel
+6. Go to plugins and activate NEX-Forms
+7. After the plugin has been activated you will notice a new menu item on the left hand navigation labelled NEX-Forms
+8. Done. Start creating froms!
 
 == Screenshots ==
 
