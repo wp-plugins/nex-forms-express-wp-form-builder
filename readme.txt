@@ -15,8 +15,7 @@ The Wordpress ULTIMATE Form Builder plugin that will allow you to effortlessly c
 **NEX-Forms** is a **high quality** and simple to use **form creator** that will make online form building a breaze.
 If you have a need to create and customize professional good looking forms on your WordPress website, **you came to the right place!**
 
-= Features: =
-
+### Features include:
 * Fully responsive forms
 * 35+ form elements
 * Create custom form fields
@@ -93,17 +92,19 @@ This is a first! Forms that actually draw themselfs when they come into your vie
 * Great usability, Design and Support! - HITMILK
 * I have tried manny many form builders and was so happy I stumbled on this one - themisters 
 
-To sum it all up NEX-Forms offer flexibilty, customazabilty, usability and design with awesome and easy to use features and settings that makes web form building so easy, your grandma could do it!
+### To sum it up
+NEX-Forms...Online form building made so easy, your grandma could do it!
 
 == Installation ==
 
 1. After your download log into your WordPress admin interface
-2. After login click on  Plugins from the left  hand menu
+2. After login click on Plugins from the left hand menu
 3. Click on "Add new"
 4. Click on "Upload"
 5. Browse to the directory you downloaded the plugin to and click "Install Now"
 6. After WordPress has finished unpacking the file click on "Activate Plugin"
 7. After the plugin has been activated you will notice a new menu item on the left hand navigation labelled NEX-Forms Express
+8. Done, start building forms
 
 
 == Screenshots ==
