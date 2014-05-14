@@ -35,12 +35,13 @@ Do you have a need to easily create and customize professional and awesome looki
 * Duplicate form fields function
 * Unlimited forms
 * Add form fields to a clipboard
-* NO Programing skills required to create forms
-* Fun and easy to use admin panel
-* Interactive tutorial
 * Bootstrap integrated form fields
 * Bootstrap integrated web elements
 * jQuery integrated form fields
+* NO Programing skills required to create forms
+* Fun and easy to use admin panel, very very easy to use!
+* Interactive tutorial
+
 
 = 35+ form elements that includes amazing field types =
 Text, Textarea, Select, Muli-Select, Radio buttons, Check boxes, Star rating, Sliders, Spinners, Tags input, Autocomplete, Color palet, Datetime, Date, Time, File uploader, Image uploader, headings, paragraphs, dividers, Panels and more...
@@ -102,8 +103,7 @@ NEX-Forms...Online form building made so easy, your grandma could do it!
 
 == Installation ==
 
-
-### How to install the Ultimate Form Builder Plugin
+= How to install the Ultimate Form Builder Plugin =
 
 There are 2 ways to install NEX-Forms. Please follow the steps for your NEX-Forms installation below: 
 
