@@ -102,9 +102,14 @@ NEX-Forms...Online form building made so easy, your grandma could do it!
 
 == Installation ==
 
+
+### How to install the Ultimate Form Builder Plugin
+
+There are 2 ways to install NEX-Forms. Please follow the steps for your NEX-Forms installation below: 
+
 = VIA WordPress =
 1. After your download log into your WordPress admin interface
-2. After login click on  Plugins from the left  hand menu
+2. After login click on *Plugins* from the left hand menu
 3. Click on *Add new*
 4. Click on *Upload*
 5. Browse to the directory you downloaded the plugin to and click *Install Now*
