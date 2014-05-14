@@ -1,4 +1,4 @@
-=== NEX-Forms Express ===
+=== NEX-Forms - Form builder ===
 
 Contributors: Basix
 Tags: form, forms, form builder, form maker, form creator, form generator, contact form, form widget, form plugin, bootstrap forms, jquery forms, form manager, ajax forms
