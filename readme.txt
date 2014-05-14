@@ -81,6 +81,9 @@ While creating forms you are able to preview your forms on all the different dev
 = Form drawing Animation! =
 This is a first! Forms that actually draw themselfs when they come into your viewing port (are visible on your screen). 
 
+### Check out this video and see how easy it is to create a contact form
+[youtube https://www.youtube.com/watch?v=rqLxAxrPhPw]
+
 ### A few testimonials
 
 * This is with out a doubt the best form builder I have ever used. You can literally build an awesome looking form in a few seconds. - Eugene1984 
