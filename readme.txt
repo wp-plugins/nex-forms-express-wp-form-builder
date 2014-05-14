@@ -1,7 +1,7 @@
  va=== NEX-Forms Express ===
 
 Contributors: Basix
-Tags: form, forms, custom form, form creator, form builder, form generator, contact form, form widget, form plugin, Widget, post, page, plugin
+Tags: form, forms, form builder, form maker, form creator, form generator, contact form, form widget, form plugin, bootstrap forms, jquery forms, form manager, ajax forms
 Requires at least: 3.5
 Tested up to: 3.9
 Stable tag: 1.0.5
@@ -142,4 +142,54 @@ If you drag a form element onto the canvas area (center column) it sometimes doe
 
 = Is there any documentation for this plugin? =
 Yes, go to /Nex-Forms/documentation/index.html or view the interactive tutorial to help you on your way to create forms
+
+
+== Using NEX-Forms - The Ultimate WordPress Form Builder plugin ==
+
+Be sure to check out the interactive tutorial.
+
+= Creating Forms =
+
+1. After Plugin Activation Go to your Admin Dashboard and navigate to NEX-Forms from the left hand menu.
+2. Drag form elements from the left column to the center.
+3. You can delete form elements by cliking on the trash icon while editing the field or simply drop in into the trash can at the bottom of the forms canvas.
+4. Click on the field's title, input or helptext to trigger the corrosponding settings (Input settings differ from field to field). Note that you can duplicate the field or add it to your clipboard to be used in other forms.
+5. You can preview the form by clicking on the preview icon (notice that you can change the device to see how the form will display on different screen resoltions)
+6. When you are done give your form a title(at any piont) and click save form. You can save the form as a template to be re-opened and re-used as new forms.
+
+= Add Form to Page, Post or Sidebar Widget =
+
+Add forms to pages and post
+
+1. After your form has been saved go to your pages (add new or edit)
+2. Click on the NEX-Forms icon
+3. Select the form
+4. Click on “insert into post”
+5. Save the page or post
+
+Add a form to Sidebar Widget
+
+1. After your form has been saved go to your widgets
+2. Drag and drop NEX-Forms into your desired sidebar
+3. Select the form
+4. Save the widget
+
+= Setup Confirmation Mails on form submissions =
+
+1. Click on settings top bar
+2. Click on Autoresponder
+3. Complete the form as instructed
+4. Note you need a text or custom field set to be validated as email to be used as the address to send user confirmation mails
+5. Use the form data section to insert submitted values into your email body (submmited form values will be replaced with the field data found between the brackets {{ }}.
+
+= Form Animation Settings =
+
+1. Choose to run or not to run the form animation
+2. If the animations runs change the time the animation should take to complete the form drawing
+
+= On Form Submission =
+
+1. Add your "thank you" message to be displayed after a successfull (validation passed) form submmision. 
+2. or Choose to redirect to a URL, for example a thank page
+
 
