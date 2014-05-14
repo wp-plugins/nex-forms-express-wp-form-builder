@@ -7,13 +7,13 @@ Tested up to: 3.9
 Stable tag: 1.0.5
 License: GPLv2
 
-The Wordpress ULTIMATE Form Builder plugin that will allow you to effortlessly create astonishing web forms with amazing user friendly form fields. Very easy to use and good looking admin panel! 
+The Ultimate WordPress Form Builder plugin that will allow you to effortlessly create astonishing web forms with amazing user friendly form fields. Very easy to use and good looking admin panel! 
 
 == Description ==
 
-### The Ultimate WordPress Form Builder
-**NEX-Forms** is a **high quality** and simple to use **form creator** that will make online form building a breaze.
-If you have a need to create and customize professional good looking forms on your WordPress website, **you came to the right place!**
+### A Form Builder in its own league!
+**NEX-Forms** is a **high quality** and simple to use drag and drop/single click **form creator** offering a wide range of customizability, flexibility, design and usability that will make online form building a walk in the park. 
+Do you have a need to easily create and customize professional and awesome looking forms on your WordPress website, **Then this form builder is the one you need!**
 
 ### Features include:
 * Fully responsive forms
@@ -38,7 +38,9 @@ If you have a need to create and customize professional good looking forms on yo
 * NO Programing skills required to create forms
 * Fun and easy to use admin panel
 * Interactive tutorial
-
+* Bootstrap integrated form fields
+* Bootstrap integrated web elements
+* jQuery integrated form fields
 
 = 35+ form elements that includes amazing field types =
 Text, Textarea, Select, Muli-Select, Radio buttons, Check boxes, Star rating, Sliders, Spinners, Tags input, Autocomplete, Color palet, Datetime, Date, Time, File uploader, Image uploader, headings, paragraphs, dividers, Panels and more...
