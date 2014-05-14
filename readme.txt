@@ -105,10 +105,10 @@ NEX-Forms...Online form building made so easy, your grandma could do it!
 = VIA WordPress =
 1. After your download log into your WordPress admin interface
 2. After login click on  Plugins from the left  hand menu
-3. Click on “Add new”
-4. Click on “Upload”
-5. Browse to the directory you downloaded the plugin to and click “Install Now”
-6. After Wordpress has finished unpacking the file click on “Activate Plugin”
+3. Click on *Add new*
+4. Click on *Upload*
+5. Browse to the directory you downloaded the plugin to and click *Install Now*
+6. After Wordpress has finished unpacking the file click on *Activate Plugin*
 7. After the plugin has been activated you will notice a new menu item on the left hand navigation labelled NEX-Form
 8. Done. Start creating froms!
 
@@ -137,7 +137,7 @@ NEX-Forms...Online form building made so easy, your grandma could do it!
 == Changelog ==
 
 = 1.0.5 =
-* Fixed: WordPress version 3.9 "insert into post" problem
+* Fixed: WordPress version 3.9 *insert into post* problem
 
 == Frequently Asked Questions ==
 
@@ -174,8 +174,8 @@ Add forms to pages and post
 
 1. After your form has been saved go to your pages (add new or edit)
 2. Click on the NEX-Forms icon
-3. Select the form
-4. Click on “insert into post”
+3. Select the form from the dropdown
+4. Click on the *insert into post* button
 5. Save the page or post
 
 Add a form to Sidebar Widget
