@@ -80,7 +80,7 @@ While creating forms you are able to preview your forms on all the different dev
 = Form drawing Animation! =
 This is a first! Forms that actually draw themselfs when they come into your viewing port (are visible on your screen). 
 
-## Testimonials
+## A few testimonials
 
 * This is with out a doubt the best form builder I have ever used. You can literally build an awesome looking form in a few seconds. - Eugene1984 
 * This simply must be the very best form builder available for Wordpress  - pbcunningham 
@@ -92,6 +92,8 @@ This is a first! Forms that actually draw themselfs when they come into your vie
 * NEX-Forms is a really great plugin which i have been longing for long time! - ympark2000
 * Great usability, Design and Support! - HITMILK
 * I have tried manny many form builders and was so happy I stumbled on this one - themisters 
+
+To sum it all up NEX-Forms offer flexibilty, customazabilty, usability and design with awesome and easy to use features and settings that makes web form building so easy, your grandma could do it!
 
 == Installation ==
 
