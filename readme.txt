@@ -11,8 +11,8 @@ The Wordpress ULTIMATE Form Builder plugin that will allow you to effortlessly c
 
 == Description ==
 
-### Create professional forms real fast, real easy!
-**NEX Forms** is a **high quality** and simple to use **form creator**.
+### The Ultimate WordPress Form Builder
+**NEX-Forms** is a **high quality** and simple to use **form creator** that will make online form building a breaze.
 If you have a need to create and customize professional good looking forms on your WordPress website, **you came to the right place!**
 
 = Features: =
@@ -80,7 +80,7 @@ While creating forms you are able to preview your forms on all the different dev
 = Form drawing Animation! =
 This is a first! Forms that actually draw themselfs when they come into your viewing port (are visible on your screen). 
 
-## A few testimonials
+### A few testimonials
 
 * This is with out a doubt the best form builder I have ever used. You can literally build an awesome looking form in a few seconds. - Eugene1984 
 * This simply must be the very best form builder available for Wordpress  - pbcunningham 
