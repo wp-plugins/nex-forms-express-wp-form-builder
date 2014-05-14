@@ -1,4 +1,4 @@
- va=== NEX-Forms Express ===
+=== NEX-Forms Express ===
 
 Contributors: Basix
 Tags: form, forms, form builder, form maker, form creator, form generator, contact form, form widget, form plugin, bootstrap forms, jquery forms, form manager, ajax forms
@@ -11,7 +11,7 @@ The Ultimate WordPress Form Builder plugin that will allow you to effortlessly c
 
 == Description ==
 
-### A Form Builder in its own league!
+=== A Form Builder in its own league! ===
 **NEX-Forms** is a **high quality** and simple to use drag and drop/single click **form creator** offering a wide range of customizability, flexibility, design and usability that will make online form building a walk in the park. 
 Do you have a need to easily create and customize professional and awesome looking forms on your WordPress website, **Then this form builder is the one you need!**
 
@@ -122,6 +122,7 @@ NEX-Forms...Online form building made so easy, your grandma could do it!
 6. Example of the versatility of the grid system
 7. Popup form validation messages and different placement
 8. Example of a few awesome form fields
+
 
 == Changelog ==
 
