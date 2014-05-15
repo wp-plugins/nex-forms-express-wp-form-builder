@@ -1,4 +1,4 @@
-=== NEX-Forms - Form builder ===
+=== NEX-Forms - Ultimate Form builder ===
 
 Contributors: Basix
 Tags: form, forms, form builder, form maker, form creator, form generator, contact form, form widget, form plugin, bootstrap forms, jquery forms, form manager, ajax forms
@@ -7,7 +7,7 @@ Tested up to: 3.9
 Stable tag: 1.0.5
 License: GPLv2
 
-The Ultimate WordPress Form Builder plugin that will allow you to effortlessly create astonishing web forms with amazing user friendly form fields...
+The Ultimate WordPress Forms Builder plugin that will allow you to effortlessly create astonishing web forms with amazing user friendly form fields...
 
 == Description ==
 
@@ -41,6 +41,7 @@ Do you have a need to easily create and customize professional and awesome looki
 * NO Programing skills required to create forms
 * Fun and easy to use admin panel, very very easy to use!
 * Interactive tutorial
+* Unlimited Forms
 
 
 = 35+ form elements that includes amazing field types =
