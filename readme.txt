@@ -51,7 +51,7 @@ Text, Textarea, Select, Muli-Select, Radio buttons, Check boxes, Star rating, Sl
 Create custom form fields with over 400 icons and can be validated as url, email, phone number, text only or digits only.
 
 = Autoresponder =
-Recieve form submmision in your inbox and send confirmation mails to end users!
+Receive form submmision in your inbox and send confirmation mails to end users!
 
 = Simple drag and drop or single click =
 Building forms is easier then playing solitaire ;) 
