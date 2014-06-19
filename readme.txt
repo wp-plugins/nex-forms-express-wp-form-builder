@@ -112,6 +112,7 @@ The grid system (to our knowledge) offer what no other form builder offers...Tot
 Yes, common form fields that are not common. We took the normal default look of form elements and made them look awesome.
 
 Common form field types include:
+
 * Text field - Single line form value. Used to capture values like, name, surname, etc. Can set up max character lengh indicators.
 * Text area - Multi line form value. Used to capture values like biography, queries, etc. Can set up max character lengh indicators.
 * Dropdown select - Single value selection.
@@ -124,6 +125,7 @@ Common form field types include:
 Extended form fields, so called as they are more unusueal and easier in a lot of cases easier to use and understand.
 
 Extended for field types include:
+
 * Star rating form field - Use this to caputure survay information and more. Change the number of stars and enable/disable half stars
 * Sliders - Use sliders to make it easy to choose values. Change the start, min and max values and add text and icons to your slider handel!
 * Spinners - Use this fields to capture numeric values. Change the start, min, max and step values and use the 400+ icons for the up/down paddles. Use decimal pionts and custom increments!
@@ -137,6 +139,7 @@ Extended for field types include:
 Recieve files from your form submisions with 2 very cool looking uploaders. Files are stored via the default wordpress media uplaoder and emailed as attachments!
 
 Form uploaders includes:
+
 * File uploader - Use to capture any type of file. Configure allowed file extensions.
 * Image uplaoder - Use the capture images. Comes with an inline image preview. Configure allowed image extensions.
 
@@ -144,6 +147,7 @@ Form uploaders includes:
 With these “blank” fields you can do aaawesome things! Get creative with prefix, postfix or both pre and post icons in your fields...You have over 400 font awesome icons to use! Have we mentioned these fields as wel as a normal text field can be validated as email, url, phone number, text only, digits only!
 
 Includes:
+
 * Pre-fix - Add an Icon to the front of you input. For example, add a facebook icon for a field called: "Enter your facebook page".
 * Post-fix - Add an Icon to the end of you input. For example, add a Twitter icon for a field called: "Add your twitter link".
 * Pre/Post-fix - Add an Icon to the end of you input as well as the front. For example, add a Knife and fork icon and a heart icon at the end for a field called: "What is your favorite food".
