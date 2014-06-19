@@ -222,7 +222,6 @@ If you drag a form element onto the canvas area (center column) it sometimes doe
 = Is there any documentation for this plugin? =
 Yes, go to /Nex-Forms/documentation/index.html or view the interactive tutorial to help you on your way to create forms
 
-
 == Using NEX-Forms - The Ultimate WordPress Form Builder plugin ==
 
 Be sure to check out the interactive tutorial.
