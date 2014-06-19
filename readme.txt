@@ -112,13 +112,13 @@ The grid system (to our knowledge) offer what no other form builder offers...Tot
 Yes, common form fields that are not common. We took the normal default look of form elements and made them look awesome.
 
 Common form field types include:
-* **Text field** - Single line form value. Used to capture values like, name, surname, etc. Can set up max character lengh indicators.
-* **Text area** - Multi line form value. Used to capture values like biography, queries, etc. Can set up max character lengh indicators.
-* **Dropdown select** - Single value selection.
-* **Dropdown multi select** - Multiple selections.
-* **Radio button groups** - Single value selection.
-* **Checkbox groups** - Multiple value selections.
-* **Submit button** - Used to send the form information.
+1. **Text field** - Single line form value. Used to capture values like, name, surname, etc. Can set up max character lengh indicators.
+2. **Text area** - Multi line form value. Used to capture values like biography, queries, etc. Can set up max character lengh indicators.
+3. **Dropdown select** - Single value selection.
+4. **Dropdown multi select** - Multiple selections.
+5. **Radio button groups** - Single value selection.
+6. **Checkbox groups** - Multiple value selections.
+7. **Submit button** - Used to send the form information.
 
 = Extended form fields =
 Extended form fields, so called as they are more unusueal
