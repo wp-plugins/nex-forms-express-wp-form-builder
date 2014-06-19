@@ -100,6 +100,29 @@ This is a first! Forms that actually draw themselfs when they come into your vie
 * Great usability, Design and Support! - HITMILK
 * I have tried manny many form builders and was so happy I stumbled on this one - themisters 
 
+### More insight about the available form fields
+Forms are mostly the boring part of a website right? Well, not anymore! The amazing fields NEX-Forms has to offer gives web forms life and in turn gives a fun factor to any who is faced with completing a form! View the demo and you will find yourself wanting to complete the form just to see what comes next!
+
+Lets check out these form fields by category
+
+= The form layout Grid system =
+The grid system (to our knowledge) offer what no other form builder offers...Total freedom to form layouts! Based on the twitter bootsrap framework, you have 5 preset columns that can be dragged into any position on the form. Each column can have a new set of columns dropped into it, making nesting extremely easy! You can have 2 columns with the first having 3 columns whitin and the 2nd just have a text field, or any combination you can imagine!
+
+= Common form fields =
+Yes, common form fields that are not common. We took the normal default look of form elements and made them look awesome.
+
+Common form field types include:
+* **Text field** - Single line form value. Used to capture values like, name, surname, etc. Can set up max character lengh indicators.
+* **Text area** - Multi line form value. Used to capture values like biography, queries, etc. Can set up max character lengh indicators.
+* **Dropdown select** - Single value selection.
+* **Dropdown multi select** - Multiple selections.
+* **Radio button groups** - Single value selection.
+* **Checkbox groups** - Multiple value selections.
+* **Submit button** - Used to send the form information.
+
+= Extended form fields =
+Extended form fields, so called as they are more unusueal
+
 ### To sum it up
 NEX-Forms...Online form building made so easy, your grandma could do it!
 
