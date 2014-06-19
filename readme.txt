@@ -7,7 +7,6 @@ Tested up to: 3.9
 Stable tag: 1.0.5
 License: GPLv2
 
-
 The Ultimate WordPress Forms Builder plugin that will allow you to effortlessly create astonishing web forms with amazing user friendly form fields...
 
 == Description ==
@@ -144,7 +143,7 @@ Form uploaders includes:
 * Image uplaoder - Use the capture images. Comes with an inline image preview. Configure allowed image extensions.
 
 = Custom form fields =
-With these “blank” fields you can do aaawesome things! Get creative with prefix, postfix or both pre and post icons in your fields...You have over 400 font awesome icons to use! Have we mentioned these fields as wel as a normal text field can be validated as email, url, phone number, text only, digits only!
+With these blank fields you can do aaawesome things! Get creative with prefix, postfix or both pre and post icons in your fields...You have over 400 font awesome icons to use! Have we mentioned these fields as wel as a normal text field can be validated as email, url, phone number, text only, digits only!
 
 Includes:
 
