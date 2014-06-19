@@ -112,18 +112,53 @@ The grid system (to our knowledge) offer what no other form builder offers...Tot
 Yes, common form fields that are not common. We took the normal default look of form elements and made them look awesome.
 
 Common form field types include:
-1. **Text field** - Single line form value. Used to capture values like, name, surname, etc. Can set up max character lengh indicators.
-2. **Text area** - Multi line form value. Used to capture values like biography, queries, etc. Can set up max character lengh indicators.
-3. **Dropdown select** - Single value selection.
-4. **Dropdown multi select** - Multiple selections.
-5. **Radio button groups** - Single value selection.
-6. **Checkbox groups** - Multiple value selections.
-7. **Submit button** - Used to send the form information.
+* Text field - Single line form value. Used to capture values like, name, surname, etc. Can set up max character lengh indicators.
+* Text area - Multi line form value. Used to capture values like biography, queries, etc. Can set up max character lengh indicators.
+* Dropdown select - Single value selection.
+* Dropdown multi select - Multiple selections.
+* Radio button groups - Single value selection. Customize radios with over 400+ font awesome icons!
+* Checkbox groups - Multiple value selections. Customize radios with over 400+ font awesome icons!
+* Submit button - Used to send the form information.
 
 = Extended form fields =
-Extended form fields, so called as they are more unusueal
+Extended form fields, so called as they are more unusueal and easier in a lot of cases easier to use and understand.
 
-### To sum it up
+Extended for field types include:
+* Star rating form field - Use this to caputure survay information and more. Change the number of stars and enable/disable half stars
+* Sliders - Use sliders to make it easy to choose values. Change the start, min and max values and add text and icons to your slider handel!
+* Spinners - Use this fields to capture numeric values. Change the start, min, max and step values and use the 400+ icons for the up/down paddles. Use decimal pionts and custom increments!
+* Tags - Dont ask your users to enter comma seperated lists, use NEX-Forms tags field instead! Change the maximum tag input, color scheme and use the 400+ icons.
+* Autocomplete - Pre-populate autocomplete (type-ahead) with a click of a button. Include pre-defined lists of Countries, US States and Common Languages or simply add your own custom list!
+* Date Picker - Use a date picker to make it easy for your users to select dates. Bootstrap style. 400+ icons can be used.
+* Time Picker - Use a time picker to make it easy for your users to select times. Bootstrap style. 400+ icons can be used.
+* Date/time Picker - Use a date/time picker to make it easy for your users to select dates and times alocated to it. Bootstrap style. 400+ icons can be used.
+
+= Uploaders =
+Recieve files from your form submisions with 2 very cool looking uploaders. Files are stored via the default wordpress media uplaoder and emailed as attachments!
+
+Form uploaders includes:
+* File uploader - Use to capture any type of file. Configure allowed file extensions.
+* Image uplaoder - Use the capture images. Comes with an inline image preview. Configure allowed image extensions.
+
+= Custom form fields =
+With these “blank” fields you can do aaawesome things! Get creative with prefix, postfix or both pre and post icons in your fields...You have over 400 font awesome icons to use! Have we mentioned these fields as wel as a normal text field can be validated as email, url, phone number, text only, digits only!
+
+Includes:
+* Pre-fix - Add an Icon to the front of you input. For example, add a facebook icon for a field called: "Enter your facebook page".
+* Post-fix - Add an Icon to the end of you input. For example, add a Twitter icon for a field called: "Add your twitter link".
+* Pre/Post-fix - Add an Icon to the end of you input as well as the front. For example, add a Knife and fork icon and a heart icon at the end for a field called: "What is your favorite food".
+
+Simply use your imagination to create any type of custom form field to make it easier for end users.
+
+= Other form elements =
+Yes, there is more!Add headings, paragraphs and dividers for grouping or just because you can.Heading, paragraphs and dividers are pretty straight forward so here we will elaborate on panels.Panels can be used as a form container or grouping form elments or both. Panel can be added to the grid systems and can be nested as well!
+
+* Panels - Use panels to group form fields, for example groups all form fields relating to personal information
+* Heading 1 to heading 6 - Adds heading in your form wherever you drop them.
+* Paragraph - Add paragraphs anywhere in your forms.
+* Divider - Use simple horizantal deviders to make large forms more organised. 
+
+### To sum it all up
 NEX-Forms...Online form building made so easy, your grandma could do it!
 
 == Installation ==
