@@ -154,7 +154,7 @@ Includes:
 Simply use your imagination to create any type of custom form field to make it easier for end users.
 
 = Other form elements =
-Yes, there is more!Add headings, paragraphs and dividers for grouping or just because you can.Heading, paragraphs and dividers are pretty straight forward so here we will elaborate on panels.Panels can be used as a form container or grouping form elments or both. Panel can be added to the grid systems and can be nested as well!
+Yes, there is more! Add headings, paragraphs and dividers for grouping or just because you can.Heading, paragraphs and dividers are pretty straight forward so here we will elaborate on panels.Panels can be used as a form container or grouping form elments or both. Panel can be added to the grid systems and can be nested as well!
 
 * Panels - Use panels to group form fields, for example groups all form fields relating to personal information
 * Heading 1 to heading 6 - Adds heading in your form wherever you drop them.
