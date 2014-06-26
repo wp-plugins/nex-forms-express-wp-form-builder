@@ -7,7 +7,6 @@ Tested up to: 3.9
 Stable tag: 1.0.5
 License: GPLv2
 
-
 The Ultimate WordPress Forms Builder plugin that will allow you to effortlessly create astonishing web forms with amazing user friendly form fields...
 
 == Description ==
