@@ -4,7 +4,7 @@ Contributors: Basix
 Tags: form, forms, form builder, form maker, form creator, form generator, contact form, form widget, form plugin, bootstrap forms, jquery forms, form manager, ajax forms
 Requires at least: 3.5
 Tested up to: 3.9
-Stable tag: 1.0.5
+Stable tag: 1.1
 License: GPLv2
 
 The Ultimate WordPress Forms Builder plugin that will allow you to effortlessly create astonishing web forms with amazing user friendly form fields...
@@ -16,6 +16,7 @@ The Ultimate WordPress Forms Builder plugin that will allow you to effortlessly 
 Do you have a need to easily create and customize professional and awesome looking forms on your WordPress website, **Then this form builder is the one you need!** Easiest to use back-end panel you have seen!
 
 ### Features include:
+* Conditional Logic (NEW)
 * Fully responsive forms
 * 35+ form elements
 * Create custom form fields
