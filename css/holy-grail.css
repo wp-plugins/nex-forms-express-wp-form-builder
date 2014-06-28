@@ -1,0 +1,43 @@
+/* column container */
+.colmask {
+	position:fixed;	/* This fixes the IE7 overflow hidden bug */
+	background:#FFF !important;
+	float:left;
+	width:92%;
+	min-height:90%;
+	height:100%;			/* width of whole page */
+	overflow:hidden;		/* This chops off any overhanging divs */
+	margin-top:44px;
+}
+/* common column settings */
+.colright,
+.colmid,
+.colleft {
+	float:left;
+	width:100%;
+	position:relative;
+	min-height:calc(100%-49px);
+}
+.col1,
+.col2,
+.col3 {
+	float:left;
+	position:relative;
+}
+/* 2 Column (right menu) settings */
+.rightmenu {
+	background:#eee;		/* right column background colour */
+}
+.rightmenu .colleft {
+	right:25%;			/* right column width */
+	background:#f2f2f2;		/* left column background colour */
+}
+.rightmenu .col1 {
+	left: 25%;
+    width: 15%;			/* (right column width) plus (left column left padding) */
+}
+.rightmenu .col2 {
+	left: 25%;
+    width: 85%;
+    border-left: 1px solid #e7e7e7;
+}
