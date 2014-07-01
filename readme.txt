@@ -4,7 +4,7 @@ Contributors: Basix
 Tags: form, forms, form builder, form maker, form creator, form generator, contact form, form widget, form plugin, bootstrap forms, jquery forms, form manager, ajax forms
 Requires at least: 3.5
 Tested up to: 3.9
-Stable tag: 1.0.5
+Stable tag: 1.1
 License: GPLv2
 
 The Ultimate WordPress Forms Builder plugin that will allow you to effortlessly create astonishing web forms with amazing user friendly form fields...
@@ -17,6 +17,7 @@ Do you have a need to easily create and customize professional and awesome looki
 
 ### Features include:
 * Fully responsive forms
+* Conditional logic/laws to hide and show fields
 * 35+ form elements
 * Create custom form fields
 * Animated forms
@@ -46,6 +47,14 @@ Do you have a need to easily create and customize professional and awesome looki
 
 = 35+ form elements that includes amazing field types =
 Text, Textarea, Select, Muli-Select, Radio buttons, Check boxes, Star rating, Sliders, Spinners, Tags input, Autocomplete, Color palet, Datetime, Date, Time, File uploader, Image uploader, headings, paragraphs, dividers, Panels and more...
+
+= Conditional logic for form fields =
+Show and hide fields plus form elements based on conditions with effects: 
+* Fade In / Fade Out
+* Slide Down / Slide Up
+* Show / Hide
+
+Add Conditions to be triggered from the following form fields: Text fields, Textarea, Select, Muli-Select, Radio buttons, Check boxes, Star rating, Sliders, Spinners, Autocomplete, Color palet, Datetime, Date and Time fields
 
 = Create custom form fields =
 Create custom form fields with over 400 icons and can be validated as url, email, phone number, text only or digits only.
