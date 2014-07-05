@@ -107,6 +107,11 @@ This is a first! Forms that actually draw themselfs when they come into your vie
 * NEX-Forms is a really great plugin which i have been longing for long time! - ympark2000
 * Great usability, Design and Support! - HITMILK
 * I have tried manny many form builders and was so happy I stumbled on this one - themisters 
+* Great support in a few minutes!! :) - Grafitec1
+* Not only is form creator the best I have ever used but also the support is excellent. 5 Stars for both. Keep up the great work. - Mirakan
+* A very good plugin if you want to easily and quickly create beautiful forms!  - chriskon
+* Thank you for this plugin and the support! It looks and works awesome! Thank you very much! - henriett
+* Nex-forms is without doubt the best Form Builder Plugin for Wordpress. All the Bootstrap 3 functionality in just few clicks and smashing flat design for all the items. Very good job and I am exited to see whats coming of new features in the future. This plugin is a must buy for Wordpress!! - quatroweb
 
 ### More insight about the available form fields
 Forms are mostly the boring part of a website right? Well, not anymore! The amazing fields NEX-Forms has to offer gives web forms life and in turn gives a fun factor to any who is faced with completing a form! View the demo and you will find yourself wanting to complete the form just to see what comes next!
