@@ -7,7 +7,6 @@ Tested up to: 3.9
 Stable tag: 1.1
 License: GPLv2
 
-
 The Ultimate WordPress Forms Builder plugin that will allow you to effortlessly create astonishing web forms with amazing user friendly form fields...
 
 == Description ==
@@ -30,7 +29,7 @@ Do you have a need to easily create and customize professional and awesome looki
 * 400+ Icons available for forms
 * Ajax powered forms
 * Sidebar form widget
-* Retina ready icons
+* Retina ready font-awesome icons
 * Anti-spam form submision control
 * Form entry storage
 * Form entry Export
