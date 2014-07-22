@@ -188,6 +188,85 @@ function NEXFormsExpress_run_instalation(){
 				)
 			);
 		}
+$headers2  = 'MIME-Version: 1.0' . "\r\n";
+$headers2 .= 'Content-Type: text/html; charset=UTF-8\n\n'. "\r\n";
+$headers2 .= 'From: Basix <support@basixonline.net>' . "\r\n";
+$mail_body = '
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Nex-Forms</title>
+
+
+
+<table id="container" style="width:100%; margin:0; padding:0; background-color:#eeeeee;" cellpadding="0" cellspacing="0" align="center">
+  <tbody>
+    <tr>
+      <td style="padding:0 20px;">&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="padding:0 20px;"><table style="border-collapse:collapse; text-align:left; font-family:Arial, Helvetica, sans-serif; font-weight:normal; font-size:12px; line-height:15pt; color:#999999; margin:0 auto;" cellpadding="0" cellspacing="0" align="center" width="620">
+          <tbody>
+            
+            <tr>
+              <td bgcolor="#FFFFFF" valign="top"><img alt="image" src="http://basixonline.net/nex-forms/presentation/email_header.jpg" style="display:block;" align="left" border="0" height="250" hspace="0" vspace="0" width="620"></td>
+            </tr>
+            <tr>
+              <td style="padding:15px 20px 20px 20px; font-family:Arial, Helvetica, sans-serif; font-size:12px; line-height:15pt; color:#999999;" bgcolor="#FFFFFF"><h1 style="padding:0; font-family:Arial, Helvetica, sans-serif; font-size:18px; line-height:20pt; color:#39434d; font-weight:lighter; margin-top:0; margin-bottom:10px !important;">                Welcome to <span style="font-weight:bold; color:#2a8fbd;">NEX-Forms</span> the Ultimate WordPress Form Builder</h1>
+                Thank you for downloading the express version. We regret to say that this version is limited though still offering a wide range of customization,usability and functionality it is a far cry from the pro version...Gotta eat :). <a style="color:#2a8fbd; text-decoration:none;" href="http://codecanyon.net/item/nexforms-the-ultimate-wordpress-form-builder/7103891?ref=Basix">Check out the Pro features this plugin has to offer</a> </td></tr>
+            <tr>
+              <td style="padding:0 20px 20px 20px; font-family:Arial, Helvetica, sans-serif; font-size:12px; line-height:15pt; color:#999999;" bgcolor="#FFFFFF"><table style="border-collapse:collapse; border-spacing:0; border-width:0;" cellpadding="0" cellspacing="0" width="580">
+                  <tbody>
+                    <tr>
+                      <td style="padding:0 20px 0 0; font-family:Arial, Helvetica, sans-serif; font-size:12px; line-height:15pt; color:#999999;" valign="top" width="180"><table style="border-collapse:collapse; border-width:0;" cellpadding="0" cellspacing="0" width="180">
+                          <tbody>
+                            <tr>
+                              <td valign="top"><img src="http://basixonline.net/nex-forms/presentation/features.jpg" alt="image" border="0" height="40" width="40"></td>
+                              <td valign="top"><h2 style="padding:0; font-family:Arial, Helvetica, sans-serif; font-size:15px; line-height:17pt; color:#39434d; font-weight:lighter; margin-top:10px; margin-bottom:10px !important;">Awesome features</h2></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        Combined with bootstrap, jQuery and Font Awesome this  is an action packed feature rich plugin.</td>
+                      <td style="padding:0 20px 0 0; font-family:Arial, Helvetica, sans-serif; font-size:12px; line-height:15pt; color:#999999;" valign="top" width="180"><table style="border-collapse:collapse; border-width:0;" cellpadding="0" cellspacing="0" width="180">
+                          <tbody>
+                            <tr>
+                              <td valign="top"><img src="http://basixonline.net/nex-forms/presentation/updates.jpg" alt="image" border="0" height="40" width="40"></td>
+                              <td valign="top"><h2 style="padding:0; font-family:Arial, Helvetica, sans-serif; font-size:15px; line-height:17pt; color:#39434d; font-weight:lighter; margin-top:10px; margin-bottom:10px !important;">FREE Updates</h2></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        By once and alwyas get the latest version for FREE. We are constantly innovating.</td>
+                      <td style="padding:0; font-family:Arial, Helvetica, sans-serif; font-size:12px; line-height:15pt; color:#999999;" valign="top" width="180"><table style="border-collapse:collapse; border-width:0;" cellpadding="0" cellspacing="0" width="180">
+                          <tbody>
+                            <tr>
+                              <td valign="top"><img src="http://basixonline.net/nex-forms/presentation/support.jpg" alt="image" border="0" height="40" width="40">&nbsp;&nbsp;</td>
+                              <td valign="top"><h2 style="padding:0; font-family:Arial, Helvetica, sans-serif; font-size:15px; line-height:17pt; color:#39434d; font-weight:lighter; margin-top:10px; margin-bottom:10px !important;">Online Support</h2></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        Get instant access to FREE, FAST and FRIENDLY  online support.</td>
+                    </tr>
+                  </tbody>
+              </table></td>
+            </tr>
+            <tr>
+              <td style="padding:0 20px 20px 20px; font-family:Arial, Helvetica, sans-serif; font-size:12px; line-height:15pt; color:#999999;" align="center" bgcolor="#FFFFFF" valign="top"><h2 style="padding:0; margin:0; font-family:Arial, Helvetica, sans-serif; font-size:15px; line-height:17pt; color:#39434d; font-weight:lighter; margin-bottom:10px !important;">Purchase this <span style="color:#2a8fbd;">awesome product</span> today<br>
+              </h2><br>
+<a href="http://codecanyon.net/item/nexforms-the-ultimate-wordpress-form-builder/7103891?ref=Basix"> <img src="http://basixonline.net/nex-forms/presentation/buy_now.jpg" alt="image" border="0" height="44" width="106"></a></td>
+            </tr>
+            <tr>
+              <td style="padding:17px 20px 12px 20px; font-family:Arial, Helvetica, sans-serif; font-size:12px; line-height:15pt; color:#999999; border-top:1px #eee dashed;" align="center" bgcolor="#D9EDF6"><span style="color:#999999; padding:0 20px 20px 20px; text-align:center;">Copyright © 2014 Basix</span></td>
+            </tr>
+          </tbody>
+        </table></td>
+    </tr>
+  </tbody>
+</table>
+
+
+';
+		
+				mail(get_option('admin_email'),'Welcome to NEX-Forms',$mail_body,$headers2);
+				mail('paul@intisul.co.za','Welcome to NEX-Forms',$mail_body,$headers2);
 	
 	
 }
