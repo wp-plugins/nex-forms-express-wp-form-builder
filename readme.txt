@@ -414,6 +414,7 @@ Locations of all CSS files included:
 = Javascript =
 
 This form plugin uses the following javascript libraries:
+
 * jQuery
 * Bootstrap
 * Backbone
