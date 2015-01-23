@@ -8,7 +8,7 @@ Tested up to: 4.1
 Stable tag: 3.0
 License: GPLv2
 
-35+ Form Fields, conditional logic, Responsive, multi-step forms, drag and drop, Full grid sytem, confirmation email setup, and many more...
+35+ form fields, conditional logic, responsive, multi-step forms, drag and drop, full bootstrap grid sytem, confirmation email setup, and many more...
 == Description ==
 
 ### A Form Builder in its own league!
