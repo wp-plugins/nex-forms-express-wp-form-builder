@@ -66,7 +66,7 @@ Building forms is easier then playing solitaire ;)
 = Ajax forms =
 Validate and submit forms without page refreshing.
 
-= Over 400 icons to use in form fields! =
+= Over 660 icons to use in form fields! =
 Thats right, use over 400 retina ready Font Awesome icons in radios, checks, sliders, spinners, custom form fields and more...
 
 = Over 1200 fonts to be used =
@@ -87,11 +87,6 @@ You dont need to know any kind of programming. Build and style forms by simply 
 = Fully Responsive form =
 While creating forms you are able to preview your forms on all the different devices and see exactly how they will behave on small and large screens with the live form previewer
 
-= Form drawing Animation! =
-This is a first! Forms that actually draw themselfs when they come into your viewing port (are visible on your screen). 
-
-### Check out this video and see how easy it is to create a contact form
-[youtube https://www.youtube.com/watch?v=rqLxAxrPhPw]
 
 ### A few testimonials
 
