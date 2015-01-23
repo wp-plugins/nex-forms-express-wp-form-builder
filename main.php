@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: NEX-Forms Express
-Plugin URI: https://wordpress.org/plugins/nex-forms-express-wp-form-builder/
+Plugin URI: http://codecanyon.net/item/nexforms-the-ultimate-wordpress-form-builder/7103891?ref=Basix
 Plugin Prefix: wap_ 
 Module Ready: Yes
 Plugin TinyMCE: popup
