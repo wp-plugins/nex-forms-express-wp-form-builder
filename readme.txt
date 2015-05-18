@@ -15,6 +15,8 @@ License: GPLv2
 **NEX-Forms** is a **high quality** and simple to use drag and drop/single click **form creator** offering a wide range of customizability, flexibility, design and usability that will make online form building a walk in the park. 
 Do you have a need to easily create and customize professional and awesome looking forms on your WordPress website, **Then this form builder is the one you need!** Easiest to use back-end panel you have seen!
 
+###[Demo](http://basixonline.net/)
+
 ### Features include:
 * Fully responsive forms
 * Conditional logic/laws to hide and show fields
