@@ -16,6 +16,7 @@ License: GPLv2
 Do you have a need to easily create and customize professional and awesome looking forms on your WordPress website, **Then this form builder is the one you need!** Easiest to use back-end panel you have seen!
 
 ###[Demo](http://basixonline.net/)
+view live demo
 
 ### Features include:
 * Fully responsive forms
