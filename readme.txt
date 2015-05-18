@@ -8,7 +8,7 @@ Tested up to: 4.2.2
 Stable tag: 3.1.1
 License: GPLv2
 
-35+ form fields, conditional logic, responsive, multi-step forms, drag and drop, full bootstrap grid sytem, confirmation email setup, and many more...
+40+ form fields, conditional logic, responsive, multi-step forms, drag and drop, full bootstrap grid sytem, confirmation email setup, and many more...
 == Description ==
 
 ### A Form Builder in its own league!
@@ -20,7 +20,7 @@ Do you have a need to easily create and customize professional and awesome looki
 ### Features include:
 * Fully responsive forms
 * Conditional logic/laws to hide and show fields
-* 35+ form elements
+* 40+ form elements
 * Create custom form fields
 * Drag and drop or click to add elements to forms
 * Form Grid layout system (with unlimited nesting)
