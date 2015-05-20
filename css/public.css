@@ -1,0 +1,4 @@
+/* CSS Document */
+.wp-has-submenu.toplevel_page_nex-forms-main ul li:last-child {
+    display: none;
+}

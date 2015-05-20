@@ -1,0 +1,432 @@
+/* IMAGE SELECTION */
+#nex-forms .single-image-select-group .prettyradio a, #nex-forms .multi-image-select-group .prettycheckbox a {
+    background: none repeat scroll 0 0 #fff;
+    border-radius: 0 3px !important;
+    bottom: 0;
+    height: 25px !important;
+    line-height: 25px !important;
+    opacity: 0.8;
+    position: absolute;
+    width: 25px !important;
+}
+#nex-forms ul li::before {
+    content: none !important;
+}
+.radio-image {
+    border-radius: 2px;
+    width: 100%;
+}
+.radio-label.img-thumbnail, .check-label.img-thumbnail {
+    overflow: hidden;
+    padding-bottom: 0;
+    padding-top: 0;
+}
+#nex-forms .single-image-select-group label.radio-inline, #nex-forms .multi-image-select-group label.radio-inline {
+    padding: 0;
+    position: relative;
+}
+#nex-forms span.img-thumbnail {
+    display: block;
+    height: 120px;
+    width: 120px;
+}
+#nex-forms .thumb-sm span.img-thumbnail {
+    height: 80px;
+    width: 80px;
+}
+#nex-forms .thumb-lg span.img-thumbnail {
+    height: 160px;
+    width: 160px;
+}
+#nex-forms .thumb-xlg span.img-thumbnail {
+    height: 200px;
+    width: 200px;
+}
+
+.radio-inline .img-thumbnail,
+.checkbox-inline .img-thumbnail {
+    background-size: cover !important;
+}
+
+/* STICKY RIGHT */
+#nex-forms .paddel-right .nf-sticky-paddel {
+    transform: rotate(270deg);
+}
+#nex-forms .nf-sticky-form.paddel-right .nf-sticky-paddel {
+    left: -87px;
+    position: absolute;
+    top: 40%;
+}
+#nex-forms .nf-sticky-form.paddel-right  {
+    position: fixed;
+    width: 252px;
+    top: 20%;
+    right: 0;
+	margin-right: -256px;
+    z-index: 1000000 !important;
+}
+#nex-forms .nf-sticky-form.paddel-right .nf-sticky-paddel.btn{
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-width: 1px !important;
+}
+
+#nex-forms .nf-sticky-form.paddel-right .nf-sticky-container {
+    background: #fff;
+    box-shadow: 0px 3px 11px #999;
+	min-height: 296px;
+	border-bottom-left-radius: 4px;
+	border-top-left-radius: 4px;
+}
+
+
+/* STICKY LEFT */
+#nex-forms .paddel-left .nf-sticky-paddel {
+    transform: rotate(270deg);
+}
+#nex-forms .nf-sticky-form.paddel-left .nf-sticky-paddel {
+    right: -87px;
+    position: absolute;
+    top: 40%;
+}
+#nex-forms .nf-sticky-form.paddel-left  {
+    position: fixed;
+    width: 252px;
+    top: 20%;
+    left: 0;
+	margin-left: -256px;
+    z-index: 1000000 !important;
+}
+#nex-forms .nf-sticky-form.paddel-left .nf-sticky-paddel.btn{
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-width: 1px !important;
+}
+#nex-forms .nf-sticky-form.paddel-left .nf-sticky-container {
+    background: #fff;
+    box-shadow: 0px 3px 11px #999;
+	min-height: 296px;
+	border-bottom-right-radius: 4px;
+	border-top-right-radius: 4px;
+}
+
+
+
+/* STICKY BOTTOM */
+#nex-forms .nf-sticky-form.paddel-bottom .nf-sticky-paddel {
+    top: -39px;
+    position: absolute;
+    right: 0;
+}
+#nex-forms .nf-sticky-form.paddel-bottom  {
+    position: fixed;
+    width: 252px;
+    bottom: 0;
+    right: 40px;
+	margin-bottom: -304px;
+	height:300px;
+	min-height:300px;
+    z-index: 1000000 !important;
+}
+#nex-forms .nf-sticky-form.paddel-bottom .nf-sticky-paddel.btn{
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-width: 1px !important;
+}
+#nex-forms .nf-sticky-form.paddel-bottom .nf-sticky-container {
+    background: #fff;
+    box-shadow: 0px 3px 11px #999;
+	min-height: 296px;
+	border-top-right-radius: 4px;
+	border-top-left-radius: 4px;
+}
+#nex-forms .nf-sticky-form.paddel-bottom .nf-sticky-paddel.btn {
+    width: auto !important;
+}
+
+
+/* STICKY TOP */
+#nex-forms .nf-sticky-form.paddel-top .nf-sticky-paddel {
+    bottom: -36px;
+    position: absolute;
+    right: 0;
+	z-index:-1 !important;
+}
+#nex-forms .nf-sticky-form.paddel-top  {
+    position: fixed;
+    width: 252px;
+    top: 0;
+    right: 40px;
+	margin-top: -304px;
+	height:300px;
+	min-height:300px;
+    z-index: 1000000 !important;
+}
+#nex-forms .nf-sticky-form.paddel-top .nf-sticky-paddel.btn{
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-width: 1px !important;
+}
+#nex-forms .nf-sticky-form.paddel-top .nf-sticky-container {
+    background: #fff;
+    box-shadow: 0px 3px 11px #999;
+	min-height: 296px;
+	border-bottom-right-radius: 4px;
+	border-bottom-left-radius: 4px;
+	height:296px;
+	overflow:hidden;
+}
+#nex-forms .nf-sticky-form.paddel-top .nf-sticky-paddel.btn {
+    width: auto !important;
+}
+
+
+
+
+
+
+#nex-forms .nf-sticky-form .nf-sticky-container .panel{
+	margin-bottom:0 !important;
+}
+
+#nex-forms .nf-sticky-paddel.btn {
+    line-height: 25px;
+    overflow: hidden;
+    width: 135px;
+}
+
+#nex-forms .nf-sticky-form .input_container, #nex-forms .nf-sticky-container .input_holder, #nex-forms .nf-sticky-form .label_container {
+    width: 100% !important;
+}
+
+#nex-forms .panel {
+    background: inherit;
+}
+#nex-forms .panel .panel-body {
+	padding-bottom:0 !important;
+}
+
+#nex-forms div.ui-nex-forms-container .form_field {
+   margin-bottom: 15px;
+}
+
+.div.ui-nex-forms-container{
+	display:none;
+}
+
+#nex-forms .input-group-addon{
+	cursor:pointer;
+}
+#nex-forms .popover-content {
+    color: #555;
+}
+#nex-forms .bootstrap-touchspin button {
+    border-bottom: 1px solid #ccc !important;
+}
+#nex-forms .input-group-addon span.fa {
+    width: 19px;
+}
+#nex-forms .the_spinner {
+    border-left: 0 none !important;
+    border-right: 0 none !important;
+}
+#nex-forms .bootstrap-touchspin button {
+    border-bottom: 1px solid #ccc !important;
+    width: 45px;
+}
+#nex-forms .input-group-addon span.fa {
+    width: 19px;
+}
+#nex-forms .the_spinner {
+    border-left: 0 none !important;
+    border-right: 0 none !important;
+}
+#nex-forms .fileinput-preview{
+	border:1px solid #ccc;
+}
+#nex-forms .color_pallet .input-group-addon span.caret {
+    margin: 0 6px;
+}
+#nex-forms .btn.fileinput-exists {
+    border-top-right-radius: 4px !important;
+    border-bottom-right-radius: 4px !important;
+}
+#nex-forms .fileinput .btn {
+    border-width: 1px !important;
+}
+#nex-forms .upload-single .fileinput .btn {
+    border-left: 0 !important;
+}
+#nex-forms .btn.selectpicker, .btn.ui-slider-handle {
+    border-bottom-width: 1px !important;
+}
+#nex-forms input.check, #nex-forms input.radio {
+    display: none !important;
+}
+#nex-forms .full_width {width: 100% !important;}
+
+#nex-forms label.nexf_title.align_left {
+	margin-bottom:0 !important;
+}
+#nex-forms .the_label {
+    color: #444;
+}
+#nex-forms .ui-widget-content .the_label {
+    color: inherit;
+}
+
+#nex-forms .style_bold{font-weight:bold !important;}
+#nex-forms .style_italic{font-style:italic !important;}
+
+#nex-forms .ui-nex-forms-container .upload-single .input-group{width:100%;}
+#nex-forms  div.fileinput a {position: relative;z-index: 100 !important;}
+#nex-forms .timepicker-picker a.btn span {text-align: center;width: 40px;}
+#nex-forms .bootstrap-datetimepicker-widget td span {height: 25px !important;line-height: 25px !important;}
+#nex-forms .align_right{text-align:right !important; right:0;}
+#nex-forms .align_left{text-align:left !important;}
+#nex-forms .align_center{text-align:center !important;}
+#nex-forms .align_justify{text-align:justify !important;}
+#nex-forms div.form_field .help-block.input-lg,
+#nex-forms div.form_field .help-block.input-sm{padding:0;height:auto;}
+#nex-forms .submit-button small {width: 100% !important;display: block !important;clear: both !important;margin-top: 7px !important;}
+
+#nex-forms input[name="company_url"]{position:absolute !important;z-index:-1 !important;top:-100000px !important; width:1px !important;}
+
+#nex-forms hr{border-color:#dddddd;margin:0 !important;}
+#nex-forms p {background: none !important;}
+#nex-forms .submit-button span.fa-spinner {}
+#nex-forms .panel-heading.btn-lg, 
+#nex-forms .panel-heading.btn-sm {border-bottom-left-radius: 0 !important;border-bottom-right-radius: 0 !important;}
+#nex-forms .ui-nex-forms-container{}
+.ui-nex-forms-container .trash-can{
+	display:none;
+}
+
+
+
+#nex-forms .ui-nex-forms-container .zero-clipboard{
+	display:none;
+}
+#nex-forms .popover-content {
+    min-width: 165px;
+    padding: 9px 14px;
+    text-align: center;
+}
+
+#nex-forms .form_field.select,
+#nex-forms .form_field.multi-select {
+    position: relative;
+}
+
+#nex-forms .bootstrap-select .dropdown-menu ul li {
+    margin-left: 0 !important;
+}
+#nex-forms .bootstrap-select .dropdown-menu .popover {
+    display: none !important;
+}
+
+
+/**********************************/
+/************* FIELDS *************/
+/**********************************/
+#nex-forms .form-control{
+	width:100%;
+	max-width: 100% !important;
+}
+.nex-forms-container {
+    background: url(../images/tiny_grid.png);
+}
+
+#nex-forms .square .form-control,
+#nex-forms .square .input-group-addon,
+#nex-forms .square .selectpicker,
+#nex-forms .square .dropdown-menu,
+#nex-forms .square .btn,
+#nex-forms .square .ui-slider-range,
+#nex-forms .square #slider,
+#nex-forms .square .panel:first-child, 
+#nex-forms .square .panel-body:first-child, 
+#nex-forms .square .panel-heading:first-child{border-radius: 0 !important;}
+/* not available yet */
+#nex-forms .full_rounded .form-control,
+#nex-forms .full_rounded .input-group-addon,
+#nex-forms .full_rounded .selectpicker,
+#nex-forms .full_rounded .btn{border-radius: 50% !important;}
+#nex-forms div#nex-forms .color_pallet span.caret,
+#nex-forms .bootstrap-select.btn-group .btn .caret{margin-top:0 !important;}
+#nex-forms .btn.selectpicker {text-align: left;}
+#nex-forms small.sub-text{font-weight:normal;color:#999;}
+#nex-forms .ui-slider {margin-left: 6px;margin-right: 20px;position: relative;text-align: left;}
+#nex-forms .ui-slider .ui-slider-handle{width:auto !important;height:auto !important;padding:5px;text-decoration:none !important;outline:none;cursor:pointer !important;top:-10px !important;font-size:12px !important;}
+#nex-forms span.ui-spinner {width: 100%;}
+#nex-forms span.ui-spinner input{border:none;padding:0 !important;padding-left:10px !important;}
+#nex-forms div#star img,span.star_holder{position:relative;}
+#nex-forms div#star{width:100% !important;}
+#nex-forms span.ui-spinner.ui-widget-content{border:1px solid #ddd;}
+#nex-forms button,
+#nex-forms input,
+#nex-forms select,
+#nex-forms textarea{margin:0 !important;}
+#nex-forms .is_required.btn-xs {padding: 0 !important;margin-right: 2px;font-size: 8px;top: -2px;}
+#nex-forms .ui-slider-range-max:first-child {background: none repeat scroll 0 0 #F2F2F2;border:1px solid #ddd;}
+#nex-forms .ui-slider-range-max:last-child {background: none repeat scroll 0 0 #FFFFFF;border:1px solid #ddd;}
+#nex-forms .ui-slider{border:1px solid #ddd;}
+/*#nex-forms .autocomplete, .autocomplete div.input-inner {z-index: 1001 !important;}*/
+#nex-forms .ui-autocomplete {z-index: 1000 !important;background: #FFF !important;}
+
+#nex-forms .prefix span, 
+#nex-forms .postfix span {font-size: 17px;}
+#nex-forms .display-block{margin-right:0 !important;}
+
+
+#nex-forms .ui-widget-content .the_label, #nex-forms .the-radios label {
+    color: inherit;
+}
+#nex-forms .the-radios .col-sm-12 {padding-left: 0;}
+#nex-forms div.radio-group label.radio-inline,
+#nex-forms div.radio-group label.checkbox-inline,
+#nex-forms div.checkbox-group label{height: 30px;line-height: 30px;padding-left:34px;position: relative;}
+#nex-forms div.radio-group label a,
+#nex-forms div.checkbox-group label a{position:absolute;top:0;left:0;text-decoration:none;}
+#nex-forms label.radio-inline.display-block {
+    margin-bottom: 7px !important;
+}
+#nex-forms .slider.ui-slider {
+    margin-bottom: 9px;
+    margin-top: 9px;
+}
+
+#nex-forms .nex-step.align_right,
+#nex-forms .prev-step.align_right,
+#nex-forms .nex-submit.align_right {
+    float: right;
+}
+
+
+#nex-forms ul.selectpicker {display:block !important;}
+#nex-forms .popover h3 {display: none;}
+
+#nex-forms .ui-nex-forms-container .paragraph .input-group,
+#nex-forms .ui-nex-forms-container .heading .input-group {width: 100% !important;}
+#nex-forms h1.the_input_element,
+#nex-forms h2.the_input_element,
+#nex-forms h3.the_input_element,
+#nex-forms h4.the_input_element,
+#nex-forms h5.the_input_element,
+#nex-forms h6.the_input_element{color:#000;margin:0;font-weight:normal; }
+
+#nex-forms h1,
+#nex-forms h2,
+#nex-forms h3,
+#nex-forms h4,
+#nex-forms h5,
+#nex-forms h6,
+#nex-forms p{
+	 background:none; margin:0; padding:0;
+}
+
+.bootstrap-datetimepicker-widget{ display:none; }
+.bootstrap-datetimepicker-widget.dropdown-menu {
+    box-shadow: 1px 1px 12px #ccc;
+	z-index:1000000 !important;
+}
