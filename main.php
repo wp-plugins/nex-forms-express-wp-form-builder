@@ -5,9 +5,9 @@ Plugin URI: http://codecanyon.net/item/nexforms-the-ultimate-wordpress-form-buil
 Plugin Prefix: wap_ 
 Module Ready: Yes
 Plugin TinyMCE: popup
-Description: PLEASE NOTE: version 1.0.1 is no longer available! Please update to the latest version.
+Description: PLEASE NOTE: version 1.0.5 is no longer available! Please update to the latest version.
 Author: Basix
-Version: 1.0.1
+Version: 1.0.5
 Author URI: http://codecanyon.net/user/Basix/portfolio?ref=Basix
 License: GPL
 */
