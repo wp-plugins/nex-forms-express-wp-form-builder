@@ -360,11 +360,12 @@ There are 2 ways to install NEX-Forms. Please follow the steps for your NEX-Form
 * Enhanced: User Confirmation mails to be sent to users after completing the form
 * Enhanced: Overall back-end details.
 
-= 1.0.2=
+= 1.0.2 =
+
 * Fixed: Safari compatibility issues
 * Fixed: Form visibility (in some cases did not display in relation to form animations)
 
-= 1.0.1=
+= 1.0.1 =
 * Fixed: Styling issues
 * Fixed: Check boxes (back-end)
 * Fixed: Multi-select (back-end)
