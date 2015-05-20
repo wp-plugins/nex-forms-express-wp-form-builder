@@ -216,6 +216,80 @@ There are 2 ways to install NEX-Forms. Please follow the steps for your NEX-Form
 11. Example Form in theme
 
 == Changelog ==
+
+= 3.4 =
+* FIXED: HTTPS problem with loading styles and scripts 
+* FIXED: UTF-8 issue with mail methods that sent garbage characters in autoreponder emails and admin emails
+* FIXED: Autoresponder not retrieving saved data
+* ADDED: Password Field
+* ADDED: Date format settings for date-picker (save form or preview to see effect on field)
+* ADDED: Language selection for date-picker (save form or preview to see effect on field)
+* ADDED: Ability to have same name labels but different field names vie new field name setting
+* ENHANCED: Conditional logic. Panel/grid selection is now possible as well as single field selection for targeting
+
+= 3.3 =
+* NEW FEATURE: Export to PDF via new add-on
+* FIXED: Saving new form issue
+* FIXED: Saving Auto responder issue
+
+= 3.2 =
+* NEW MAIN FEATURE: Sticky Forms - Add sticky paddels to hide and show forms (top, left, right and bottom) Found in widgets section.
+* NEW MAIN FEATURE: Thumbs Single Selection Field - Add images (ie: product) to be used to select in a form.
+* NEW MAIN FEATURE: Thumbs Multi Selection Field - Choose more then one thumbnail selection.
+* NEW MAIN FEAUTRE: Email Setup - Configure emailing with SMTP, PHP Mailer, WordPress Mailer or striaght PHP mailing function. SMTP includes optional authentication settings
+* NEW MAIN FEAUTRE: Form entries page - View and export all form entries from all forms
+* NEW MAIN FEAUTRE: Global settings page - Configure various settings
+* NEW FEATURE: Add unlimited hidden fields
+* NEW FEATURE: Custom form action or ajax
+* NEW FEATURE: Custom form method
+* NEW FEATURE: Javascript Trouble Shooter - enqueue/dequeue scipts in case of javascript confict with 3rd party plugins or themes.
+* NEW FEATURE: Styling Trouble Shooter - enqueue/dequeue styles in case of display interference from 3rd party plugins or themes.
+* NEW FEATURE: Admin Config - Includes settings involving nex-forms admin inclusions like widgets
+* NEW FEATURE: Form duplication with a single click
+* NEW FEATURE: Popup forms for widgets
+* NEW FEATURE: Popup forms button color selection (bootstrap style)
+* NEW FEATURE: Forms selection for view and export
+* NEW FEATURE: Ajax pagination for Form entries
+* NEW FEATURE: Ajax Column sorting for form entries
+* ADDED: Date Time display for forms entries - Shows date and time the form was submmited
+* ADDED: User field for form entries - show the usernamke if logged in when completing a form
+* ADDED: User IP field for form entries - Shows IP address
+* ADDED: Page field for form entries - Shows where the form was submmited from
+* ADDED: Form name field for form entries - Shows the form name that was submmited
+* ADDED: Bath delete form entries
+* ADDED: Modal popup display for form entry data
+* ADDED: Tabbed selection for settings
+* ADDED: Ajax saving for global settings
+* ADDED: Thumb Size selection
+* ADDED: Icon selection for thumb selection
+* ADDED: Column selection for thumbs display
+* ADDED: Drag handel to field on form canvas
+* FIXED: Popup displaying when tabing on none required fields
+* FIXED: Overl grid style display
+* ENHANCED: Optimised DOM to make use of minimum output
+* ENHANCED: Optimised scripts and styles for page load performance
+* ENHANCED: Page load - YSlow raking = 89/100 with 10+ forms on a single page!, YSlow raking = 94/100 with 1 form on a page!!
+* ENHANCED: Admin load speed - no external calls are made
+
+= 3.1 =
+* ADDED: Custom Background image up-loader for form fields and bootstrap panels
+* ADDED: Background settings: background-position, background-size, background-repeat
+* ADDED: Instant preview for form themes add-on to try before buy
+* ADDED: NEW HTML Field - Embed HTML into forms
+* ENHANCED: Back-end usability with a few styling changes
+* ENHANCED: Overall speed and performance and CSS. 
+* FIXED: Multi-step forms functionality - next and previous buttons that sometimes skipped steps
+* FIXED: Multi-step forms styling - next and previous buttons that were vertically off line
+* FIXED: Auto populate countries, us states and languages
+* FIXED: Auto populate allowed file type extensions for file up-loaders
+* FIXED: Grid styling when it comes to panels, steps and extreme nesting
+* FIXED: Label to top (bootstrap class col-sm-12 not col-sm-10)
+* FIXED: Check box issue only submitting one value instead of an array
+* FIXED: Some styling interference from themes
+
+= 3.0.1 =
+* FIXED: Default bootstrap styling issue regarding grids
+
 = 3.0 =
 * FIXED: "Form title can not be empty" bug
 * FIXED: Overcome styling interference from themes
@@ -223,12 +297,82 @@ There are 2 ways to install NEX-Forms. Please follow the steps for your NEX-Form
 * ENHANCEMENT: Overall performance
 * ENHANCEMENT: Added compatibility backbone for "Form Themes for NEX-Forms" add-on
 * REMOVED: Splash screen...load time is fast enough now so no need for this
+* NOTE: Skipped to version 3 from 2.4 as NEX-Forms is in a new era now with add-on capability
+
+= 2.4 =
+* FIXED:  Form entries CSV export path
+
+= 2.3 =
+* FIXED: Styling compatibility issues relating to a few reported themes
+* FIXED: a few JavaScript compatibility issues regarding a few themes
+
+= 2.2 =
+* FIXED: AJAX URL for form submissions
+* FIXED: a few JavaScript compatibility issues relating to a few reported themes
+
+= 2.1 =
+* ENHANCEMENT: Complete re-write of AJAX form submissions.
+* ENHANCEMENT: Form preview.
+* ENHANCEMENT: More code optimization to increase performance
+* ADDED: Multiple forms on a single page/post
+
+= 2.0 =
+* ENHANCEMENT: Includes a complete redesign of the back-end to increase usability
+* ENHANCEMENT: Overall code optimization to increase performance
+* ENHANCEMENT: Reduced plugin with more then a 3rd of version 1.2 making it feature packed and yet light
+* ENHANCEMENT: Increased form load speed to be exponentially faster by rewriting user interface output
+* ADDED: Module popups for forms
+* ADDED: Multistep Forms and extra button control
+* ADDED: All new form manager to enhance user control over existing and new forms
+* ADDED: Field filters to ensure quick access to all fields
+* FIXED: Some JavaScript validation issues
+* FIXED: Reported back-end bugs
+* FIXED: Styling issues relating to overall theme compatibility
+* FIXED: Numerous small JS issues
+* FIXED: Numerous small styling issues
+
+= 1.2 =
+* FIXED: UTF8 Character encoding in emails
+* FIXED: Java-script validation issues
+* FIXED: Styling issues relating to ensure overall theme compatibility
+* ADDED: Extra control over field editing and deletion
 
 = 1.1 =
-* Fixed: WordPress version 3.9 *insert into post* problem
+* ADDED: New Feature - Conditional Logic
+* FIXED: Back-end styling issues
+
+= 1.0.6 =
+* Fixed: WordPress version 3.9 "insert into post" problem
+
+= 1.0.5 =
+* Fixed: Auto-responder single line placeholders
+
+= 1.0.4 =
+* Fixed: Styling issues in chrome/web-kit. All Cross browser styling now resolved!
+
+= 1.0.3 =
+* Fixed: Front end compatibility issues. forms are now not affected and do not effect any other styling on themes)
+* Fixed: Email auto responder problems
+* Fixed: Back-end icons not showing
+* Added: Email Attachments: File uploads are now sent as attachments
+* Added: Default admin email: Specified email addresses receive a default email containing all form values as well as the attachments.
+* Added: Redirect to URL after form submission. Display message or redirect to a thank you page  (submission are saved and emails are sent either way)
+* Enhanced: User Confirmation mails to be sent to users after completing the form
+* Enhanced: Overall back-end details.
+
+= 1.0.2=
+* Fixed: Safari compatibility issues
+* Fixed: Form visibility (in some cases did not display in relation to form animations)
+
+= 1.0.1=
+* Fixed: Styling issues
+* Fixed: Check boxes (back-end)
+* Fixed: Multi-select (back-end)
+* Enhanced: Admin panel responsiveness
 
 = 1.0 =
 * First release
+
 
 == Frequently Asked Questions ==
 
@@ -247,7 +391,7 @@ Yes, go to /Nex-Forms/documentation/index.html or view the interactive tutorial 
 
 
 == Upgrade Notice ==
-Some features are locked please upgrade to the pro versionand get much more 
+Some features are locked please upgrade to the pro versionand and get much more 
 
 == Using NEX-Forms - The Ultimate WordPress Form Builder plugin ==
 
@@ -286,11 +430,6 @@ Add a form to Sidebar Widget
 3. Complete the form as instructed
 4. Note you need a text or custom field set to be validated as email to be used as the address to send user confirmation mails
 5. Use the form data section to insert submitted values into your email body (submmited form values will be replaced with the field data found between the brackets {{ }}.
-
-= Form Animation Settings =
-
-1. Choose to run or not to run the form animation
-2. If the animations runs change the time the animation should take to complete the form drawing
 
 = On Form Submission =
 
