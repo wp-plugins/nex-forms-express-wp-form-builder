@@ -4,7 +4,6 @@ div.item_logo {
     height: 80px;
     margin-right: 10px;
     width: 80px;
-	border: 1px solid #666;
 	position:relative;
 }
 div.item_logo a{
@@ -25,7 +24,7 @@ div.item_logo.xcalendar{
 	background:url(../images/xcalendar_logo.jpg);
 }
 div.item_logo div.cover_image{
-	border: 2px solid #000000;
+	border: 1px solid #ccc;
     height: 300px;
     left: 80px;
     position: absolute;
@@ -33,6 +32,7 @@ div.item_logo div.cover_image{
     width: 590px;
     z-index: 999999;
 	display:none;
+	box-shadow: 3px 3px 8px #bbb;
 }
 div.item_logo.xforms div.cover_image{
 	background:url(../images/xforms_cover_image.jpg);
