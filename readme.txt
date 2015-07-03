@@ -5,7 +5,7 @@ Donate link: http://codecanyon.net/item/nexforms-the-ultimate-wordpress-form-bui
 Tags: form, forms, form builder, contact form builder, form creator, form generator, contact form, contact forms, contact form, contact us, contact forms plugin, contact form plugin, form widget, form plugin, bootstrap forms, jquery forms, form manager, ajax, post, page, widget
 Requires at least: 3.5
 Tested up to: 4.2.2
-Stable tag: 4.0
+Stable tag: 3.4
 License: GPLv2
 
 50+ Form Elements,Math Logic, conditional logic, Responsive, multi-step forms, drag and drop, Full grid sytem, confirmation email setup, and many more...
