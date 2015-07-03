@@ -111,9 +111,11 @@ jQuery( document ).ready( function( $ ){
 			// Add @import to <head> if needed 
 			if ( undefined !== font.import_family ) {
 				var atImport = google_fonts.import_template.replace( '@import_family@', font.import_family );
-				
+				var atImport2 = atImport.replace('//','http://');
+				var atImport3 = atImport2.replace('/r','');
+				console.log(atImport3);
 				if(!jQuery('style[id="'+ format_illegal_chars(font.name) +'"]').length>0)
-					$( '<style title="nex_google_fonts" name="'+format_illegal_chars(font.name)+'" id="'+format_illegal_chars(font.name)+'">' ).append( atImport ).appendTo( 'head' );
+					$( '<style title="nex_google_fonts" name="'+format_illegal_chars(font.name)+'" id="'+format_illegal_chars(font.name)+'">' ).append( atImport3 ).appendTo( '.nex-forms-container' );
 				
 			}
 		};

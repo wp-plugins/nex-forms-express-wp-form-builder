@@ -20,7 +20,7 @@ if(!class_exists('IZC_Template'))
 		}
 		
 		public function print_sidebar_template(){
-			echo $this->sidebar_header.$this->sidebar_body.$this->sidebar_footer;
+			return $this->sidebar_header.$this->sidebar_body.$this->sidebar_footer;
 		}
 		
 		public function build_header($title='',$subtitle='',$menu='',$description='',$plugin_alias=''){
@@ -238,26 +238,26 @@ if(!class_exists('IZC_Template'))
 			else
 				$table = $this->component_table;
 			
-			$total_records = IZC_Template::get_total_records($table,$_POST['additional_params']);
+			$total_records = IZC_Template::get_total_records($table,$_POST['additional_params'],$_POST['nex_forms_id']);
 			
 			$total_pages = ((is_float($total_records/10)) ? (floor($total_records/10))+1 : $total_records/10);
 			
-			$output .= '<span class="displaying-num">'.IZC_Template::get_total_records($table).' items</span>';
+			$output .= '<span class="displaying-num"><span class="entry-count">'.$total_records.'</span> item'.(($total_records==1) ? '' : 's').'</span>';
 			if($total_pages>1)
 				{				
 				$output .= '<span class="pagination-links">';
-				$output .= '<a class="first-page iz-first-page">&lt;&lt;</a>&nbsp;';
-				$output .= '<a title="Go to the next page" class="iz-prev-page prev-page">&lt;</a>&nbsp;';
+				$output .= '<a class="first-page iz-first-page btn btn-default btn-sm"><span class="fa fa-angle-double-left"></span></a>&nbsp;';
+				$output .= '<a title="Go to the next page" class="iz-prev-page btn btn-sm btn-default prev-page"><span class="fa fa-angle-left"></span></a>&nbsp;';
 				$output .= '<span class="paging-input"> ';
 				$output .= '<span class="current-page">'.($_POST['current_page']+1).'</span> of <span class="total-pages">'.$total_pages.'</span>&nbsp;</span>';
-				$output .= '<a title="Go to the next page" class="iz-next-page next-page">&gt;</a>&nbsp;';
-				$output .= '<a title="Go to the last page" class="iz-last-page last-page">&gt;&gt;</a></span>';
+				$output .= '<a title="Go to the next page" class="iz-next-page btn btn-default btn-sm next-page"><span class="fa fa-angle-right"></span></a>&nbsp;';
+				$output .= '<a title="Go to the last page" class="iz-last-page btn btn-default btn-sm last-page"><span class="fa fa-angle-double-right"></span></a></span>';
 				}
 			echo $output;
 			die();
 		}
 		
-		public function get_total_records($table,$additional_params=array()){
+		public function get_total_records($table,$additional_params=array(),$nex_forms_id=''){
 			global $wpdb;
 			
 			$tree = $wpdb->query('SHOW FIELDS FROM '. $wpdb->prefix . $table .' LIKE "parent_Id"');
@@ -269,51 +269,73 @@ if(!class_exists('IZC_Template'))
 				foreach($additional_params as $column=>$val)
 					$where_str .= ' AND '.$column.'="'.$val.'"';
 				}
+			if($nex_forms_id)
+				$where_str .= ' AND nex_forms_Id='.$nex_forms_id;
+			
 			
 			return $wpdb->get_var('SELECT count(*) FROM '.$wpdb->prefix . $table.' WHERE Id<>"" '. (($tree) ? ' AND parent_Id=0' : '').' '. (($_POST['plugin_alias']) ? ' AND plugin="'.$_POST['plugin_alias'].'"' : '').' '.$where_str );
 		}
 		
 		public function build_data_list(){
 	
+			global $wpdb;
+	
 			$output = '';
 			$output .= '<div class="col-wrap">';
-				$output .= '<p>&nbsp;</p>';
+				
+				$output .= '<div class="tablenav top">';
+					$output .= '<form method="get" action="" id="posts-filter">';
+						
+						
+						
+						$output .= '<div class="alignleft actions">';
+						$output .= '<input type="hidden" name="export_nex_form" value="true">';
+						$output .= '<input type="hidden" name="page" value="nex-forms-form-export">';
+							$output .= '<select name="nex_forms_Id" class="choose_nex_form form-control">';
+								$output .= '<option selected="selected" value="">All Forms</option>';
+								
+								
+								$forms = $wpdb->get_results('SELECT * FROM '.$wpdb->prefix.'wap_nex_forms');
+								
+									foreach($forms as $form)
+										{
+										$output .= '<option value="'.$form->Id.'">'.IZC_Template::get_total_records('wap_nex_forms_entries','',$form->Id).' - '.IZC_Database::get_title($form->Id,'wap_nex_forms').'</option>';
+										}
+								
+								
+								//$output .= '<option value="batch-delete">Delete</option>';
+							$output .= '</select>';
+							
+							
+							
+						$output .= '</div>';
+						$output .= '<button type="submit" class="btn btn-primary btn-sm do_export" id="doaction" name=""><i class="fa fa-cloud-download"></i> Export to CSV</button>';
+					$output .= '</form>';	
+						
+						
+						
+						
+						
+				$output .= '</div>';
+				
 				$output .= '<form method="post" action="" id="posts-filter">';
 					$output .= '<input type="hidden" name="table" value="'.$this->component_table.'">';
 					
 					$output .= '<div class="tablenav top">';
 	
 						$output .= '<div class="alignleft actions">';
-							$output .= '<select name="action">';
+							$output .= '<select name="action" class="form-control">';
 								$output .= '<option selected="selected" value="-1">Bulk Actions</option>';
 								$output .= '<option value="batch-delete">Delete</option>';
 							$output .= '</select>';
-							$output .= '<input type="submit" value="Apply" class="button-secondary action" id="doaction" name="">';
+							$output .= '<input type="submit" value="Apply" class="btn btn-default action bulk-action" id="doaction" name="">';
 						$output .= '</div>';
 						
 						
 						
-						$output .= '<div class="table-options">';
-							
-							$output .= '<div class="tab">';
-								$output .= '<p>Table Options</p>';						
-							
-								$output .= '<div class="hide-cols-wrapper">';	
-									$i = 0;
-									
-									foreach($this->data_fields as $header)	
-										{
-										$output .= '<span class="the-col">';
-										$output .= '<input id="'.$header.'_'.$i.'" type="checkbox" name="'.$header.'" value="'.$i.'" checked="checked" />&nbsp;&nbsp;';
-										$output .= '<label for="'.$header.'_'.$i.'">'.IZC_Functions::unformat_name(str_ireplace('id','',$header)).'</label>';
-										$output .= '</span>';
-										$i++;
-										}
-								$output	.= '</div>';
-							$output	.= '</div>';
-						$output	.= '</div>';
+						
 					
-						$output	.= '<div class="tablenav-pages">';
+						$output	.= '<div class="nex-table-nav">';
 						//Populated from Ajax response: build_admin_table_pagination
 						$output	.= '</div>';
 						
@@ -338,10 +360,12 @@ if(!class_exists('IZC_Template'))
 								{
 								if(is_array($header))
 									$header = $header['grouplabel'];
-															
-									$output .= '<th valign="bottom" class="manage-column sortable column-'.IZC_Functions::format_name($header).'"><a class=""><span class="sortable-column" data-col-name="'.IZC_Functions::format_name($header).'" data-col-order="asc">'.IZC_Functions::unformat_name(str_replace('Id','',str_ireplace('dynamic_forms','',$header))).'</span></a></th>'; //<span class="sorting-indicator"></span>
+									if(IZC_Functions::format_name($header)=='form_data')						
+										$output .= '<th valign="bottom" class="manage-column">'.IZC_Functions::unformat_name(str_replace('Id','',str_ireplace('dynamic_forms','',$header))).'</th>'; //<span class="sorting-indicator"></span>
+									else
+										$output .= '<th valign="bottom" class="manage-column sortable column-'.IZC_Functions::format_name($header).'" '.((IZC_Functions::format_name($header)=='form_data') ? 'width="5%"' : '').'><a class=""><span class="sortable-column" data-col-name="'.IZC_Functions::format_name($header).'" data-col-order="asc">'.IZC_Functions::unformat_name(str_replace('Id','',str_ireplace('dynamic_forms','',$header))).'</span></a></th>'; //<span class="sorting-indicator"></span>
 								}
-						$output .= '<th class="manage-column column-cb check-column" scope="col"></th>';	
+						$output .= '<th class="manage-column" scope="col" width="5%"> Export to PDF</th>';	
 						$output .= '</tr>';
 						$output .= '</thead>';
 						
@@ -351,10 +375,15 @@ if(!class_exists('IZC_Template'))
 						
 						foreach($this->data_fields as $header)	
 								{
-								$output .= '<th valign="bottom" class="manage-column sortable column-'.IZC_Functions::format_name($header).'"><a class=""><span class="sortable-column" data-col-name="'.IZC_Functions::format_name($header).'" data-col-order="asc">'.IZC_Functions::unformat_name(str_replace('Id','',str_ireplace('dynamic_forms','',$header))).'</span></a></th>'; //<span class="sorting-indicator"></span>
+								if(is_array($header))
+									$header = $header['grouplabel'];
+									if(IZC_Functions::format_name($header)=='form_data')						
+										$output .= '<th valign="bottom" class="manage-column">'.IZC_Functions::unformat_name(str_replace('Id','',str_ireplace('dynamic_forms','',$header))).'</th>'; //<span class="sorting-indicator"></span>
+									else
+										$output .= '<th valign="bottom" class="manage-column sortable column-'.IZC_Functions::format_name($header).'" '.((IZC_Functions::format_name($header)=='form_data') ? 'width="5%"' : '').'><a class=""><span class="sortable-column" data-col-name="'.IZC_Functions::format_name($header).'" data-col-order="asc">'.IZC_Functions::unformat_name(str_replace('Id','',str_ireplace('dynamic_forms','',$header))).'</span></a></th>'; //<span class="sorting-indicator"></span>
 								}
 						
-						$output .= '<th class="manage-column column-cb check-column" scope="col"></th>';	
+						$output .= '<th class="manage-column" scope="col">Export to PDF</th>';	
 						$output .= '</tr>';
 						$output .= '</tfoot>';
 						
@@ -366,14 +395,14 @@ if(!class_exists('IZC_Template'))
 					
 					$output .= '<div class="tablenav top">';
 					$output .= '<div class="alignleft actions">';
-					$output .= '<select name="action2">';
+					$output .= '<select name="action2" class="form-control">';
 					$output .= '<option selected="selected" value="-1">Bulk Actions</option>';
 					$output .= '<option value="batch-delete">Delete</option>';
 					$output .= '</select>';
-					$output .= '<input type="submit" value="Apply" class="button-secondary action" id="doaction" name="">';
+					$output .= '<input type="submit" value="Apply" class="btn btn-default action bulk-action" id="doaction" name="">';
 					$output .= '</div>';
 					
-					$output	.= '<div class="tablenav-pages">';
+					$output	.= '<div class="nex-table-nav">';
 					//Populated from Ajax response: build_admin_table_pagination
 					$output	.= '</div>';
 					
@@ -610,9 +639,12 @@ if(!class_exists('IZC_Template'))
 			$template ->component_table =  $config->plugin_prefix.$config->plugin_alias;
 			$template ->plugin_alias =  $config->plugin_alias;
 			$template -> build_header( $config->plugin_name ,$config->sub_heading, $template->build_menu($config->sub_sub_menu));
-			$template -> build_body( '<div id="filter_plugin_alias" style="display:none;">'.$config->plugin_alias.'</div><div id="col-container"><div id="col-right">'.$admin->list_data().'</div>'.$admin->add_new().'</div>' );
-			$template -> build_footer('');	
-			$template -> print_template();
+			
+			
+			
+			return $template -> build_body( '<div id="filter_plugin_alias" style="display:none;"><input type="hidden" name="additional_params" value="">'.$config->plugin_alias.'</div><div id="col-container">'.$admin->list_data().'<div style="display:none;">'.$admin->add_new().'</div>' );
+			//$template -> build_footer('');	
+			//$template -> print_template();
 		}
 		
 		public function build_module_page($config){
