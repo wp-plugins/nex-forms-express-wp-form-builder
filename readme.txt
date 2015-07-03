@@ -203,17 +203,7 @@ There are 2 ways to install NEX-Forms. Please follow the steps for your NEX-Form
 
 == Screenshots ==
 
-1. Form manager
-2. Auto generated form shortcode to add to pages, post and theme templates
-3. Drag and drop 35+ form elements
-4. Tons of form field and form element settings 
-5. Conditional logic for form fields
-6. Multi-step forms or multi-part forms
-7. Setup email autoresponder on form submissions
-8. Redirect to url or display message on ajax submit
-9. View and Export form entries
-10. Live form previewer
-11. Example Form in theme
+1. Admin Interface
 
 == Changelog ==
 = 3.0 =
