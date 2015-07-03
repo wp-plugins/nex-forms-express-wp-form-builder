@@ -1,26 +1,33 @@
-
+var current_image_selection = '';
 jQuery(document).ready(
 function()
 		{
-		
-		jQuery('.express_msg').trigger('click');
-		
-		jQuery('.use_express').click(
+		jQuery('.bootstrap-select li').live('click',
 			function()
 				{
-				jQuery('.show_welcome_message').trigger('click');	
-				jQuery('#welcomeMessage').modal().appendTo('body');
+				jQuery(this).closest('.form_field').find('select').trigger('change');
+				}
+		)
+jQuery('.the-radios a').live('click',
+			function()
+				{
+				jQuery(this).parent().find('input').trigger('change');
+				}
+		)
+		//jQuery('.show_welcome_message').trigger('click');
+		//jQuery('#welcomeMessage').modal().appendTo('body');
+		jQuery('#set_custom_css').keyup(
+			function()
+				{
+				jQuery('style.custom_css').html(jQuery(this).val())
 				}
 			);
 		
-		
-		
-		
-		loading_nex_forms();
-		jQuery('select[name="input-fonts"]').html(jQuery('select.sfm.sample').html());
-		jQuery('select[name="input-fonts"]').stylesFontDropdown();
+		//loading_nex_forms();
+		jQuery('select[name="fonts"]').html(jQuery('select.sfm.sample').html());
+		jQuery('select[name="fonts"]').stylesFontDropdown();
 		//Input
-		jQuery('select[name="label-fonts"]').html(jQuery('select.sfm.sample').html());
+		/*jQuery('select[name="label-fonts"]').html(jQuery('select.sfm.sample').html());
 		jQuery('select[name="label-fonts"]').stylesFontDropdown();
 		//Help text
 		jQuery('select[name="help-text-fonts"]').html(jQuery('select.sfm.sample').html());
@@ -28,24 +35,131 @@ function()
 		//Panel heading
 		jQuery('select[name="panel-fonts"]').html(jQuery('select.sfm.sample').html());
 		jQuery('select[name="panel-fonts"]').stylesFontDropdown();
+		*/
+		
+		jQuery('li a.math_logic').click(
+		function()
+			{
+			var set_current_fields_math_logic = '';
+						set_current_fields_math_logic += '<optgroup label="Text Fields">';
+						jQuery('div.nex-forms-container div.form_field input[type="text"]').each(
+							function()
+								{
+								set_current_fields_math_logic += '<option value="{'+ format_illegal_chars(jQuery(this).attr('name'))  +'}">'+ jQuery(this).attr('name') +'</option>';
+								}
+							);	
+						set_current_fields_math_logic += '</optgroup>';
+						
+						set_current_fields_math_logic += '<optgroup label="Radio Buttons">';
+						jQuery('div.nex-forms-container div.form_field input[type="radio"]').each(
+							function()
+								{
+								set_current_fields_math_logic += '<option value="{'+ format_illegal_chars(jQuery(this).attr('name'))  +'}">'+ jQuery(this).attr('name') +'</option>';
+								}
+							);	
+						set_current_fields_math_logic += '</optgroup>';
+						
+						
+						set_current_fields_math_logic += '<optgroup label="Check Boxes">';
+						jQuery('div.nex-forms-container div.form_field input[type="checkbox"]').each(
+							function()
+								{
+								set_current_fields_math_logic += '<option value="{'+ jQuery(this).attr('name')  +'}">'+ jQuery(this).attr('name') +'</option>';
+								}
+							);	
+						set_current_fields_math_logic += '</optgroup>';
+						
+						set_current_fields_math_logic += '<optgroup label="Selects">';
+						jQuery('div.nex-forms-container div.form_field select').each(
+							function()
+								{
+								set_current_fields_math_logic += '<option value="{'+ jQuery(this).attr('name')  +'}">'+ jQuery(this).attr('name') +'</option>';
+								}
+							);	
+						set_current_fields_math_logic += '</optgroup>';
+						
+						set_current_fields_math_logic += '<optgroup label="Text Areas">';
+						jQuery('div.nex-forms-container div.form_field textarea').each(
+							function()
+								{
+								set_current_fields_math_logic += '<option value="{'+ format_illegal_chars(jQuery(this).attr('name'))  +'}">'+ jQuery(this).attr('name') +'</option>';
+								}
+							);	
+						set_current_fields_math_logic += '</optgroup>';
+						
+					jQuery('#nex-forms-field-settings select[name="current_fields"]').html(set_current_fields_math_logic);
+			}
+		);
 		}
 	); 
 (function($)
 	{
-	$(window).load
+	$(document).ready
 		(
 		function()
-			{ 
-			// makes sure the whole site is loaded
-			//$('#status').delay(100).fadeOut(); 
-			//will first fade out the loading animation
-			//$('#preloader').delay(100).fadeOut('fast', 
-				//function()
-					//{ 
-				     
+			{ 	
+			
+			
+			$('.add_hidden_field').click(
+				function()
+					{
+					var hf_clone = $('.hidden_field_clone').clone();
+					hf_clone.removeClass('hidden').removeClass('hidden_field_clone').addClass('hidden_field');
 					
-					//}
-				//);
+					$('.hidden_fields').prepend(hf_clone);
+					
+					}
+				);
+				
+			$('.remove_hidden_field').live('click',
+				function()
+					{
+					$(this).closest('.hidden_field').remove();
+					}
+				);
+			
+			$('.nex-forms-container .single-image-select-group .radio-label, .nex-forms-container .multi-image-select-group .radio-label').live('click',
+				function()
+					{
+					current_image_selection = $(this);
+					$('#do_upload_image_selection .fileinput input').trigger('click');
+					}
+				);
+			
+			
+			$('#do_upload_image_selection .fileinput input').change(
+						function()
+							{	
+							jQuery('#do_upload_image_selection').submit();
+							console.log(jQuery(this).val());	
+							}
+					)
+			
+			jQuery('#do_upload_image_selection').ajaxForm({
+				data: {
+				   action: 'do_upload_image_select',
+				   mimeType: "multipart/form-data"
+				},
+				//dataType: 'json',
+				beforeSubmit: function(formData, jqForm, options) {
+					//alert('test');
+					//console.log($('input[name="do_image_upload_preview"]').val())
+				},
+			   success : function(responseText, statusText, xhr, $form) {
+				 //current_image_selection.css('background','url("'+ responseText +'")');
+				 current_image_selection.find('img').remove();
+				 current_image_selection.append('<img src="'+ responseText +'" class="radio-image">')
+				},
+				 error: function(jqXHR, textStatus, errorThrown)
+					{
+					   console.log(errorThrown)
+					}
+			});
+			
+			
+			
+		
+			
 			$('#previewForm').on('hidden.bs.modal', 
 				function ()
 					{
@@ -55,13 +169,29 @@ function()
 			$('div.nex-forms-container .form_field').live('mouseover',
 			function()
 				{
-				if(!jQuery('div.nex-forms-container').hasClass('selecting_conditional_target') && !jQuery(this).hasClass('step'))
-					$(this).find('.field_settings').show();
+				if(!jQuery('div.nex-forms-container').hasClass('selecting_conditional_target') && !jQuery(this).hasClass('step') && !jQuery(this).hasClass('grid'))
+					{
+					//$(this).find('.field_settings').first().show();
+					
+					//$(this).prevAll('div').find('.move_field').hide();
+					
+					//$(this).find('.btn-lg.move_field').first().show();
+					}
 				})
+			
+			$('div.nex-forms-container .form_field.grid').live('mouseover',
+			function()
+				{
+				if(!$(this).hasClass('step'))
+				$(this).find('.field_settings').last().show();
+				//$(this).find('.btn-lg.move_field').last().show();
+				}
+			);
 			$('div.nex-forms-container .form_field').live('mouseout',
 				function()
 					{
 					$(this).find('.field_settings').hide();
+					//$(this).find('.btn-lg.move_field').hide();
 					}
 				);
 			//AFILIATION SETTINGS
@@ -72,7 +202,7 @@ function()
 					$('.submit-button small a').text($(this).val());
 					}
 				);
-			var promotext = $('.submit-button small a').attr('href');
+			var promotext = '';
 			promotext1 = promotext.split('ref=');
 			$('#envato_username').val(promotext1[1])
 			$('#envato_username').keyup(
@@ -84,18 +214,29 @@ function()
 		var current_id = '';
 		var current_formcontainer_width = '';
 
-		jQuery('div.nex-forms-container label .the_label, div.nex-forms-container  label small').live('click',function(){ if(!jQuery('div.nex-forms-container').hasClass('selecting_conditional_target')) { jQuery('#filters a:first').trigger('click').tab('show'); } });
+		jQuery('div.nex-forms-container label .the_label, div.nex-forms-container div.form_field.submit-button, div.nex-forms-container  label small, .field_settings .edit').live('click',function(){ if(!jQuery('div.nex-forms-container').hasClass('selecting_conditional_target')) { jQuery('a.the-label').trigger('click').tab('show'); } });
 		jQuery('div.nex-forms-container div.input-inner .the_input_element, div.nex-forms-container #the-radios a, div.nex-forms-container .ui-slider-handle, div.nex-forms-container .bootstrap-tagsinput').live('click',function(){  if(!jQuery('div.nex-forms-container').hasClass('selecting_conditional_target')) {jQuery('#filters li:eq(1) a').trigger('click').tab('show'); $(this).popover('hide'); setTimeout(function(){ jQuery('#filters li:eq(1) a').trigger('click'); },200) } });
 		jQuery('div.nex-forms-container div.input-inner .help-block, div.nex-forms-container div.input-inner label .the_label .bs-tooltip').live('click',function(){  if(!jQuery('div.nex-forms-container').hasClass('selecting_conditional_target')) { jQuery('#filters li:eq(2) a').trigger('click').tab('show');} });
-	jQuery('.field_settings .logic').live('click',function(){  if(!jQuery('div.nex-forms-container').hasClass('selecting_conditional_target')) { jQuery('#filters li:eq(4) a').trigger('click').tab('show');} });
-		jQuery('.field_settings .edit').live('click',function(){  if(!jQuery('div.nex-forms-container').hasClass('selecting_conditional_target')) { jQuery('#filters li:eq(0) a').trigger('click').tab('show');} });
+		jQuery('.field_settings .logic').live('click',function(){  if(!jQuery('div.nex-forms-container').hasClass('selecting_conditional_target')) { jQuery('#filters li:eq(4) a').trigger('click').tab('show');} });
+		jQuery('.field_settings .edit').live('click',function(){  if(!jQuery('div.nex-forms-container').hasClass('selecting_conditional_target')) { jQuery('#filters li:eq(0) a').trigger('click').tab('show'); setTimeout(function(){jQuery('a.the-label').trigger('click').tab('show'); },100) } });
 		jQuery('.field_settings .set-validation').live('click',function(){  if(!jQuery('div.nex-forms-container').hasClass('selecting_conditional_target')) { jQuery('#filters li:eq(3) a').trigger('click').tab('show');} });
 		
-	jQuery('div.nex-forms-container div.form_object div.edit, div.nex-forms-container label#nexf_title, div.nex-forms-container label#title,div.nex-forms-container .ui-slider-handle,div.nex-forms-container .bootstrap-tagsinput, div.nex-forms-container #the-radios a, div.nex-forms-container .grid .panel-heading, div.nex-forms-container div.input-inner .the_input_element, div.nex-forms-container div.input-inner .help-block').live('click',
+	jQuery('div.nex-forms-container div.form_object div.edit,  div.nex-forms-container div.form_field.submit-button, div.nex-forms-container input, div.nex-forms-container label#nexf_title, div.nex-forms-container label#title,div.nex-forms-container .ui-slider-handle,div.nex-forms-container .bootstrap-tagsinput, div.nex-forms-container #the-radios a, div.nex-forms-container .grid .panel-heading, div.nex-forms-container div.input-inner .the_input_element, div.nex-forms-container div.input-inner .help-block').live('click',
 		function(e)
 			{
+			
+			$('div.slide_in_right').removeClass('opened')
+			setTimeout(function(){ $('div#nex-forms-field-settings').addClass('opened'); },300)
+			e.preventDefault();
+			
+			$('.form_field').removeClass('edit-field')
+			
+			$(this).closest('.form_field').addClass('edit-field')	
+			
+			
+			
 			if(!current_formcontainer_width)
-				current_formcontainer_width = jQuery('div.nex-forms-container').outerWidth();
+				current_formcontainer_width = jQuery('div#collapseFormsCanvas').outerWidth();
 				
 			if(!jQuery('div.nex-forms-container').hasClass('selecting_conditional_target'))
 				{
@@ -105,11 +246,25 @@ function()
 				
 			$('.option-set li a').hide();
 			if(jQuery('#'+current_id).hasClass('submit-button'))
+				{
 				$('.option-set li a.input-element').show().trigger('click');
+				setTimeout(function(){$('.option-set li a.input-element').trigger('click'); },100);
+				}
 			else if(jQuery('#'+current_id).hasClass('grid'))
+				{
 				$('.option-set li a.input-element').show().trigger('click');
-			else if(jQuery('#'+current_id).hasClass('heading') || jQuery('#'+current_id).hasClass('divider') || jQuery('#'+current_id).hasClass('paragraph'))
+				setTimeout(function(){$('.option-set li a.input-element').trigger('click'); },100);
+				}
+			else if(jQuery('#'+current_id).hasClass('heading') || jQuery('#'+current_id).hasClass('paragraph'))
+				{
 				$('.option-set li a.input-element').show().trigger('click');
+				setTimeout(function(){$('.option-set li a.input-element').trigger('click'); },100);
+				}
+			else if(jQuery('#'+current_id).hasClass('divider'))
+				{
+				$('.option-set li a.input-element').show().trigger('click');
+				 setTimeout(function(){$('.option-set li a.input-element').trigger('click'); },100);
+				}
 			else
 				$('.option-set li a').show();
 
@@ -121,25 +276,26 @@ function()
 				|| jQuery('#'+current_id).hasClass('upload-image')
 				)
 				$('.option-set li a.logic').hide();
-				
-			if(!$('div#nex-forms-field-settings').hasClass('open'))
-				{
-				$('div#nex-forms-field-settings').animate(
-					{
-					right:0
-					},300
-				);
 			
-			$('div#nex-forms-field-settings').addClass('open');
-			$('#collapseFormsCanvas').css('width','70%');
-			/*$('#collapseFormsCanvas').animate(
-					{
-					width:($('#collapseFormsCanvas').outerWidth()/3.3 * 2)
-					},500
-				);*/
-			}
+			if(jQuery('#'+current_id).hasClass('paragraph')
+				|| jQuery('#'+current_id).hasClass('heading')
+				)
+				$('.option-set li a.math_logic').show();
+			else
+				$('.option-set li a.math_logic').hide();
+			
+			if(jQuery('#'+current_id).hasClass('md-field'))
+				$('.help-text').parent().hide();
+				
+			//if(!$('div#nex-forms-field-settings').hasClass('opened'))
+				//{
+				
+				//}
+			
 				
 			var current_obj = jQuery(this);
+			
+			
 			
 			if(!jQuery('div.nex-forms-container').hasClass('selecting_conditional_target')){
 			setTimeout(
@@ -149,6 +305,10 @@ function()
 					{
 					populate_logic(current_id);
 					populate_label_settings(jQuery('#'+current_id).find('label'));
+					
+					populate_label_width_settings(jQuery('#'+current_id));
+					populate_input_width_settings(jQuery('#'+current_id));
+					
 					populate_input_settings(jQuery('#'+current_id).find('.the_input_element'));
 					populate_help_text_settings(jQuery('#'+current_id).find('.help-block'));
 					populate_validation_settings(jQuery('#'+current_id).find('.error_message'))
@@ -171,28 +331,192 @@ function()
 					populate_postfix_settings(jQuery('#'+current_id).find('.the_input_element'));
 				if(jQuery('#'+current_id).hasClass('grid'))	
 					populate_panel_settings(jQuery('#'+current_id).find('.panel'));
+				if(jQuery('#'+current_id).hasClass('grid-system'))	
+					populate_grid_system_settings(jQuery('#'+current_id));
+				if(jQuery('#'+current_id).hasClass('submit-button'))	
+					populate_button_settings(jQuery('#'+current_id).find('.the_input_element'));
 				
-				jQuery('.editing-field').removeClass('editing-field');
-				current_obj.addClass('editing-field');
-				jQuery('.editing-field').animate(
-						{
-						outlineOffset:0,
-						outlineWidth:1
-						},300
-					);	
+				
+				//jQuery('.editing-field').removeClass('editing-field');
+				
 				
 				},50
 			);
 		}
-/***************/					
-/*** PRE-POSTFIX ****/				
-			$('.setting-prefix .icon_set i').click(
+		
+		
+		/*$("#do-upload-image").submit(function(e)
+{
+    var postData = $(this).serializeArray();
+    var formURL = $(this).attr("action");
+    $.ajax(
+    {
+        url : formURL,
+        type: "POST",
+		data: postData,
+		mimeType:"multipart/form-data",
+        success:function(data, textStatus, jqXHR)
+        {
+            //data: return data from server
+			console.log(data)
+			$('#'+current_id).find('.panel-body').css('background','url("'+ data +'")');
+			
+        },
+        error: function(jqXHR, textStatus, errorThrown)
+        {
+            //if fails     
+			alert('false')
+        }
+    });
+    e.preventDefault(); //STOP default action
+    
+});*/
+
+jQuery('#do-upload-image').ajaxForm({
+    data: {
+       action: 'do_upload_image'
+    },
+    //dataType: 'json',
+    beforeSubmit: function(formData, jqForm, options) {
+		//alert('test');
+		//console.log($('input[name="do_image_upload_preview"]').val())
+    },
+   success : function(responseText, statusText, xhr, $form) {
+	   if($('#'+current_id).hasClass('other-elements') && $('#'+current_id).hasClass('grid'))
+      	 $('#'+current_id).find('.panel-heading').next('.panel-body').css('background','url("'+ responseText +'")');
+    	else
+		  $('#'+current_id).find('.the_input_element').css('background','url("'+ responseText +'")');
+	},
+	 error: function(jqXHR, textStatus, errorThrown)
+        {
+           console.log(errorThrown)
+        }
+});
+
+
+	jQuery('input[name="do_image_upload_preview"]').change(
+		function()
+			{
+			jQuery('#do-upload-image').submit();
+			//console.log(jQuery(this).val());	
+			}
+	)
+/***************/	
+
+/********** MD FIELD SETTINGS ******************/
+var md_effects_array = ['haruki','hoshi','jiro','nariko'];
+jQuery('select[name="md-effect"]').change(
+	function()
+		{
+		
+		for (var i = 0; i < md_effects_array.length; i++)
+			{
+			$('#'+current_id).find('.md-wrapper').removeClass('input--'+md_effects_array[i]);
+			$('#'+current_id).find('.md-input').removeClass('input__field--'+md_effects_array[i]);
+			$('#'+current_id).find('.md-label').removeClass('input__label--'+md_effects_array[i]);
+			$('#'+current_id).find('.md-label-content').removeClass('input__label-content--'+md_effects_array[i]);
+			//console.log(md_effects_array[i]);
+			}
+		$('#'+current_id).find('.md-wrapper').addClass('input--'+jQuery(this).val());
+		$('#'+current_id).find('.md-input').addClass('input__field--'+jQuery(this).val());
+		$('#'+current_id).find('.md-label').addClass('input__label--'+jQuery(this).val());
+		$('#'+current_id).find('.md-label-content').addClass('input__label-content--'+jQuery(this).val());
+		
+		}
+	);
+
+jQuery('select[name="md-select-effect"]').change(
+	function()
+		{
+		
+		$('#'+current_id).find('select').attr('data-effect',$(this).val());
+		
+		build_md_select($('#'+current_id).find('#cd-dropdown'));
+		}
+	);
+
+
+
+/******* DATE TIME */
+
+jQuery('select#select_date_format').change(
+		function()
+			{
+			if($(this).val()!='custom')
+				{
+				$('#'+current_id).find('#datetimepicker').attr('data-format',$(this).val())
+				$('div#nex-forms-field-settings #set_date_format').addClass('hidden');
+				}
+			else
+				{
+				$('#'+current_id).find('#datetimepicker').attr('data-format',$('div#nex-forms-field-settings #set_date_format').val())
+				$('div#nex-forms-field-settings #set_date_format').removeClass('hidden');
+				}
+			$('#'+current_id).find('#datetimepicker').datetimepicker({ format: $('#'+current_id).find('#datetimepicker').attr('data-format') });
+			}
+	)
+
+$('div#nex-forms-field-settings #set_date_format').val($('#'+current_id).find('#datetimepicker').attr('data-format'))
+			$('div#nex-forms-field-settings #set_date_format').keyup(
 				function()
 					{
-					$('.icon_set i').removeClass('btn-primary');
+					$('#'+current_id).find('#datetimepicker').attr('data-format',$(this).val())
+					}
+				);
+				
+
+jQuery('select#date-picker-lang-selector').change(
+		function()
+			{
+			$('#'+current_id).find('#datetimepicker').attr('data-language',$(this).val())
+			}
+	)				
+/*** PRE-POSTFIX ****/	
+			
+			$('.icon_search').keyup(
+				function()
+					{
+					var search_term = $(this).val();
+					$('.iconSet i').each(
+						function()
+							{
+							if(!strstr($(this).attr('class'),search_term))
+								$(this).hide();
+							else
+								$(this).show();
+							}
+						);
+					}
+			)
+	
+			$('button.set_icon').click(
+				function()
+					{
+					$('#iconSet').modal().appendTo('body');
+					$('.iconSet').attr('class','modal iconSet '+$(this).attr('data-set-class'));
+					$('.iconSet i').removeClass('btn-primary');
+					$('.iconSet i').show();
+					$('.icon_search').val('');
+					setTimeout(function(){ $('.modal-backdrop').remove(); },100);
+					}
+				);		
+			$('.iconSet.set_prefix i').live('click',
+				function()
+					{
+					$('#iconSet i').removeClass('btn-primary');
 					$('#'+current_id).find('.prefix span').attr('class',$(this).attr('class'));
 					
-					$(this).closest('.input_holder').find('.current-icon').attr('class','current-icon '+$(this).attr('class'));
+					$('button.set_prefix_icon').closest('.input_holder').find('.current-icon').attr('class','current-icon '+$(this).attr('class'));
+					$(this).addClass('btn-primary');
+					}
+				);
+			$('.iconSet.set_postfix i').live('click',
+				function()
+					{
+					$('#iconSet i').removeClass('btn-primary');
+					$('#'+current_id).find('.postfix span').attr('class',$(this).attr('class'));
+					
+					$('button.set_postfix_icon').closest('.input_holder').find('.current-icon').attr('class','current-icon '+$(this).attr('class'));
 					$(this).addClass('btn-primary');
 					}
 				);
@@ -219,16 +543,29 @@ function()
 					}
 				);	
 				
-			$('.setting-postfix .icon_set i').click(
+			$('.dropdown-menu.button-color li a').click(
 				function()
 					{
-					$('.icon_set i').removeClass('btn-primary');
-					$('#'+current_id).find('.postfix span').attr('class',$(this).attr('class'));
+					$('.dropdown-menu.button-color li').removeClass('selected')
+					$(this).parent().addClass('selected');
+					var current_class = $('#'+current_id).find('.the_input_element').attr('class');
+					current_class = current_class.replace('alert-danger','');
+					current_class = current_class.replace('alert-warning','');
+					current_class = current_class.replace('alert-info','');
+					current_class = current_class.replace('alert-success','');
+					current_class = current_class.replace('btn-danger','');
+					current_class = current_class.replace('btn-warning','');
+					current_class = current_class.replace('btn-primary','');
+					current_class = current_class.replace('btn-info','');
+					current_class = current_class.replace('btn-success','');					
+					current_class = current_class.replace('btn-default','');
 					
-					$(this).closest('.input_holder').find('.current-icon').attr('class','current-icon '+$(this).attr('class'));
-					$(this).addClass('btn-primary');
+					$('#'+current_id).find('.the_input_element').attr('class',current_class)
+					$('#'+current_id).find('.the_input_element').addClass($(this).attr('class'));
+					$(this).closest('.input_holder').find('.colorpicker-element i').attr('class',$(this).attr('class'));
 					}
-				);
+				);	
+				
 			
 			$('.dropdown-menu.postfix-color li a').click(
 				function()
@@ -260,13 +597,44 @@ function()
 					{
 					$('#'+current_id).find('label span.the_label').text($(this).val());
 					$('#'+current_id).find('.draggable_object span.field_title').text($(this).val())
-					$('#'+current_id).find('.the_input_element').attr('name',format_illegal_chars($(this).val()))
-					$('#'+current_id).find('input[type="file"]').attr('name',format_illegal_chars($(this).val()))
 					
-					if($('#'+current_id).hasClass('check-group') || $('#'+current_id).hasClass('multi-select'))
+					var formated_value = format_illegal_chars($(this).val());
+					$('#'+current_id).find('.the_input_element').attr('name',formated_value)
+					$('#'+current_id).find('input[type="file"]').attr('name',formated_value)
+					
+					$('div#nex-forms-field-settings #set_input_name').val(formated_value);
+						
+					if($('#'+current_id).hasClass('check-group') || $('#'+current_id).hasClass('multi-select') || $('#'+current_id).hasClass('classic-check-group') || $('#'+current_id).hasClass('classic-multi-select'))
+							$('#'+current_id).find('.the_input_element').attr('name',formated_value+'[]')
+						
+					}
+				);
+				
+			$('div#nex-forms-field-settings #set_input_name').val(format_illegal_chars($('#'+current_id).find('.the_input_element').attr('name')))
+			$('div#nex-forms-field-settings #set_input_name').keyup(
+				function()
+					{
+					var formated_value = format_illegal_chars($(this).val());
+					$('#'+current_id).find('.the_input_element').attr('name',formated_value)
+					$('#'+current_id).find('input[type="file"]').attr('name',formated_value)
+					
+					$('div#nex-forms-field-settings #set_input_name').val(formated_value);
+					
+					if($('#'+current_id).hasClass('check-group') || $('#'+current_id).hasClass('multi-select') || $('#'+current_id).hasClass('classic-check-group') || $('#'+current_id).hasClass('classic-multi-select'))
 							$('#'+current_id).find('.the_input_element').attr('name',format_illegal_chars($(this).val())+'[]')
 					}
 				);
+				
+			$('div#nex-forms-field-settings #set_math_input_name').val(format_illegal_chars($('#'+current_id).find('.set_math_result').attr('name')))
+			$('div#nex-forms-field-settings #set_math_input_name').keyup(
+				function()
+					{
+					var formated_value = format_illegal_chars($(this).val());
+					$('div#nex-forms-field-settings #set_math_input_name').val(formated_value);
+					$('#'+current_id).find('.set_math_result').attr('name',formated_value)
+					}
+				);
+				
 		//SUB TEXT
 			$('div#nex-forms-field-settings #set_subtext').val($('#'+current_id).find('label small.sub-text').text())
 			$('div#nex-forms-field-settings #set_subtext').keyup(
@@ -288,17 +656,237 @@ function()
 						{
 						get_label.parent().addClass('full_width');
 						$('#'+current_id).find('.input_container').addClass('full_width');
+						$('#'+current_id).find('.input_container').removeClass('col-sm-10').addClass('col-sm-12');
 						}
 					if($(this).hasClass('left'))
 						{
 						//get_label.parent().attr('class','');
 						get_label.parent().removeClass('full_width');
 						$('#'+current_id).find('.input_container').removeClass('full_width');
+						$('#'+current_id).find('.input_container').removeClass('col-sm-12').addClass('col-sm-10');
 						}
 					if($(this).hasClass('none'))
 						{
+						$('#'+current_id).find('.input_container').addClass('full_width');
 						get_label.parent().hide();
 						}
+					if($(this).hasClass('inside'))
+						{
+						$('#'+current_id).find('.input_container').addClass('full_width');
+						$('#'+current_id).find('.label_container').hide();
+						$('#'+current_id).find('.input_container').each(
+							function()
+								{
+								$(this).find('.the_input_element').attr('placeholder',$(this).closest('.form_field').find('.the_label').text())
+								}							
+							);
+						}
+					}
+				);
+			
+			
+			//LABEL WIDTH
+			$('.label-width button').click(
+				function()
+					{
+					$('.label-width button').removeClass('btn-primary');
+					$(this).addClass('btn-primary');
+					
+					var get_label = $('#'+current_id).find('.label_container');
+					get_label.removeClass('col-sm-1');
+					get_label.removeClass('col-sm-2');
+					get_label.removeClass('col-sm-3');
+					get_label.removeClass('col-sm-4');
+					get_label.removeClass('col-sm-5');
+					get_label.removeClass('col-sm-6');
+					get_label.removeClass('col-sm-7');
+					get_label.removeClass('col-sm-8');
+					get_label.removeClass('col-sm-9');
+					get_label.removeClass('col-sm-10');
+					get_label.removeClass('col-sm-11');
+					get_label.removeClass('col-sm-12');
+					
+					get_label.addClass(jQuery(this).attr('data-col-width'))
+
+					}
+				);
+				
+			//INPUT WIDTH
+			$('.input-width button').click(
+				function()
+					{
+					$('.input-width button').removeClass('btn-primary');
+					$(this).addClass('btn-primary');
+					
+					var get_input = $('#'+current_id).find('.input_container');
+					get_input.removeClass('full_width');
+					get_input.removeClass('col-sm-1');
+					get_input.removeClass('col-sm-2');
+					get_input.removeClass('col-sm-3');
+					get_input.removeClass('col-sm-4');
+					get_input.removeClass('col-sm-5');
+					get_input.removeClass('col-sm-6');
+					get_input.removeClass('col-sm-7');
+					get_input.removeClass('col-sm-8');
+					get_input.removeClass('col-sm-9');
+					get_input.removeClass('col-sm-10');
+					get_input.removeClass('col-sm-11');
+					get_input.removeClass('col-sm-12');
+					
+					get_input.addClass(jQuery(this).attr('data-col-width'))
+
+					}
+				);
+				
+		//COL-1 WIDTH
+			$('.col-1-width button').click(
+				function()
+					{
+					$('.col-1-width button').removeClass('btn-primary');
+					$(this).addClass('btn-primary');
+					
+					var get_input = $('#'+current_id).find('.row .grid_input_holder:eq(0)');
+					get_input.removeClass('col-sm-1');
+					get_input.removeClass('col-sm-2');
+					get_input.removeClass('col-sm-3');
+					get_input.removeClass('col-sm-4');
+					get_input.removeClass('col-sm-5');
+					get_input.removeClass('col-sm-6');
+					get_input.removeClass('col-sm-7');
+					get_input.removeClass('col-sm-8');
+					get_input.removeClass('col-sm-9');
+					get_input.removeClass('col-sm-10');
+					get_input.removeClass('col-sm-11');
+					get_input.removeClass('col-sm-12');
+					
+					get_input.addClass(jQuery(this).attr('data-col-width'))
+
+					}
+				);
+		//COL-2 WIDTH
+			$('.col-2-width button').click(
+				function()
+					{
+					$('.col-2-width button').removeClass('btn-primary');
+					$(this).addClass('btn-primary');
+					
+					var get_input = $('#'+current_id).find('.row .grid_input_holder:eq(1)');
+					get_input.removeClass('col-sm-1');
+					get_input.removeClass('col-sm-2');
+					get_input.removeClass('col-sm-3');
+					get_input.removeClass('col-sm-4');
+					get_input.removeClass('col-sm-5');
+					get_input.removeClass('col-sm-6');
+					get_input.removeClass('col-sm-7');
+					get_input.removeClass('col-sm-8');
+					get_input.removeClass('col-sm-9');
+					get_input.removeClass('col-sm-10');
+					get_input.removeClass('col-sm-11');
+					get_input.removeClass('col-sm-12');
+					
+					get_input.addClass(jQuery(this).attr('data-col-width'))
+
+					}
+				);
+		//COL-3 WIDTH
+			$('.col-3-width button').click(
+				function()
+					{
+					$('.col-3-width button').removeClass('btn-primary');
+					$(this).addClass('btn-primary');
+					
+					var get_input = $('#'+current_id).find('.row .grid_input_holder:eq(2)');
+					get_input.removeClass('col-sm-1');
+					get_input.removeClass('col-sm-2');
+					get_input.removeClass('col-sm-3');
+					get_input.removeClass('col-sm-4');
+					get_input.removeClass('col-sm-5');
+					get_input.removeClass('col-sm-6');
+					get_input.removeClass('col-sm-7');
+					get_input.removeClass('col-sm-8');
+					get_input.removeClass('col-sm-9');
+					get_input.removeClass('col-sm-10');
+					get_input.removeClass('col-sm-11');
+					get_input.removeClass('col-sm-12');
+					
+					get_input.addClass(jQuery(this).attr('data-col-width'))
+
+					}
+				);
+		
+		//COL-4 WIDTH
+			$('.col-4-width button').click(
+				function()
+					{
+					$('.col-4-width button').removeClass('btn-primary');
+					$(this).addClass('btn-primary');
+					
+					var get_input = $('#'+current_id).find('.row .grid_input_holder:eq(3)');
+					get_input.removeClass('col-sm-1');
+					get_input.removeClass('col-sm-2');
+					get_input.removeClass('col-sm-3');
+					get_input.removeClass('col-sm-4');
+					get_input.removeClass('col-sm-5');
+					get_input.removeClass('col-sm-6');
+					get_input.removeClass('col-sm-7');
+					get_input.removeClass('col-sm-8');
+					get_input.removeClass('col-sm-9');
+					get_input.removeClass('col-sm-10');
+					get_input.removeClass('col-sm-11');
+					get_input.removeClass('col-sm-12');
+					
+					get_input.addClass(jQuery(this).attr('data-col-width'))
+
+					}
+				);
+		//COL-5 WIDTH
+			$('.col-5-width button').click(
+				function()
+					{
+					$('.col-5-width button').removeClass('btn-primary');
+					$(this).addClass('btn-primary');
+					
+					var get_input = $('#'+current_id).find('.row .grid_input_holder:eq(4)');
+					get_input.removeClass('col-sm-1');
+					get_input.removeClass('col-sm-2');
+					get_input.removeClass('col-sm-3');
+					get_input.removeClass('col-sm-4');
+					get_input.removeClass('col-sm-5');
+					get_input.removeClass('col-sm-6');
+					get_input.removeClass('col-sm-7');
+					get_input.removeClass('col-sm-8');
+					get_input.removeClass('col-sm-9');
+					get_input.removeClass('col-sm-10');
+					get_input.removeClass('col-sm-11');
+					get_input.removeClass('col-sm-12');
+					
+					get_input.addClass(jQuery(this).attr('data-col-width'))
+
+					}
+				);
+		//COL-6 WIDTH
+			$('.col-6-width button').click(
+				function()
+					{
+					$('.col-6-width button').removeClass('btn-primary');
+					$(this).addClass('btn-primary');
+					
+					var get_input = $('#'+current_id).find('.row .grid_input_holder:eq(5)');
+					get_input.removeClass('col-sm-1');
+					get_input.removeClass('col-sm-2');
+					get_input.removeClass('col-sm-3');
+					get_input.removeClass('col-sm-4');
+					get_input.removeClass('col-sm-5');
+					get_input.removeClass('col-sm-6');
+					get_input.removeClass('col-sm-7');
+					get_input.removeClass('col-sm-8');
+					get_input.removeClass('col-sm-9');
+					get_input.removeClass('col-sm-10');
+					get_input.removeClass('col-sm-11');
+					get_input.removeClass('col-sm-12');
+					
+					get_input.addClass(jQuery(this).attr('data-col-width'))
+
 					}
 				);
 				
@@ -309,7 +897,7 @@ function()
 					$('.align-label button').removeClass('btn-primary');
 					$(this).addClass('btn-primary');
 					
-					var get_label = $('#'+current_id).find('label');
+					var get_label = $('#'+current_id).find('label').parent();
 					get_label.removeClass('align_left').removeClass('align_right').removeClass('align_center');
 					
 					if($(this).hasClass('left'))
@@ -328,35 +916,61 @@ function()
 					$(this).addClass('btn-primary');
 					
 					var get_label = $('#'+current_id).find('label');
-					get_label.removeClass('input-lg').removeClass('input-sm');
+					get_label.removeClass('text-lg').removeClass('text-sm');
 					
 					if($(this).hasClass('small'))
-						get_label.addClass('input-sm');
+						get_label.addClass('text-sm');
 					if($(this).hasClass('large'))
-						get_label.addClass('input-lg');
+						get_label.addClass('text-lg');
 					}
 				);
+			
+			$('.thumb-size button').click(
+				function()
+					{
+					$('.thumb-size button').removeClass('btn-primary');
+					$(this).addClass('btn-primary');
+					
+					var get_obj = $('#'+current_id);
+					get_obj.removeClass('thumb-xlg').removeClass('thumb-lg').removeClass('thumb-sm');
+					
+					if($(this).hasClass('small'))
+						get_obj.addClass('thumb-sm');
+					if($(this).hasClass('large'))
+						get_obj.addClass('thumb-lg');
+					if($(this).hasClass('xlarge'))
+						get_obj.addClass('thumb-xlg');
+					}
+				);
+			
 		//FONT
-			$('select[name="label-fonts"]').change( function(){
-				$(this).data('stylesFontDropdown').preview_font_change( $('#'+current_id).find('label') );
+			$('select[name="fonts"]').change( function(){
+				$(this).data('stylesFontDropdown').preview_font_change( $('#collapseFormsCanvas .nex-forms-container').find('div, label, span.sub-text, button') );
+				
 			});
 //SET RADIOS / CHECKS
 				var current_inputs = ''
-				if($('#'+current_id).hasClass('check-group'))
+				if($('#'+current_id).hasClass('check-group') || $('#'+current_id).hasClass('classic-check-group'))
 					{
-					$('#'+current_id).find('div#the-radios span.check-label').each(
+					$('#'+current_id).find('div span.check-label').each(
 						function()
 							{
-							current_inputs += $(this).text() +'\n';	
+							if($(this).text()!=$(this).parent().find('input').val())
+								current_inputs += $(this).parent().find('input').val()+'=='+$(this).text() +'\n';	
+							else
+								current_inputs += $(this).text() +'\n';	
 							}
 						);	
 					}
 				else
 					{
-					$('#'+current_id).find('div#the-radios span.radio-label').each(
+					$('#'+current_id).find('div span.radio-label').each(
 						function()
 							{
-							current_inputs += $(this).text() +'\n';	
+							if($(this).text()!=$(this).parent().find('input').val())
+								current_inputs += $(this).parent().find('input').val()+'=='+$(this).text() +'\n';	
+							else
+								current_inputs += $(this).text() +'\n';
 							}
 						);
 					}
@@ -371,16 +985,81 @@ function()
 									{
 									if(items[i]!='')
 										{
-										if($('#'+current_id).hasClass('check-group'))
-										    set_inputs += '<label class="checkbox-inline" for="'+ format_illegal_chars(items[i]) +'"  data-svg="demo-input-1"><span class="svg_ready"><input class="check the_input_element" type="checkbox" name="'+ format_illegal_chars($('#'+current_id).find('.the_label').text()) +'" id="'+format_illegal_chars(items[i])+'" value="'+items[i]+'"><span class="input-label check-label">'+items[i]+'</span></span></label>';
+										if($('#'+current_id).hasClass('check-group') || $('#'+current_id).hasClass('classic-check-group'))
+											{
+											if(strstr(items[i],'=='))
+												{
+												var split_option = items[i].split('==')
+												set_inputs += '<label class="checkbox-inline" for="'+ format_illegal_chars(items[i]) +'"  data-svg="demo-input-1"><span class="svg_ready"><input class="check the_input_element" type="checkbox" name="'+ format_illegal_chars($('#'+current_id).find('.the_label').text()) +'[]" id="'+format_illegal_chars(items[i])+'" value="'+split_option[0]+'"><span class="input-label check-label">'+split_option[1]+'</span></span></label>';
+												}
+											else
+										    	set_inputs += '<label class="checkbox-inline" for="'+ format_illegal_chars(items[i]) +'"  data-svg="demo-input-1"><span class="svg_ready"><input class="check the_input_element" type="checkbox" name="'+ format_illegal_chars($('#'+current_id).find('.the_label').text()) +'[]" id="'+format_illegal_chars(items[i])+'" value="'+items[i]+'"><span class="input-label check-label">'+items[i]+'</span></span></label>';
+											}
 										else
-											set_inputs += '<label class="radio-inline" for="'+ format_illegal_chars(items[i]) +'"  data-svg="demo-input-1"><span class="svg_ready"><input class="radio the_input_element" type="radio" name="'+ format_illegal_chars($('#'+current_id).find('.the_label').text()) +'[]" id="'+format_illegal_chars(items[i])+'" value="'+items[i]+'"><span class="input-label radio-label">'+items[i]+'</span></span></label>';
+											{
+											if(strstr(items[i],'=='))
+												{
+												var split_option = items[i].split('==')
+												set_inputs += '<label class="radio-inline" for="'+ format_illegal_chars(items[i]) +'"  data-svg="demo-input-1"><span class="svg_ready"><input class="radio the_input_element" type="radio" name="'+ format_illegal_chars($('#'+current_id).find('.the_label').text()) +'" id="'+format_illegal_chars(items[i])+'" value="'+split_option[0]+'"><span class="input-label radio-label">'+split_option[1]+'</span></span></label>';
+												}
+											else
+												set_inputs += '<label class="radio-inline" for="'+ format_illegal_chars(items[i]) +'"  data-svg="demo-input-1"><span class="svg_ready"><input class="radio the_input_element" type="radio" name="'+ format_illegal_chars($('#'+current_id).find('.the_label').text()) +'" id="'+format_illegal_chars(items[i])+'" value="'+items[i]+'"><span class="input-label radio-label">'+items[i]+'</span></span></label>';
+											}
+										}
+									}	
+								$('#'+current_id).find('div#the-radios .input-inner').html(set_inputs);
+								if(!$('#'+current_id).hasClass('classic-check-group') && !$('#'+current_id).hasClass('classic-radio-group'))
+									$('#'+current_id).find('div#the-radios input').nexchecks();
+							}
+						);	
+				
+				$('div#nex-forms-field-settings #set_image_selection').val(current_inputs)
+					$('div#nex-forms-field-settings #set_image_selection').live('change',
+						function()
+							{
+								var items = jQuery(this).val();
+								var set_inputs = '';
+								items = items.split('\n');
+								for (var i = 0; i < items.length; i++)
+									{
+									if(items[i]!='')
+										{
+										if($('#'+current_id).find('div#the-radios .input-inner label:eq('+ i +') img').attr('src'))
+											var the_image = '<img class="radio-image" src="' + $('#'+current_id).find('div#the-radios .input-inner label:eq('+ i +') img').attr('src') + '">';
+										else
+											var the_image = '';
+										if($('#'+current_id).hasClass('multi-image-select-group'))
+											{											
+											if(strstr(items[i],'=='))
+												{
+												var split_option = items[i].split('==')
+												set_inputs += '<label class="radio-inline" for="'+ format_illegal_chars(items[i]) +'"  data-svg="demo-input-1"><span class="svg_ready has-pretty-child"><input class="radio the_input_element" type="checkbox" name="'+ format_illegal_chars($('#'+current_id).find('.the_label').text()) +'[]" id="'+format_illegal_chars(items[i])+'" value="'+split_option[0]+'"><span class="input-label radio-label  img-thumbnail">'+split_option[0]+ the_image +'</span></span></label>';
+												}
+											else
+												{
+												set_inputs += '<label class="radio-inline" for="'+ format_illegal_chars(items[i]) +'"  data-svg="demo-input-1"><span class="svg_ready has-pretty-child"><input class="radio the_input_element" type="checkbox" name="'+ format_illegal_chars($('#'+current_id).find('.the_label').text()) +'[]" id="'+format_illegal_chars(items[i])+'" value="'+items[i]+'"><span class="input-label radio-label  img-thumbnail">'+items[i]+ the_image +'</span></span></label>';
+												}
+											}
+										else
+											{
+											if(strstr(items[i],'=='))
+												{
+												var split_option = items[i].split('==')
+												set_inputs += '<label class="radio-inline" for="'+ format_illegal_chars(items[i]) +'"  data-svg="demo-input-1"><span class="svg_ready has-pretty-child"><input class="radio the_input_element" type="radio" name="'+ format_illegal_chars($('#'+current_id).find('.the_label').text()) +'" id="'+format_illegal_chars(items[i])+'" value="'+split_option[0]+'"><span class="input-label radio-label  img-thumbnail">'+split_option[1]+the_image +'</span></span></label>';
+												}
+											else
+												{
+												set_inputs += '<label class="radio-inline" for="'+ format_illegal_chars(items[i]) +'"  data-svg="demo-input-1"><span class="svg_ready has-pretty-child"><input class="radio the_input_element" type="radio" name="'+ format_illegal_chars($('#'+current_id).find('.the_label').text()) +'" id="'+format_illegal_chars(items[i])+'" value="'+items[i]+'"><span class="input-label radio-label  img-thumbnail">'+items[i]+the_image +'</span></span></label>';
+												}
+											
+											}
 										}
 									}	
 								$('#'+current_id).find('div#the-radios .input-inner').html(set_inputs);
 								$('#'+current_id).find('div#the-radios input').nexchecks();
 							}
 						);	
+				
 /***************/			
 /* FILE */						
 						
@@ -403,6 +1082,17 @@ function()
 					}
 				);
 			
+			
+			$('div#nex-forms-field-settings #step_value').val($('#'+current_id).find('#slider').attr('data-step-value'))
+			$('div#nex-forms-field-settings #step_value').change(
+				function()
+					{
+					$('#'+current_id).find( "#slider" ).attr('data-step-value',$(this).val());
+					$('#'+current_id).find( "#slider" ).slider('option','step',parseInt($(this).val()))						
+					}
+				);
+			
+			
 			$('div#nex-forms-field-settings #maximum_value').val($('#'+current_id).find('#slider').attr('data-max-value'))
 			$('div#nex-forms-field-settings #maximum_value').change(
 				function()
@@ -420,20 +1110,19 @@ function()
 					$('#'+current_id).find( "#slider" ).slider('value',parseInt($(this).val()))				
 					}
 				);
-
-			$('.setting-slider .icon_set i').click(
+			$('.iconSet.set_slider_icon i').live('click',
 				function()
 					{
-					$('.icon_set i').removeClass('btn-primary');
+					$('#iconSet i').removeClass('btn-primary');
 					$('#'+current_id).find('#slider').attr('data-dragicon',$(this).attr('class'));
 					
 					$('#'+current_id).find('.ui-slider-handle span#icon').attr('class',$(this).attr('class'))
 					
-					$(this).closest('.input_holder').find('.current-icon').attr('class','current-icon '+$(this).attr('class'));
+					$('button.set_slider_icon').closest('.input_holder').find('.current-icon').attr('class','current-icon '+$(this).attr('class'));
 					$(this).addClass('btn-primary');
-					
 					}
 				);
+			
 			$('.dropdown-menu.selected-slider-handel-color li a').click(
 				function()
 					{
@@ -619,14 +1308,26 @@ function()
 					}
 				);	
 			
-			$('.setting-spinner .icon_set.down_icon i').click(
+			$('.iconSet.set_spinner_down_icon i').live('click',
 				function()
 					{
-					$('.icon_set.down_icon i').removeClass('btn-primary');
+					$('#iconSet i').removeClass('btn-primary');
 					$('#'+current_id).find('#spinner').attr('data-down-icon',$(this).attr('class'));
 					$('#'+current_id).find('.bootstrap-touchspin-down .icon').attr('class','icon ' + $(this).attr('class'));
 					
-					$(this).closest('.input_holder').find('.current-icon').attr('class','current-icon '+$(this).attr('class'));
+					$('button.set_spinner_down_icon').closest('.input_holder').find('.current-icon').attr('class','current-icon '+$(this).attr('class'));
+					$(this).addClass('btn-primary');
+					}
+				);
+			
+			$('.iconSet.set_spinner_up_icon i').live('click',
+				function()
+					{
+					$('#iconSet i').removeClass('btn-primary');
+					$('#'+current_id).find('#spinner').attr('data-up-icon',$(this).attr('class'));
+					$('#'+current_id).find('.bootstrap-touchspin-up .icon').attr('class','icon ' + $(this).attr('class'));
+					
+					$('button.set_spinner_up_icon').closest('.input_holder').find('.current-icon').attr('class','current-icon '+$(this).attr('class'));
 					$(this).addClass('btn-primary');
 					}
 				);
@@ -654,17 +1355,7 @@ function()
 					}
 				);	
 			
-			$('.setting-spinner .icon_set.up_icon i').click(
-				function()
-					{
-					$('.icon_set.up_icon  i').removeClass('btn-primary');
-					$('#'+current_id).find('#spinner').attr('data-up-icon',$(this).attr('class'));
-					$('#'+current_id).find('.bootstrap-touchspin-up .icon').attr('class','icon ' + $(this).attr('class'));
-					
-					$(this).closest('.input_holder').find('.current-icon').attr('class','current-icon '+$(this).attr('class'));
-					$(this).addClass('btn-primary');
-					}
-				);
+		
 			
 /***************/			
 /* TAGS */
@@ -688,18 +1379,20 @@ function()
 			}
 		);	
 	
-	$('.setting-tags .icon_set i').click(
+	$('.iconSet.set_tag_icon i').live('click',
 				function()
 					{
-					$('.setting-tags .icon_set i').removeClass('btn-primary');
+					$('#iconSet i').removeClass('btn-primary');
 					$('#'+current_id).find('#tags').attr('data-tag-icon',$(this).attr('class'));
 					
 					$('#'+current_id).find('.bootstrap-tagsinput #tag-icon').attr('class',$(this).attr('class'))
 					
-					$(this).closest('.input_holder').find('.current-icon').attr('class','current-icon '+$(this).attr('class'));
+					$('button.set_tag_icon').closest('.input_holder').find('.current-icon').attr('class','current-icon '+$(this).attr('class'));
 					$(this).addClass('btn-primary');
 					}
 				);
+	
+	
 /***************/			
 /* Auto complete */
 
@@ -708,7 +1401,18 @@ function()
 				function()
 					{
 						$('#'+current_id).find('.get_auto_complete_items').text($(this).val());
+						if($('#'+current_id).hasClass('md-select'))
+						{
+						//$('div.cd-dropdown').remove();
+						build_md_select($('#'+current_id).find('#cd-dropdown'))
+						}
+					else if($('#'+current_id).hasClass('classic-select') || $('#'+current_id).hasClass('classic-multi-select') || $('#'+current_id).hasClass('classic-multi-select'))
+						{
+						}
+					else
+						{
 						$('#'+current_id).find('select').selectpicker('refresh');
+						}
 						
 						var items = $(this).val();
 							//console.log(items);
@@ -727,9 +1431,26 @@ function()
 				$('#'+current_id).find('p.the_input_element').html($(this).val());
 				}
 			);
+		
+		$('div#nex-forms-field-settings #set_math_logic_equation').val($('#'+current_id).find('.the_input_element').attr('data-math-equation'))
+		$('div#nex-forms-field-settings #set_math_logic_equation').keyup(
+			function()
+				{
+				$('#'+current_id).find('.the_input_element').attr('data-math-equation',$(this).val());
+				$('#'+current_id).find('.the_input_element').attr('data-original-math-equation',$(this).val());
+				}
+			);
+		$('div#nex-forms-field-settings #set_math_logic_equation').blur(
+			function()
+				{
+				$('#'+current_id).find('.the_input_element').attr('data-math-equation',$(this).val());
+				$('#'+current_id).find('.the_input_element').attr('data-original-math-equation',$(this).val());
+				}
+			);
+		
 /***************/			
 /* HEADING */
-		$('div#nex-forms-field-settings #set_heading').val($('#'+current_id).find('.the_input_element').text())
+		$('div#nex-forms-field-settings #set_heading').val($('#'+current_id).find('.the_input_element').html())
 		$('div#nex-forms-field-settings #set_heading').keyup(
 			function()
 				{
@@ -764,6 +1485,84 @@ function()
 							get_obj.addClass('btn-sm');
 						if($(this).hasClass('large'))
 							get_obj.addClass('btn-lg');
+					}
+				);
+			
+			$('.show-panel-heading button').click(
+				function()
+					{
+					$('.show-panel-heading button').removeClass('btn-primary');
+					$(this).addClass('btn-primary');
+					
+					var get_obj = $('#'+current_id).find('.panel-heading');
+				
+						if($(this).hasClass('yes'))
+							get_obj.show();
+						if($(this).hasClass('no'))
+							get_obj.hide();
+					}
+				);	
+				
+			$('.panel-background-size button').click(
+				function()
+					{
+					$('.panel-background-size button').removeClass('btn-primary');
+					$(this).addClass('btn-primary');
+					
+					
+					if($('#'+current_id).hasClass('other-elements') && $('#'+current_id).hasClass('grid'))
+						var get_obj = $('#'+current_id).find('.panel-body');
+					else
+						var get_obj = $('#'+current_id).find('.the_input_element');
+						
+						if($(this).hasClass('auto'))
+							get_obj.css('background-size','auto');
+						if($(this).hasClass('cover'))
+							get_obj.css('background-size','cover');
+						if($(this).hasClass('contain'))
+							get_obj.css('background-size','contain');
+					}
+				);	
+			$('.panel-background-repeat button').click(
+				function()
+					{
+					$('.panel-background-repeat button').removeClass('btn-primary');
+					$(this).addClass('btn-primary');
+					
+					if($('#'+current_id).hasClass('other-elements') && $('#'+current_id).hasClass('grid'))
+						var get_obj = $('#'+current_id).find('.panel-body');
+					else
+						var get_obj = $('#'+current_id).find('.the_input_element');
+					
+						if($(this).hasClass('no-repeat'))
+							get_obj.css('background-repeat','no-repeat');
+						if($(this).hasClass('repeat'))
+							get_obj.css('background-repeat','repeat');
+						if($(this).hasClass('repeat-x'))
+							get_obj.css('background-repeat','repeat-x');
+						if($(this).hasClass('repeat-y'))
+							get_obj.css('background-repeat','repeat-y');	
+						
+					}
+				);	
+			$('.panel-background-position button').click(
+				function()
+					{
+					$('.panel-background-position button').removeClass('btn-primary');
+					$(this).addClass('btn-primary');
+					
+					if($('#'+current_id).hasClass('other-elements') && $('#'+current_id).hasClass('grid'))
+						var get_obj = $('#'+current_id).find('.panel-body');
+					else
+						var get_obj = $('#'+current_id).find('.the_input_element');
+					
+						if($(this).hasClass('right'))
+							get_obj.css('background-position','right');
+						if($(this).hasClass('left'))
+							get_obj.css('background-position','left');
+						if($(this).hasClass('center'))
+							get_obj.css('background-position','center');	
+						
 					}
 				);	
 /***************/			
@@ -954,6 +1753,28 @@ function()
 						}
 					}
 				);
+				
+				
+			
+			$('.input-field-alignment button').click(
+				function()
+					{
+					$('.input-field-alignment  button').removeClass('btn-primary');
+					$(this).addClass('btn-primary');
+					
+					var get_obj = $('#'+current_id).find('.input_container');
+					get_obj.removeClass('align_left').removeClass('align_right').removeClass('align_center');
+					var set_class =  ''
+					if($(this).hasClass('left'))
+						set_class = 'align_left';
+					if($(this).hasClass('right'))
+						set_class = 'align_right';
+					if($(this).hasClass('center'))
+						set_class = 'align_center';
+					
+					get_obj.addClass(set_class);
+					}
+				);
 		
 		//CORNERS
 		$('.input-corners button').click(
@@ -1047,16 +1868,26 @@ function()
 				function()
 					{
 					if($(this).val()!='0')
-					current_options += $(this).text() +'\n';	
+						{
+						if($(this).text()!=$(this).attr('value'))
+							current_options += $(this).attr('value')+'=='+$(this).text() +'\n';
+						else
+							current_options += $(this).text() +'\n';
+						
+						}
+							
 					}
 				);
-			$('div#nex-forms-field-settings #set_default_value').val($('#'+current_id).find('#select option:selected').text())
+			$('div#nex-forms-field-settings #set_default_value').val(($('#'+current_id).find('select option:selected').text()) ? $('#'+current_id).find('select option:selected').text() : 'Choose Option')
 			$('div#nex-forms-field-settings #set_default_value').change(
 				function()
 					{
-					$(this).closest('#isotope_container').find('.prepopulate_target textarea').trigger('change');
+					//$(this).closest('#categorize_it_container').find('.prepopulate_target textarea').trigger('change');
 					}
 				);
+				
+			
+			
 			$('div#nex-forms-field-settings #set_options').val(current_options)
 			$('div#nex-forms-field-settings #set_options').live('change',
 				function()
@@ -1069,18 +1900,40 @@ function()
 							{
 							if(items[i]!='')
 								{
-								set_options += '<option value="'+ items[i] +'">'+ items[i] +'</option>';
+								if(strstr(items[i],'=='))
+									{
+									var split_option = items[i].split('==')
+									set_options += '<option value="'+ split_option[0] +'">'+ split_option[1] +'</option>';
+									}
+								else
+									set_options += '<option value="'+ items[i] +'">'+ items[i] +'</option>';
 								}
 							}	
-						$('#'+current_id).find('select').html(set_options);
+							
+					$('#'+current_id).find('select').html(set_options);
+					
+					if($('#'+current_id).hasClass('md-select'))
+						{
+						//$('div.cd-dropdown').remove();
+						build_md_select($('#'+current_id).find('#cd-dropdown'))
+						}
+					else if($('#'+current_id).hasClass('classic-select') || $('#'+current_id).hasClass('classic-multi-select'))
+						{
+						//$('div.cd-dropdown').remove();
+						}
+					else
+						{
 						$('#'+current_id).find('select').selectpicker('refresh');
+						}
+						
+						
 					}
 				);
 		
 		$('ul.prepopulate li a').live('click',
 			function()
 				{
-				var container = $(this).closest('#isotope_container').find('.prepopulate_target textarea');
+				var container = $(this).closest('#categorize_it_container').find('.prepopulate_target textarea');
 				container.val($('div.preload.'+ $(this).attr('class') ).text())
 				setTimeout(
 					function()
@@ -1175,6 +2028,25 @@ function()
 						get_label.addClass('input-lg');
 					}
 				);
+				
+		//BUTTON WIDTH
+			$('.button-width button').click(
+				function()
+					{
+					$('.button-width button').removeClass('btn-primary');
+					$(this).addClass('btn-primary');
+					
+					var get_button = $('#'+current_id).find('.the_input_element');
+					
+					if($(this).hasClass('normal'))
+						get_button.removeClass('full_width');
+					if($(this).hasClass('full_button'))
+						get_button.addClass('full_width');
+					}
+				);
+		
+				
+		
 		//FONT
 			$('select[name="help-text-fonts"]').change( function(){
 				$(this).data('stylesFontDropdown').preview_font_change( $('#'+current_id).find('.help-block') );
@@ -1258,9 +2130,9 @@ function()
 					get_label.removeClass('input-lg').removeClass('input-sm');
 					
 					if($(this).hasClass('small'))
-						get_label.addClass('input-sm');
+						get_label.addClass('text-sm');
 					if($(this).hasClass('large'))
-						get_label.addClass('input-lg');
+						get_label.addClass('text-lg');
 					}
 				);
 		//FONT
@@ -1269,7 +2141,38 @@ function()
 			});	
 			
 /**********************/					
-/*** RADIO BUTTONS ****/		
+/*** RADIO BUTTONS ****/
+		
+		$('.iconSet.set_radio i').live('click',
+				function()
+					{
+					$('#iconSet i').removeClass('btn-primary');
+					$('#'+current_id).find('.prefix span').attr('class',$(this).attr('class'));
+					
+					$('button.set_radio_icon').closest('.input_holder').find('.current-icon').attr('class','current-icon '+$(this).attr('class'));
+					
+					
+					var get_class = $(this).attr('class') + ' fa ' + $('.dropdown-menu.selected-radio-color li.selected a').attr('class') ;
+					
+					
+					var radio_group = $('#'+current_id).find('.the-radios');
+					
+					$('#'+current_id).find('input').each(function(index, el){
+						if($(el).prop('checked')==true)
+						 $(el).parent().find('a:first').attr('class','checked ui-state-active fa '+ get_class)
+						else
+						 $(el).parent().find('a:first').attr('class','fa ui-state-default')
+						
+						$(el).parent().find('a').addClass('fa ui-state-default')
+						}
+					);
+					radio_group.attr('data-checked-class',get_class);
+					
+					$(this).addClass('btn-primary');
+					
+					}
+				);
+				
 		$('.setting-radio .icon_set i').click(
 				function()
 					{
@@ -1545,6 +2448,253 @@ function()
 	setTimeout(
 		function()
 			{
+				
+//OVERALL SETTINGS 
+
+//INPUT
+
+			$('.overall-align-input button').click(
+				function()
+					{
+					$('.overall-align-input button').removeClass('btn-primary');
+					$(this).addClass('btn-primary');
+					
+					var get_obj = $('#collapseFormsCanvas .nex-forms-container .the_input_element');
+					get_obj.removeClass('align_left').removeClass('align_right').removeClass('align_center').removeClass('align_justify');
+					var set_class =  ''
+					if($(this).hasClass('left'))
+						set_class = 'align_left';
+					if($(this).hasClass('right'))
+						set_class = 'align_right';
+					if($(this).hasClass('center'))
+						set_class = 'align_center';
+					if($(this).hasClass('justify'))
+						set_class = 'align_justify';
+					
+					get_obj.addClass(set_class);						
+					$('#collapseFormsCanvas .nex-forms-container').find('select').attr('data-text-alignment',set_class);
+					}
+				);
+				
+			$('.overall-input-corners button').click(
+				function()
+					{
+					$('.overall-input-corners button').removeClass('btn-primary');
+					$(this).addClass('btn-primary');
+					
+					var get_obj = $('#collapseFormsCanvas .nex-forms-container .form_field');
+					var set_class ='';
+					get_obj.removeClass('square').removeClass('full_rounded');
+					if($(this).hasClass('square'))
+						set_class = 'square';
+					if($(this).hasClass('full_rounded'))
+						set_class = 'full_rounded';
+					
+					get_obj.addClass(set_class);
+					}
+				);
+//Input Color
+			jQuery('#overall-input-color').bscolorpicker().on('changeColor', function(ev){
+			 $('#collapseFormsCanvas .nex-forms-container .the_input_element').css('color',ev.color.toHex());
+			 $('#collapseFormsCanvas .nex-forms-container').find('select').attr('data-text-color',ev.color.toHex());
+			  $('#collapseFormsCanvas .nex-forms-container').find('.selectpicker a').css('color',ev.color.toHex());			 
+			});
+			  
+		//Input BG Color
+			jQuery('#overall-input-bg-color').bscolorpicker().on('changeColor', function(ev){
+			  $('#collapseFormsCanvas .nex-forms-container .the_input_element').css('background',ev.color.toHex());
+			  
+				 $('#collapseFormsCanvas .nex-forms-container').find('select').attr('data-background-color',ev.color.toHex());
+			});
+			
+		//Input border Color
+			jQuery('#overall-input-border-color').bscolorpicker().on('changeColor', function(ev){
+			 $('#collapseFormsCanvas .nex-forms-container .the_input_element').css('border-color',ev.color.toHex());
+			 $('#collapseFormsCanvas .nex-forms-container').find('select').attr('data-border-color',ev.color.toHex());
+			});
+			
+		//Input border on focus Color
+			jQuery('#overall-input-onfocus-color').bscolorpicker().on('changeColor', function(ev){
+			$('#collapseFormsCanvas .nex-forms-container .the_input_element').attr('data-onfocus-color',ev.color.toHex());
+			});
+
+
+//LABEL
+
+		
+
+		
+
+		$('.overall-show-label button').click(
+				function()
+					{	
+					$('.overall-show-label button').removeClass('btn-primary');
+					$(this).addClass('btn-primary');
+					if($(this).hasClass('top'))
+						{
+						$('#collapseFormsCanvas .nex-forms-container .label_container').show();
+						$('#collapseFormsCanvas .nex-forms-container .label_container').addClass('full_width');
+						$('#collapseFormsCanvas .nex-forms-container .input_container').addClass('full_width');
+						$('#collapseFormsCanvas .nex-forms-container .input_container').removeClass('col-sm-10').addClass('col-sm-12');
+						}
+					if($(this).hasClass('left'))
+						{
+						$('#collapseFormsCanvas .nex-forms-container .label_container').show();
+						$('#collapseFormsCanvas .nex-forms-container .label_container').removeClass('full_width');
+						$('#collapseFormsCanvas .nex-forms-container .input_container').removeClass('full_width');
+						$('#collapseFormsCanvas .nex-forms-container .input_container').removeClass('col-sm-12').addClass('col-sm-10');
+						}
+						
+					if($(this).hasClass('none'))
+						{
+						$('#collapseFormsCanvas .nex-forms-container .input_container').addClass('full_width');
+						$('#collapseFormsCanvas .nex-forms-container .label_container').hide();
+						}
+					if($(this).hasClass('inside'))
+						{
+						
+						$('#collapseFormsCanvas .nex-forms-container .form_field').each(
+							function()
+								{
+								if(!$(this).hasClass('star-rating') 
+								&& !$(this).hasClass('slider') 
+								&& !$(this).hasClass('radio-group')
+								&& !$(this).hasClass('check-group')
+								&& !$(this).hasClass('classic-radio-group')
+								&& !$(this).hasClass('classic-check-group')
+								&& !$(this).hasClass('single-image-select-group')
+								&& !$(this).hasClass('multi-image-select-group')
+								&& !$(this).hasClass('tags'))
+									{
+									$(this).find('.input_container').addClass('full_width');
+									$(this).find('.label_container').hide();
+									$(this).find('.the_input_element').attr('placeholder',$(this).closest('.form_field').find('.the_label').text())	
+									}
+								else
+									{
+									$(this).find('.input_container').addClass('full_width');
+									$(this).find('.label_container').show();
+									}
+								
+								}							
+							);
+						}
+					}
+				);
+		
+		$('.overall-align-label button').click(
+				function()
+					{
+					$('.overall-align-label button').removeClass('btn-primary');
+					$(this).addClass('btn-primary');
+					
+					$('#collapseFormsCanvas .nex-forms-container .label_container').removeClass('align_left').removeClass('align_right').removeClass('align_center');
+					
+					if($(this).hasClass('left'))
+						$('#collapseFormsCanvas .nex-forms-container .label_container').addClass('align_left');
+					if($(this).hasClass('right'))
+						$('#collapseFormsCanvas .nex-forms-container .label_container').addClass('align_right');
+					if($(this).hasClass('center'))
+						$('#collapseFormsCanvas .nex-forms-container .label_container').addClass('align_center');
+					}
+				);
+		$('.show-sub-label button').click(
+				function()
+					{
+					$('.show-sub-label button').removeClass('btn-primary');
+					$(this).addClass('btn-primary');
+					if($(this).hasClass('hide_subs'))
+						$('#collapseFormsCanvas .nex-forms-container .sub-text').hide();
+					if($(this).hasClass('show_subs'))
+						$('#collapseFormsCanvas .nex-forms-container .sub-text').show();
+					}
+				);
+		$('.overall-label-width button').click(
+				function()
+					{	
+				
+					$('.overall-label-width button').removeClass('btn-primary');
+					$(this).addClass('btn-primary');
+									
+					var get_label = $('#collapseFormsCanvas .nex-forms-container .label_container');;
+					get_label.removeClass('col-sm-1');
+					get_label.removeClass('col-sm-2');
+					get_label.removeClass('col-sm-3');
+					get_label.removeClass('col-sm-4');
+					get_label.removeClass('col-sm-5');
+					get_label.removeClass('col-sm-6');
+					get_label.removeClass('col-sm-7');
+					get_label.removeClass('col-sm-8');
+					get_label.removeClass('col-sm-9');
+					get_label.removeClass('col-sm-10');
+					get_label.removeClass('col-sm-11');
+					get_label.removeClass('col-sm-12');
+					
+					get_label.addClass(jQuery(this).attr('data-col-width'))
+
+					}
+				);
+			$('.overall-label-size button').click(
+				function()
+					{
+					$('.overall-label-size button').removeClass('btn-primary');
+					$(this).addClass('btn-primary');
+					
+					var get_label = $('#collapseFormsCanvas .nex-forms-container label');
+					get_label.removeClass('text-lg').removeClass('text-sm');
+					
+					if($(this).hasClass('small'))
+						get_label.addClass('text-sm');
+					if($(this).hasClass('large'))
+						get_label.addClass('text-lg');
+					}
+				);
+			
+				
+			//INPUT WIDTH
+			$('.overall-input-width button').click(
+				function()
+					{	
+					
+					$('.overall-input-width button').removeClass('btn-primary');
+					$(this).addClass('btn-primary');
+									
+					var get_input = $('#collapseFormsCanvas .nex-forms-container .input_container');
+					get_input.removeClass('full_width');
+					get_input.removeClass('col-sm-1');
+					get_input.removeClass('col-sm-2');
+					get_input.removeClass('col-sm-3');
+					get_input.removeClass('col-sm-4');
+					get_input.removeClass('col-sm-5');
+					get_input.removeClass('col-sm-6');
+					get_input.removeClass('col-sm-7');
+					get_input.removeClass('col-sm-8');
+					get_input.removeClass('col-sm-9');
+					get_input.removeClass('col-sm-10');
+					get_input.removeClass('col-sm-11');
+					get_input.removeClass('col-sm-12');
+					
+					get_input.addClass(jQuery(this).attr('data-col-width'))
+
+					}
+				);
+		
+		
+		
+			
+		
+		jQuery('#overall-label-color').bscolorpicker().on('changeColor', function(ev){
+			 $('#collapseFormsCanvas .nex-forms-container label span.the_label').css('color',ev.color.toHex());
+			 $('#collapseFormsCanvas .nex-forms-container .is_required').css('color',ev.color.toHex());
+			});
+		
+		jQuery('#overall-sub-label-color').bscolorpicker().on('changeColor', function(ev){
+			 $('#collapseFormsCanvas .nex-forms-container .sub-text').css('color',ev.color.toHex());
+			});
+		
+			
+///////END OVERALL SETTINGS ///////////////////////				
+				
 			jQuery('.nex-forms-field-settings input').focus(function() { jQuery(this).select() });
 
 		//Label
@@ -1691,17 +2841,35 @@ function()
 	$('span.copy-field').live('click',
 		function()
 			{
-			jQuery(this).removeClass('btn-info').addClass('btn-success');
+			jQuery(this).removeClass('btn-default').addClass('btn-success');
 			var duplication = $('#'+current_id).clone();
 			$(duplication).insertAfter($('#'+current_id));
 			duplication.attr('id','_' + Math.round(Math.random()*99999));
-			jQuery(duplication).find('label').trigger('click');
+			duplication.find('.form_field').each(
+				function()
+					{
+					$(this).attr('id','_' + Math.round(Math.random()*99999));
+					}
+				);
+			jQuery(duplication).find('.edit').trigger('click');
+			
 			if(duplication.hasClass('select') || duplication.hasClass('multi-select'))
 				{
 				duplication.find('.bootstrap-select').remove();
 				duplication.find('select').selectpicker('refresh');
 				}
-			setTimeout(function(){ $('span.copy-field').removeClass('btn-success').addClass('btn-info'); },1000);
+			
+			if(duplication.hasClass('md-select'))
+				{
+				//duplication.find('div.cd-dropdown').remove();
+				build_md_select(duplication.find('#cd-dropdown'))
+				}
+			
+		
+			
+			
+			setTimeout(function(){ $('span.copy-field').removeClass('btn-success').addClass('btn-default'); },1000);
+			setTimeout(function(){ jQuery('.col2 .admin-panel .panel-heading .btn.glyphicon-hand-down').trigger('click');},300 );
 			}
 		);
 	
@@ -1714,6 +2882,7 @@ function()
 			duplication.addClass('field');
 			duplication.removeClass('dropped');
 			duplication.removeClass('editing-field');
+			duplication.removeClass('edit-field')
 			duplication.find('div.draggable_object').attr('style','');
 			duplication.find('div.form_object').hide();
 			if(duplication.hasClass('select') || duplication.hasClass('multi-select'))
@@ -1798,10 +2967,10 @@ function()
 				field_heading.html('&nbsp;&nbsp;Other Elements')
 			}
 		);
-	//ISOTOP
-	 var $container = jQuery('#isotope_container');
+	//CATEGOTRIZE IT
+	 var $container = jQuery('#categorize_it_container');
 
-	  $container.isotope({
+	  $container.categorize_it({
 		itemSelector : '.col-sm-6, .col-sm-12'
 	  });
 		var $optionSets = jQuery('#options .option-set'),
@@ -1824,57 +2993,76 @@ function()
 		else
 			jQuery('#'+current_id).find('.error_message').popover('hide');	
 				if($this.hasClass('logic')){}
+				
+				if($this.hasClass('the-label'))
+					{
+					$this.attr('data-option-value','.settings-label');
+					if(jQuery('#'+current_id).hasClass('md-text'))
+						$this.attr('data-option-value','.setting-md-label')
+					}
+			
 				if($this.hasClass('input-element'))
 					{
 					$this.attr('data-option-value','.settings-input');
 					
 					if(jQuery('#'+current_id).hasClass('text'))
-						$this.attr('data-option-value','.settings-input, .setting-text');
+						$this.attr('data-option-value','.settings-input, .setting-text, .setting-bg-image, .settings-all');
 					
 					if(jQuery('#'+current_id).hasClass('textarea'))
-						$this.attr('data-option-value','.settings-input, .setting-textarea')
+						$this.attr('data-option-value','.settings-input, .setting-textarea, .setting-bg-image, .settings-all')
 					
-					if(jQuery('#'+current_id).hasClass('select'))
-						$this.attr('data-option-value','.settings-input, .setting-select')
+					if(jQuery('#'+current_id).hasClass('select') || jQuery('#'+current_id).hasClass('classic-select'))
+						$this.attr('data-option-value','.settings-input, .setting-select, .settings-all')
+					
+					if(jQuery('#'+current_id).hasClass('md-select'))
+						$this.attr('data-option-value','.setting-select, .settings-all, .setting-md-select')
 						
-					if(jQuery('#'+current_id).hasClass('multi-select'))
-						$this.attr('data-option-value','.settings-input, .setting-multi-select')
+					if(jQuery('#'+current_id).hasClass('multi-select') || jQuery('#'+current_id).hasClass('classic-multi-select'))
+						$this.attr('data-option-value','.settings-input, .setting-multi-select, .settings-all')
 						
 					if(jQuery('#'+current_id).hasClass('radio-group') || jQuery('#'+current_id).hasClass('check-group'))
-						$this.attr('data-option-value','.setting-radio')
+						$this.attr('data-option-value','.setting-radio, .settings-all')
+					if(jQuery('#'+current_id).hasClass('classic-check-group') || jQuery('#'+current_id).hasClass('classic-radio-group'))
+						$this.attr('data-option-value','.setting-classic-radio, .settings-all')
+						
+					if(jQuery('#'+current_id).hasClass('single-image-select-group') || jQuery('#'+current_id).hasClass('multi-image-select-group'))
+						$this.attr('data-option-value','.setting-image-select, .settings-all')
 						
 					if(jQuery('#'+current_id).hasClass('slider'))
-						$this.attr('data-option-value','.setting-slider')
+						$this.attr('data-option-value','.setting-slider, .settings-all')
 						
 					if(jQuery('#'+current_id).hasClass('star-rating'))
-						$this.attr('data-option-value','.setting-star')
+						$this.attr('data-option-value','.setting-star, .settings-all')
 					
 					if(jQuery('#'+current_id).hasClass('touch_spinner'))
-						$this.attr('data-option-value','.setting-spinner, .settings-input')
+						$this.attr('data-option-value','.setting-spinner, .settings-input, .setting-bg-image, .settings-all')
 						
 					if(jQuery('#'+current_id).hasClass('tags'))
 						$this.attr('data-option-value','.setting-tags')
 						
 					if(jQuery('#'+current_id).hasClass('autocomplete'))
-						$this.attr('data-option-value','.setting-autocomplete, .settings-input')
+						$this.attr('data-option-value','.setting-autocomplete, .settings-input, .setting-bg-image, .settings-all')
 					
-					if(jQuery('#'+current_id).hasClass('submit-button'))
-						$this.attr('data-option-value','.setting-button')
+					if(jQuery('#'+current_id).hasClass('submit-button') || jQuery('#'+current_id).hasClass('classic-submit-button'))
+						$this.attr('data-option-value','.setting-button, .setting-bg-image')
+					
+					if(jQuery('#'+current_id).hasClass('other-elements') && jQuery('#'+current_id).hasClass('grid'))
+						$this.attr('data-option-value','.setting-bg-image')
 						
 					if(jQuery('#'+current_id).hasClass('date') || jQuery('#'+current_id).hasClass('datetime') || jQuery('#'+current_id).hasClass('time'))
-						$this.attr('data-option-value','.setting-prefix, .settings-input')
+						$this.attr('data-option-value','.setting-prefix, .settings-input, .settings-date-time, .setting-bg-image, .settings-all')
 					
 					if(jQuery('#'+current_id).hasClass('upload-single'))
-						$this.attr('data-option-value','.setting-postfix, .settings-input, .setting-text');
+						$this.attr('data-option-value','.setting-postfix, .settings-input, .setting-text, .settings-all');
 					
 					if(jQuery('#'+current_id).hasClass('custom-prefix'))
-						$this.attr('data-option-value','.setting-prefix, .settings-input, .setting-text')
+						$this.attr('data-option-value','.setting-prefix, .settings-input, .setting-text, .setting-bg-image, .settings-all')
 					
 					if(jQuery('#'+current_id).hasClass('custom-postfix'))
-						$this.attr('data-option-value','.setting-postfix, .settings-input, .setting-text')
+						$this.attr('data-option-value','.setting-postfix, .settings-input, .setting-text, .setting-bg-image, .settings-all')
 						
 					if(jQuery('#'+current_id).hasClass('custom-pre-postfix'))
-						$this.attr('data-option-value','.setting-prefix, .setting-postfix, .settings-input, .setting-text')
+						$this.attr('data-option-value','.setting-prefix, .setting-postfix, .settings-input, .setting-text, .setting-bg-image, .settings-all')
 						
 					if(jQuery('#'+current_id).hasClass('paragraph'))
 						$this.attr('data-option-value','.setting-paragraph')
@@ -1884,7 +3072,25 @@ function()
 						
 					if(jQuery('#'+current_id).hasClass('grid'))
 						$this.attr('data-option-value','.setting-panel')
+						
+					if(jQuery('#'+current_id).hasClass('md-text'))
+						$this.attr('data-option-value','.setting-md-input, .settings-all')
 					
+					if(jQuery('#'+current_id).hasClass('grid-system'))
+						{	
+						if(jQuery('#'+current_id).hasClass('grid-system-1'))
+							$this.attr('data-option-value','.settings-col-1')					
+						else if(jQuery('#'+current_id).hasClass('grid-system-2'))
+							$this.attr('data-option-value','.settings-col-1, .settings-col-2')						
+						else if(jQuery('#'+current_id).hasClass('grid-system-3'))
+							$this.attr('data-option-value','.settings-col-1, .settings-col-2, .settings-col-3')					
+						else if(jQuery('#'+current_id).hasClass('grid-system-4'))
+							$this.attr('data-option-value','.settings-col-1, .settings-col-2, .settings-col-3, .settings-col-4')
+						else if(jQuery('#'+current_id).hasClass('grid-system-6'))
+							$this.attr('data-option-value','.settings-col-1, .settings-col-2, .settings-col-3, .settings-col-4, .settings-col-5, .settings-col-6')
+						else
+							$this.attr('data-option-value','.setting-grid-system')
+						}
 					if(jQuery('#'+current_id).hasClass('divider'))
 						$this.attr('data-option-value','.setting-divider')
 					
@@ -1892,33 +3098,33 @@ function()
 				if($this.hasClass('validation'))
 					{
 					$this.attr('data-option-value','.settings-validation');
-					if(jQuery('#'+current_id).hasClass('text') || jQuery('#'+current_id).hasClass('custom-prefix') || jQuery('#'+current_id).hasClass('custom-postfix') || jQuery('#'+current_id).hasClass('custom-pre-postfix'))
+					if(jQuery('#'+current_id).hasClass('text') || jQuery('#'+current_id).hasClass('classic-text') || jQuery('#'+current_id).hasClass('custom-prefix') || jQuery('#'+current_id).hasClass('custom-postfix') || jQuery('#'+current_id).hasClass('custom-pre-postfix'))
 						$this.attr('data-option-value','.settings-validation, .setting-validation-text');
 					
-					if(jQuery('#'+current_id).hasClass('textarea'))
+					if(jQuery('#'+current_id).hasClass('textarea') || jQuery('#'+current_id).hasClass('classic-radio'))
 						$this.attr('data-option-value','.settings-validation, .setting-validation-textarea')
 					
 					if(jQuery('#'+current_id).hasClass('upload-image') || jQuery('#'+current_id).hasClass('upload-single'))
-						$this.attr('data-option-value','.settings-validation, .setting-validation-file-input')	
+						$this.attr('data-option-value','.settings-validation, .setting-validation-file-input')
+					
+					if(jQuery('#'+current_id).hasClass('md-text'))
+						$this.attr('data-option-value','.settings-validation, .settings-validation-md-text')	
 						
 					}
 				
 				//jQuery('.editing-field').attr('style','');
 				jQuery('.editing-field').removeClass('editing-field')
-			
+					/*
+					jQuery('#'+current_id).addClass('editing-field');
+					
 						if($this.hasClass('the-label'))
 							jQuery('#'+current_id).find('label').addClass('editing-field')
 						if($this.hasClass('input-element'))
 							jQuery('#'+current_id).find('.the_input_element').addClass('editing-field')
 						if($this.hasClass('help-text'))
 							jQuery('#'+current_id).find('.help-block').addClass('editing-field')
-
-						jQuery('.editing-field').animate(
-								{
-								outlineOffset:0,
-								outlineWidth:1
-								},300
-							);	
+*/
+						
 				
 							var $optionSet = $this.parents('.option-set');
 							$optionSet.find('.selected').removeClass('selected');
@@ -1936,45 +3142,39 @@ function()
 							  changeLayoutMode( $this, options )
 							} else {
 							  // otherwise, apply new options
-							  $container.isotope( options );
+							  $container.categorize_it( options );
 							}
 							
 							return false;
 						
 			  });
 
-	$('div#nex-forms-field-settings  span.close ').live('click',
+	$('div#nex-forms-field-settings  span.close, div#nex-forms-field-settings .delete-field ').live('click',
 		function()
 			{
-			//$('.field_settings').show();
-			var field_settings_width = $('div#nex-forms-field-settings').width()+10;
-			
-			
-			$('.editing-field').removeClass('editing-field');
-			
-			$('div#nex-forms-field-settings').animate(
-					{
-					right:-field_settings_width
-					},500
-				);
-			$('div#nex-forms-field-settings').removeClass('open')	
-			$('#collapseFormsCanvas').animate(
-					{
-					width:current_formcontainer_width
-					},500
-				);
+			$('.form_field').removeClass('edit-field')
+			$('div#nex-forms-field-settings').removeClass('opened')	
 			}
 			
 		);
 	});
 	
 	
-	$('select[name="current_fields"]').live('dblclick',
+	$('#autoRespond select[name="current_fields"]').live('dblclick',
 		function(){
 			jQuery('#nex_autoresponder_confirmation_mail_body').trigger('focus');
 			insertAtCaret('nex_autoresponder_confirmation_mail_body', jQuery(this).val());
 		}
 	);
+	
+	$('#nex-forms-field-settings select[name="current_fields"]').live('dblclick',
+		function(){
+			jQuery('#set_math_logic_equation').trigger('focus');
+			insertAtCaret('set_math_logic_equation', jQuery(this).val());
+		}
+	);
+	
+	
 	
 })(jQuery);
 
@@ -2018,15 +3218,28 @@ function format_font_name(font){
 	font = font.replace('"','');	
 	return font;	
 }
+
+function populate_button_settings(obj){
+	
+	
+	jQuery('.button-width button').removeClass('btn-primary');
+		if(obj.hasClass('full_width'))
+			jQuery('.button-width  button.full_button').addClass('btn-primary');	
+		else
+			jQuery('.button-width button.normal').addClass('btn-primary');
+	
+}
+
+
 function populate_label_settings(obj){
 
 		//Alingment
 		jQuery('.align-label button').removeClass('btn-primary');
-		if(obj.hasClass('align_left'))
+		if(obj.parent().hasClass('align_left'))
 			jQuery('.align-label button.left').addClass('btn-primary');	
-		else if(obj.hasClass('align_right'))
+		else if(obj.parent().hasClass('align_right'))
 			jQuery('.align-label button.right').addClass('btn-primary');
-		else if(obj.hasClass('align_center'))
+		else if(obj.parent().hasClass('align_center'))
 			jQuery('.align-label button.center').addClass('btn-primary');
 		else
 			jQuery('.align-label button.left').addClass('btn-primary');
@@ -2058,7 +3271,7 @@ function populate_label_settings(obj){
 		//Position
 		jQuery('.show-label button').removeClass('btn-primary');	
 		if(obj.parent().attr('style')=='display: none;')
-			jQuery('.show-label button.none').addClass('btn-primary');
+			jQuery('.show-label button.inside').addClass('btn-primary');
 		else if(obj.parent().hasClass('col-sm-12'))
 			jQuery('.show-label button.top').addClass('btn-primary');
 		else
@@ -2066,9 +3279,9 @@ function populate_label_settings(obj){
 		
 		//Size	
 		jQuery('.label-size button').removeClass('btn-primary');
-		if(obj.hasClass('input-lg'))
+		if(obj.hasClass('text-lg'))
 			jQuery('.label-size button.large').addClass('btn-primary');
-		else if(obj.hasClass('input-sm'))
+		else if(obj.hasClass('text-sm'))
 			jQuery('.label-size button.small ').addClass('btn-primary');
 		else
 			jQuery('.label-size button.normal').addClass('btn-primary');
@@ -2222,6 +3435,55 @@ function populate_panel_settings(obj){
 	//jQuery('#panel_border_color').bscolorpicker('setValue',colorToHex(obj.css('border-top-color')))
 	
 	//Bold
+	
+	
+	//jQuery('.panel-head-bold').removeClass('label-primary');
+	
+	jQuery('.show-panel-heading button').removeClass('btn-primary');
+	
+	if(obj.find('.panel-heading').css('display')=='none')
+		jQuery('.show-panel-heading button.no').addClass('btn-primary');
+	else
+		jQuery('.show-panel-heading button.yes').addClass('btn-primary');
+	
+	
+	jQuery('.panel-background-size button').removeClass('btn-primary');
+	
+	if(obj.find('.panel-body').css('background-size')=='cover')
+		jQuery('.panel-background-size button.cover').addClass('btn-primary');
+	else if(obj.find('.panel-body').css('background-size')=='contain')
+		jQuery('.panel-background-size button.contain').addClass('btn-primary');
+	else
+		jQuery('.panel-background-size button.auto').addClass('btn-primary');
+		
+		
+	jQuery('.panel-background-position button').removeClass('btn-primary');
+	if(obj.find('.panel-body').css('background-position')=='right')
+		jQuery('.panel-background-position button.right').addClass('btn-primary');
+	else if(obj.find('.panel-body').css('background-position')=='left')
+		jQuery('.panel-background-position button.left').addClass('btn-primary');
+	else
+		jQuery('.panel-background-size button.center').addClass('btn-primary');
+		
+	
+	jQuery('.panel-background-repeat button').removeClass('btn-primary');
+	if(obj.find('.panel-body').css('background-repeat')=='cover')
+		jQuery('.panel-background-repeat button.repeat-y').addClass('btn-primary');
+	else if(obj.find('.panel-body').css('background-repeat')=='repeat-x')
+		jQuery('.panel-background-repeat button.repeat-x').addClass('btn-primary');
+	else if(obj.find('.panel-body').css('background-repeat')=='repeat')
+		jQuery('.panel-background-repeat button.repeat').addClass('btn-primary');
+	else
+		jQuery('.panel-background-repeat button.no-repeat').addClass('btn-primary');
+	
+		
+			var image = obj.find('.panel-body').css('background-image');
+			var image2 = image.replace( 'url("','');
+			var image3 = image2.replace( '")','');
+			
+			//jQuery('#do-upload-image .fileinput-preview').prepend('<img src="'+ image3 +'">');
+			//jQuery('#do-upload-image .fileinput-exists').show();
+			
 	jQuery('.panel-head-bold').removeClass('label-primary');
 		if(obj.find('.panel-heading').hasClass('style_bold'))
 			jQuery('.panel-head-bold').addClass('label-primary');
@@ -2269,11 +3531,23 @@ function populate_radio_settings(obj){
 	
 	jQuery('.setting-radio.icons span#radio-icon').attr('class','current-icon fa '+ obj.attr('data-checked-class'));
 	jQuery('.setting-radio.icons .icon_set li').removeClass('btn-primary');
-	jQuery('.setting-radio.icons .icon_set li.'+obj.attr('data-checked-class')).addClass('btn-primary');
+	//jQuery('.setting-radio.icons .icon_set li.'+obj.attr('data-checked-class')).addClass('btn-primary');
 	
 	jQuery('.radio-color-class i').attr('class',obj.attr('data-checked-color'));
 	jQuery('.selected-radio-color li').removeClass('selected');
-	jQuery('.selected-radio-color li a.'+obj.attr('data-checked-color')).parent().addClass('selected');			
+	//jQuery('.selected-radio-color li a.'+obj.attr('data-checked-color')).parent().addClass('selected');	
+	
+	
+	jQuery('.thumb-size button').removeClass('btn-primary');
+	if(obj.hasClass('thumb-lg'))
+		jQuery('.thumb-size button.large').addClass('btn-primary');
+	else if(obj.hasClass('thumb-sm'))
+		jQuery('.thumb-size button.small').addClass('btn-primary');
+	else if(obj.hasClass('thumb-xlg'))
+		jQuery('.thumb-size button.xlarge').addClass('btn-primary');
+	else
+		jQuery('.thumb-size button.normal').addClass('btn-primary');
+			
 }
 function populate_slider_settings(obj){
 	jQuery('.setting-slider.icons .current-icon').attr('class','current-icon '+ obj.attr('data-dragicon'));
@@ -2333,9 +3607,71 @@ function populate_postfix_settings(obj){
 	jQuery('.postfix-color-class i').removeClass('input-group-addon').removeClass('postfix');
 }
 
+
+function populate_grid_system_settings(obj){
+	
+	
+	
+	for(var i=0;i<=5;i++)
+		{
+		jQuery('.col-'+(i+1)+'-width button').removeClass('btn-primary');
+		var grid_col = obj.find('.row .grid_input_holder:eq('+i+')');
+		if(grid_col)
+			{
+			var grid_class = grid_col.attr('class');
+			if(grid_class)
+				var grid_class2 = grid_class.replace('grid_input_holder','');
+			if(grid_class2)
+				var grid_class3 = grid_class2.replace('-sm','');
+			if(grid_class3)
+				{
+				jQuery('.col-'+(i+1)+'-width button.'+grid_class3.trim()).addClass('btn-primary');
+				}
+			}
+		}
+}
+
+function populate_label_width_settings(obj){
+	
+		jQuery('.label-width button').removeClass('btn-primary');
+		var label = obj.find('.label_container');
+		if(label)
+			{
+			var label_class = label.attr('class');
+			if(label_class)
+				var label_class2 = label_class.replace('label_container','').replace('align_left','').replace('align_center','').replace('align_right','').replace('full_width','');
+			if(label_class2)
+				var label_class3 = label_class2.replace('-sm','');
+			if(label_class3)
+				{
+				jQuery('.label-width button.'+label_class3.trim()).addClass('btn-primary');
+				}
+			}
+}
+
+function populate_input_width_settings(obj){
+	
+		jQuery('.input-width button').removeClass('btn-primary');
+		var input = obj.find('.input_container');
+		if(input)
+			{
+			var input_class = input.attr('class');
+			if(input_class)
+				var input_class2 = input_class.replace('input_container','');
+			if(input_class2)
+				var input_class3 = input_class2.replace('-sm','');
+			if(input_class3)
+				{
+				jQuery('.input-width button.'+input_class3.trim()).addClass('btn-primary');
+				}
+			}
+}
+
+
+
 function populate_logic(obj_id){
 	var output2 = '';
-	var output = '<button style="margin-bottom:15px; !important" class="add_condition btn btn-success form-control"><span class="fa fa-plus">&nbsp;</span> Add Condition</button>';
+	var output = '<button style="margin-bottom:15px; !important" class="add_condition btn btn-primary"><span class="fa fa-plus">&nbsp;</span> Add Condition</button>';
 		
 	if(jQuery('#'+obj_id).hasClass('select') || jQuery('#'+obj_id).hasClass('radio-group'))
 		output += '<div class="input_holder field_condition_template hidden"><div class="row"><div class="col-xs-4"><label>If the selected option is: <em class="setcondition"></em></label></div><div class="col-xs-3"><label>Action <em class="setaction"></em></label></div><div class="col-xs-3"><label>Target:<em class="targetname"></em></label></div><div class="col-xs-2"></div></div><div class="row"><div class="col-xs-4"><div class="">';
@@ -2355,7 +3691,7 @@ function populate_logic(obj_id){
 			output += '</ul>';
 			output += '</div><!-- /btn-group -->';
 			}
-		if(jQuery('#'+obj_id).hasClass('select') || jQuery('#'+obj_id).hasClass('radio-group'))
+		if(jQuery('#'+obj_id).hasClass('select') || jQuery('#'+obj_id).hasClass('radio-group') || jQuery('#'+obj_id).hasClass('single-image-select-group'))
 				{
 				var get_select = jQuery('#'+obj_id).find('select');
 				
@@ -2370,7 +3706,7 @@ function populate_logic(obj_id){
 								}
 							);
 						}
-					if(jQuery('#'+obj_id).hasClass('radio-group'))
+					if(jQuery('#'+obj_id).hasClass('radio-group') || jQuery('#'+obj_id).hasClass('single-image-select-group'))
 						{
 						jQuery('#'+obj_id).find('input[type="radio"]').each(
 							function()
@@ -2384,7 +3720,7 @@ function populate_logic(obj_id){
 		else
 			output += '<input type="text" name="set_conditional_value" class="form-control">';
 	output += '</div><!-- /input-group -->';
-	output += '</div><div class="col-xs-3"><select name="con_action" class="form-control"><option value="show">Show</option><option value="hide">Hide</option><option value="slideDown">Slide Down (shows)</option><option value="slideUp">Slide Up (hides)</option><option value="fadeIn">Fade In (shows)</option><option value="fadeOut">Fade Out (hides)</option></select></div><div class="col-xs-3"><button class="target_field btn btn-primary form-control"><span class="fa fa-bullseye">&nbsp;</span> Select Field</button></div><div class="col-xs-1"><button class="btn btn-danger form-control remove_condition"><span class="glyphicon glyphicon-remove"></span></button></div></div></div>';
+	output += '</div><div class="col-xs-3"><select name="con_action" class="form-control"><option value="show">Show</option><option value="hide">Hide</option><option value="slideDown">Slide Down (shows)</option><option value="slideUp">Slide Up (hides)</option><option value="fadeIn">Fade In (shows)</option><option value="fadeOut">Fade Out (hides)</option></select></div><div class="col-xs-3"><div class="dropdown"><button class="make_con_selection btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">Select Target</button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1"><li><a href="#" class="target_field target_type_field">Select Field</a></li><li role="presentation"><a role="menuitem" tabindex="-1" href="#" class="target_field target_type_panel">Select Panel</a></li></ul></div></div><div class="col-xs-1"><button class="btn btn-danger form-control remove_condition"><span class="glyphicon glyphicon-remove"></span></button></div></div></div>';
 	
 jQuery('.nex-forms-container .field_'+obj_id).each(
 	function()
@@ -2439,7 +3775,7 @@ jQuery('.nex-forms-container .field_'+obj_id).each(
 		else
 			output2 += '<input type="text" name="set_conditional_value" class="form-control" value="'+ ((jQuery(this).attr('data-value')) ? jQuery(this).attr('data-value') : '') +'">';
 		output2 += '</div><!-- /input-group -->';
-		output2 += '</div><div class="col-xs-3"><select name="con_action" class="form-control"><option value="show" '+ ((jQuery(this).attr('data-action')=='show') ? 'selected="selected"' : '') +'>Show</option><option value="hide" '+ ((jQuery(this).attr('data-action')=='hide') ? 'selected="selected"' : '') +'>Hide</option><option value="slideDown" '+ ((jQuery(this).attr('data-action')=='slideDown') ? 'selected="selected"' : '') +'>Slide Down (shows)</option><option value="slideUp" '+ ((jQuery(this).attr('data-action')=='slideUp') ? 'selected="selected"' : '') +'>Slide Up (hides)</option><option value="fadeIn" '+ ((jQuery(this).attr('data-action')=='fadeIn') ? 'selected="selected"' : '') +'>Fade In (shows)</option><option value="fadeOut" '+ ((jQuery(this).attr('data-action')=='fadeOut') ? 'selected="selected"' : '') +'>Fade Out (hides)</option></select></div><div class="col-xs-3"><button class="target_field btn btn-primary form-control"><span class="fa fa-bullseye">&nbsp;</span> Change Field</button></div><div class="col-xs-1"><button class="btn btn-danger form-control remove_condition"><span class="glyphicon glyphicon-remove"></span></button></div></div></div>';
+		output2 += '</div><div class="col-xs-3"><select name="con_action" class="form-control"><option value="show" '+ ((jQuery(this).attr('data-action')=='show') ? 'selected="selected"' : '') +'>Show</option><option value="hide" '+ ((jQuery(this).attr('data-action')=='hide') ? 'selected="selected"' : '') +'>Hide</option><option value="slideDown" '+ ((jQuery(this).attr('data-action')=='slideDown') ? 'selected="selected"' : '') +'>Slide Down (shows)</option><option value="slideUp" '+ ((jQuery(this).attr('data-action')=='slideUp') ? 'selected="selected"' : '') +'>Slide Up (hides)</option><option value="fadeIn" '+ ((jQuery(this).attr('data-action')=='fadeIn') ? 'selected="selected"' : '') +'>Fade In (shows)</option><option value="fadeOut" '+ ((jQuery(this).attr('data-action')=='fadeOut') ? 'selected="selected"' : '') +'>Fade Out (hides)</option></select></div><div class="col-xs-3"><div class="dropdown"><button class="make_con_selection btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">Select Target</button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1"><li><a href="#" class="target_field target_type_field">Select Field</a></li><li role="presentation"><a role="menuitem" tabindex="-1" href="#" class="target_field target_type_panel">Select Panel</a></li></ul></div></div><div class="col-xs-1"><button class="btn btn-danger form-control remove_condition"><span class="glyphicon glyphicon-remove"></span></button></div></div></div>';
 		}
 	);
 	jQuery('.settings-logic').html(output+output2);
@@ -2457,3 +3793,84 @@ function loading_nex_forms(){
 	if(status<=100)
 	loading_nex_forms();
 }
+
+/*!
+ * classie - class helper functions
+ * from bonzo https://github.com/ded/bonzo
+ * 
+ * classie.has( elem, 'my-class' ) -> true/false
+ * classie.add( elem, 'my-new-class' )
+ * classie.remove( elem, 'my-unwanted-class' )
+ * classie.toggle( elem, 'my-class' )
+ */
+
+/*jshint browser: true, strict: true, undef: true */
+/*global define: false */
+
+( function( window ) {
+
+'use strict';
+
+// class helper functions from bonzo https://github.com/ded/bonzo
+
+function classReg( className ) {
+  return new RegExp("(^|\\s+)" + className + "(\\s+|$)");
+}
+
+// classList support for class management
+// altho to be fair, the api sucks because it won't accept multiple classes at once
+var hasClass, addClass, removeClass;
+
+if ( 'classList' in document.documentElement ) {
+  hasClass = function( elem, c ) {
+    return elem.classList.contains( c );
+  };
+  addClass = function( elem, c ) {
+    elem.classList.add( c );
+  };
+  removeClass = function( elem, c ) {
+    elem.classList.remove( c );
+  };
+}
+else {
+  hasClass = function( elem, c ) {
+    return classReg( c ).test( elem.className );
+  };
+  addClass = function( elem, c ) {
+    if ( !hasClass( elem, c ) ) {
+      elem.className = elem.className + ' ' + c;
+    }
+  };
+  removeClass = function( elem, c ) {
+    elem.className = elem.className.replace( classReg( c ), ' ' );
+  };
+}
+
+function toggleClass( elem, c ) {
+  var fn = hasClass( elem, c ) ? removeClass : addClass;
+  fn( elem, c );
+}
+
+var classie = {
+  // full names
+  hasClass: hasClass,
+  addClass: addClass,
+  removeClass: removeClass,
+  toggleClass: toggleClass,
+  // short names
+  has: hasClass,
+  add: addClass,
+  remove: removeClass,
+  toggle: toggleClass
+};
+
+// transport
+if ( typeof define === 'function' && define.amd ) {
+  // AMD
+  define( classie );
+} else {
+  // browser global
+  window.classie = classie;
+}
+
+})( window );

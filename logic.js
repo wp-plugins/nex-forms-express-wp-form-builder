@@ -1,18 +1,5 @@
-function populate_current_form_fields(){
-	
-	/*var fields = '';
-	setTimeout(function()
-		{
-		jQuery('div.nex-forms-container div.form_field label span.the_label').each(
-			function()
-				{
-				fields += '<option value="'+  jQuery(this).closest('.form_field').attr('id') +'">'+ jQuery(this).text() +'</option>';
-				}
-			);
-		jQuery('select[name="current_form_fields"]').html(fields);
-		},200);*/
-	
-}
+
+
 function update_logic(current_field, current_condition, condition, value, action, target, target_name){
 				var con_output = '';
 				jQuery('.nex-forms-container #con_'+current_condition).remove();
@@ -47,30 +34,53 @@ function set_perameters(obj){
 				}
 			);
 		
-		$('button.target_field').live('click',
+		$('a.target_field').live('click',
 			function()
 				{
 				$('.field_condition').removeClass('current');	
 				$(this).closest('.field_condition').addClass('current'); 
-				if($(this).hasClass('targeting'))
+				if($(this).closest('.dropdown').find('.btn-primary').hasClass('targeting'))
 					{
-					$(this).removeClass('targeting');
-					$(this).html('<span class="fa fa-bullseye">&nbsp;</span> ' + (($(this).closest('.field_condition').find('.targetname').text()) ? 'Change' : 'Select') + ' Field');
+					$(this).closest('.dropdown').find('.btn-primary').removeClass('targeting');
+					$(this).closest('.dropdown').find('.btn-primary').html('Select Target');
+					//$(this).html('<span class="fa fa-bullseye">&nbsp;</span> ' + (($(this).closest('.field_condition').find('.targetname').text()) ? 'Change' : 'Select') + ' Field');
 					$('div.nex-forms-container').removeClass('selecting_conditional_target');
 					$('div.nex-forms-field-settings').removeClass('selecting_conditional_target');
+					$('div.nex-forms-container').removeClass('target_type_field');
+					$('div.nex-forms-container').removeClass('target_type_panel');
 					}
 				else
 					{
-					$(this).addClass('targeting');
-					$(this).html('Cancel');
+					$(this).closest('.dropdown').find('.btn-primary').addClass('targeting');
+					$(this).closest('.dropdown').find('.btn-primary').html('Cancel');
+					
 					$('div.nex-forms-container').addClass('selecting_conditional_target');
 					$('div.nex-forms-field-settings').addClass('selecting_conditional_target');
+					
+					if($(this).hasClass('target_type_field'))
+						$('div.nex-forms-container').addClass('target_type_field');
+					if($(this).hasClass('target_type_panel'))
+						$('div.nex-forms-container').addClass('target_type_panel');
+					
 					}
 				
 				
 				}
 			);
-		
+			
+			$('.btn-primary.make_con_selection').live('click',
+				function()
+					{
+					$(this).removeClass('targeting');
+					$(this).html('Select Target');
+					//$(this).html('<span class="fa fa-bullseye">&nbsp;</span> ' + (($(this).closest('.field_condition').find('.targetname').text()) ? 'Change' : 'Select') + ' Field');
+					$('div.nex-forms-container').removeClass('selecting_conditional_target');
+					$('div.nex-forms-field-settings').removeClass('selecting_conditional_target');
+					$('div.nex-forms-container').removeClass('target_type_field');
+					$('div.nex-forms-container').removeClass('target_type_panel');
+					}
+				)
+			
 			$('ul.set_conditional_action li').live('click',
 				function()
 					{
@@ -92,7 +102,9 @@ function set_perameters(obj){
 					}
 				);
 
-			$('div.nex-forms-container.selecting_conditional_target .form_field.text,			div.nex-forms-container.selecting_conditional_target .form_field.textarea,			div.nex-forms-container.selecting_conditional_target .form_field.select,			div.nex-forms-container.selecting_conditional_target .form_field.mulit-select,			div.nex-forms-container.selecting_conditional_target .form_field.radio-group,			div.nex-forms-container.selecting_conditional_target .form_field.check-group,			div.nex-forms-container.selecting_conditional_target .form_field.submit-button,			div.nex-forms-container.selecting_conditional_target .form_field.star-rating,			div.nex-forms-container.selecting_conditional_target .form_field.slider,			div.nex-forms-container.selecting_conditional_target .form_field.touch_spinner,			div.nex-forms-container.selecting_conditional_target .form_field.tags ,			div.nex-forms-container.selecting_conditional_target .form_field.autocomplete,			div.nex-forms-container.selecting_conditional_target .form_field.color_pallet,			div.nex-forms-container.selecting_conditional_target .form_field.datetime,			div.nex-forms-container.selecting_conditional_target .form_field.date,			div.nex-forms-container.selecting_conditional_target .form_field.time,			div.nex-forms-container.selecting_conditional_target .form_field.upload-single,			div.nex-forms-container.selecting_conditional_target .form_field.upload-image,			div.nex-forms-container.selecting_conditional_target .form_field.custom-prefix,			div.nex-forms-container.selecting_conditional_target .form_field.custom-postfix,			div.nex-forms-container.selecting_conditional_target .form_field.custom-pre-postfix,			div.nex-forms-container.selecting_conditional_target .form_field.paragraph,			div.nex-forms-container.selecting_conditional_target .form_field.divider,			div.nex-forms-container.selecting_conditional_target .form_field.heading').live('click',
+			$('div.nex-forms-container.selecting_conditional_target.target_type_field .form_field.text,			div.nex-forms-container.selecting_conditional_target.target_type_field .form_field.textarea,			div.nex-forms-container.selecting_conditional_target.target_type_field .form_field.select,			div.nex-forms-container.selecting_conditional_target.target_type_field .form_field.mulit-select,			div.nex-forms-container.selecting_conditional_target.target_type_field .form_field.radio-group,			div.nex-forms-container.selecting_conditional_target.target_type_field .form_field.check-group,			div.nex-forms-container.selecting_conditional_target.target_type_field .form_field.submit-button,			div.nex-forms-container.selecting_conditional_target.target_type_field .form_field.star-rating,			div.nex-forms-container.selecting_conditional_target.target_type_field .form_field.slider,			div.nex-forms-container.selecting_conditional_target.target_type_field .form_field.touch_spinner,			div.nex-forms-container.selecting_conditional_target.target_type_field .form_field.tags ,			div.nex-forms-container.selecting_conditional_target.target_type_field .form_field.autocomplete,			div.nex-forms-container.selecting_conditional_target.target_type_field .form_field.color_pallet,			div.nex-forms-container.selecting_conditional_target.target_type_field .form_field.datetime,			div.nex-forms-container.selecting_conditional_target.target_type_field .form_field.date,			div.nex-forms-container.selecting_conditional_target.target_type_field .form_field.time,			div.nex-forms-container.selecting_conditional_target.target_type_field .form_field.upload-single,			div.nex-forms-container.selecting_conditional_target.target_type_field .form_field.upload-image,			div.nex-forms-container.selecting_conditional_target.target_type_field .form_field.custom-prefix,			div.nex-forms-container.selecting_conditional_target.target_type_field .form_field.custom-postfix,			div.nex-forms-container.selecting_conditional_target.target_type_field .form_field.custom-pre-postfix,			div.nex-forms-container.selecting_conditional_target.target_type_field .form_field.paragraph,			div.nex-forms-container.selecting_conditional_target.target_type_field .form_field.divider,			div.nex-forms-container.selecting_conditional_target.target_type_field .form_field.heading, div.nex-forms-container.selecting_conditional_target.target_type_field .form_field.multi-image-select-group, div.nex-forms-container.selecting_conditional_target.target_type_field .form_field.single-image-select-group').live('click',
+				
+			//$('div.nex-forms-container.selecting_conditional_target .form_field').live('Click',	
 				function()
 					{
 					if(!jQuery(this).hasClass('grid'))
@@ -101,7 +113,23 @@ function set_perameters(obj){
 						$('.field_condition.current').find('.targetname').attr('data-target-id',$(this).attr('id'))
 						$('div.nex-forms-container').removeClass('selecting_conditional_target');
 						$('div.nex-forms-field-settings').removeClass('selecting_conditional_target');
-						$('.field_condition.current').find('button.target_field').html('<span class="fa fa-bullseye">&nbsp;</span> Change Field').removeClass('targeting');
+						$('.field_condition.current').find('.btn-primary.targeting').html('Select Target').removeClass('targeting');
+						
+						set_perameters(jQuery('.field_condition.current'));
+						}
+					}
+				);
+		  	
+			$('div.nex-forms-container.selecting_conditional_target.target_type_panel .form_field.grid').live('click',	
+				function()
+					{
+					if(jQuery(this).hasClass('grid'))
+						{
+						$('.field_condition.current').find('.targetname').text($(this).attr('id'))
+						$('.field_condition.current').find('.targetname').attr('data-target-id',$(this).attr('id'))
+						$('div.nex-forms-container').removeClass('selecting_conditional_target');
+						$('div.nex-forms-field-settings').removeClass('selecting_conditional_target');
+						$('.field_condition.current').find('.btn-primary.targeting').html('Select Target').removeClass('targeting');
 						
 						set_perameters(jQuery('.field_condition.current'));
 						}

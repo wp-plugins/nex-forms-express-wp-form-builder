@@ -1,7 +1,7 @@
 jQuery(document).ready(
 function()
 	{
-	jQuery('.collapse').collapse();
+	//jQuery('.collapse').collapse();
 	create_droppable(jQuery('div.nex-forms-container'));
 	jQuery('.draggable_object .form-control').live('click',
 		function()
@@ -9,11 +9,26 @@ function()
 			var clone_element = jQuery(this).closest('.form_field ').clone();
 			jQuery('div.nex-forms-container').append(clone_element);
 			setup_form_element(clone_element);
+			reset_zindex()
+			jQuery("#collapseFormsCanvas").animate(
+					{
+					scrollTop:jQuery("#collapseFormsCanvas").height()+200
+					},200
+				);
 			}
 		);
 	
 	});
 
+function reset_zindex(){
+		jQuery('div.nex-forms-container .form_field').each(
+			function(index)
+				{
+					jQuery(this).css('z-index',1000-index)
+				}
+			);
+}
+	
 function setup_form_element(obj){
 	jQuery('div.nex-forms-container').find('div.draggable_object').hide();
 	jQuery('div.nex-forms-container').find('div.form_object').show();
@@ -22,10 +37,23 @@ function setup_form_element(obj){
 	obj.removeClass('field');
 	obj.css('display','block');
 	
+	//console.log(obj.attr('class'));
+	
 	jQuery('div.nex-forms-container').find('.bs-tooltip').tooltip();
+	
+	if(obj.hasClass('md-select'))
+		{
+		build_md_select(obj.find('#cd-dropdown'));
+		}
 
 	if(obj.hasClass('text') || obj.hasClass('textarea'))
 		obj.find('.the_input_element').val(obj.find('.the_input_element').attr('data-default-value'));
+	
+	if(obj.hasClass('paragraph') || obj.hasClass('heading'))
+		{
+		if(!obj.find('input.set_math_result').attr('name'))
+			obj.find('.the_input_element').parent().append('<input type="hidden" class="set_math_result" value="0" name="math_result">');
+		}
 					
 	if(obj.hasClass('grid'))
 		{
@@ -34,17 +62,35 @@ function setup_form_element(obj){
 		}
 	if(obj.hasClass('datetime'))
 		{
-		obj.find('#datetimepicker').datetimepicker();	
+		obj.find('#datetimepicker').datetimepicker( 
+				{ 
+				//pickTime:false,
+				format: (obj.find('#datetimepicker').attr('data-format')) ? obj.find('#datetimepicker').attr('data-format') : 'MM/DD/YYYY hh:mm A',
+				locale: (obj.find('#datetimepicker').attr('data-language')) ? obj.find('#datetimepicker').attr('data-language') : 'en'
+				} 
+			);	
 		}
 	if(obj.hasClass('date'))
 		{
-		obj.find('#datetimepicker').datetimepicker( { pickTime:false } );	
-		}
+		obj.find('#datetimepicker').datetimepicker( 
+				{ 
+				//pickTime:false,
+				format: (obj.find('#datetimepicker').attr('data-format')) ? obj.find('#datetimepicker').attr('data-format') : 'MM/DD/YYYY',
+				locale: (obj.find('#datetimepicker').attr('data-language')) ? obj.find('#datetimepicker').attr('data-language') : 'en'
+				} 
+			);	
+		}	
 	if(obj.hasClass('time'))
 		{
-		obj.find('#datetimepicker').datetimepicker( { pickDate:false });
+		obj.find('#datetimepicker').datetimepicker( 
+				{ 
+				//pickTime:false,
+				format: (obj.find('#datetimepicker').attr('data-format')) ? obj.find('#datetimepicker').attr('data-format') : 'hh:mm A',
+				locale:(obj.find('#datetimepicker').attr('data-language')) ? obj.find('#datetimepicker').attr('data-language') : 'en'
+				} 
+			);	
 		}
-	
+		
 	if(obj.hasClass('touch_spinner'))
 		{
 		var the_spinner = obj.find("#spinner");
@@ -80,20 +126,25 @@ function setup_form_element(obj){
 		var the_slider = obj.find( "#slider" )
 		var set_min = the_slider.attr('data-min-value');
 		var set_max = the_slider.attr('data-max-value')
-		var set_start = the_slider.attr('data-starting-value')
+		var set_start = the_slider.attr('data-starting-value');
+		var set_step = the_slider.attr('data-step-value')
 
 		obj.find( "#slider" ).slider({
 				range: "min",
 				min: parseInt(set_min),
 				max: parseInt(set_max),
 				value: parseInt(set_start),
+				step: parseInt(set_step),
 				slide: function( event, ui ) {	
 					count_text = '<span class="count-text">' + the_slider.attr('data-count-text').replace('{x}',ui.value) + '</span>';	
 					the_slider.find( '.ui-slider-handle' ).html( '<span id="icon" class="'+ the_slider.attr('data-dragicon') +'"></span> '+ count_text).addClass(the_slider.attr('data-dragicon-class')).removeClass('ui-state-default');
+					obj.find( 'input' ).val(ui.value);
+					obj.find( 'input' ).trigger('change');
 				},
 				create: function( event, ui ) {	
 					count_text = '<span class="count-text">'+ the_slider.attr('data-count-text').replace('{x}',((set_start) ? set_start : set_min)) +'</span>';	
 					the_slider.find( '.ui-slider-handle' ).html( '<span id="icon" class="'+ the_slider.attr('data-dragicon') +'"></span> '+ count_text).addClass(the_slider.attr('data-dragicon-class')).removeClass('ui-state-default');
+					
 				}
 				
 			});
@@ -183,14 +234,34 @@ function setup_form_element(obj){
 		}	
 	
 	
+	
+	if(obj.hasClass('single-image-select-group'))
+		{
+		obj.find('input[type="radio"]').nexchecks();
+		obj.find('input[type="radio"]').closest('label').find('.input-label').addClass('img-thumbnail');
+		//obj.append('<div data-provides="fileinput" class="fileinput fileinput-new"><div class="input-group"><div data-trigger="fileinput" data-placement="bottom" data-secondary-message="Invalid file Extension" data-content="Please select a file" class="the_input_element form-control uneditable-input span3 error_message"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div><span class="input-group-addon btn btn-default btn-file postfix"><span class="glyphicon glyphicon-file"></span><input type="file" class="the_input_element" name="single_file"></span><a data-dismiss="fileinput" class="input-group-addon btn btn-default fileinput-exists" href="#"><span class="fa fa-trash-o"></span></a></div></div>')
+		}
+	
+	if(obj.hasClass('multi-image-select-group'))
+		{
+		obj.find('input[type="checkbox"]').nexchecks();
+		obj.find('input[type="checkbox"]').closest('label').find('.input-label').addClass('img-thumbnail');
+		//obj.append('<div data-provides="fileinput" class="fileinput fileinput-new"><div class="input-group"><div data-trigger="fileinput" data-placement="bottom" data-secondary-message="Invalid file Extension" data-content="Please select a file" class="the_input_element form-control uneditable-input span3 error_message"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div><span class="input-group-addon btn btn-default btn-file postfix"><span class="glyphicon glyphicon-file"></span><input type="file" class="the_input_element" name="single_file"></span><a data-dismiss="fileinput" class="input-group-addon btn btn-default fileinput-exists" href="#"><span class="fa fa-trash-o"></span></a></div></div>')
+		}
+	
+	
 	if(obj.hasClass('radio-group'))
 		{
 		obj.find('input[type="radio"]').nexchecks()
+		
 		}
 	if(obj.hasClass('check-group'))
 		{
 		obj.find('input[type="checkbox"]').nexchecks()
 		}
+	
+	if(obj.hasClass('grid-system'))
+		obj.removeClass('ui-widget-content')
 		
 	setTimeout(
 		function()
@@ -206,31 +277,52 @@ function setup_form_element(obj){
 				
 				obj.addClass('dropped');
 				}
-		},100
-	);
-	setTimeout(
-		function()
-			{
-			obj.find('label#nexf_title').addClass('editing-field');
-			obj.find('label#nexf_title').animate(
-						{
-						outlineOffset:0,
-						outlineWidth:1
-						},300
-					);
-			},800
-		);
-		
+		},500
+	);	
+	jQuery('.error_message').popover({trigger:'manual'});
+	(function() {
+				// trim polyfill : https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
+				if (!String.prototype.trim) {
+					(function() {
+						// Make sure we trim BOM and NBSP
+						var rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
+						String.prototype.trim = function() {
+							return this.replace(rtrim, '');
+						};
+					})();
+				}
+
+				[].slice.call( document.querySelectorAll( 'input.input__field, textarea.input__field' ) ).forEach( function( inputEl ) {
+					// in case the input is already filled..
+					if( inputEl.value.trim() !== '' ) {
+						classie.add( inputEl.parentNode, 'input--filled' );
+					}
+
+					// events:
+					inputEl.addEventListener( 'focus', onInputFocus );
+					inputEl.addEventListener( 'blur', onInputBlur );
+				} );
+
+				function onInputFocus( ev ) {
+					classie.add( ev.target.parentNode, 'input--filled' );
+				}
+
+				function onInputBlur( ev ) {
+					if( ev.target.value.trim() === '' ) {
+						classie.remove( ev.target.parentNode, 'input--filled' );
+					}
+				}
+			})();	
 }
 
 function create_droppable(obj){
 	    var the_droppable 	= obj;
         var the_draggable 	= jQuery('div.col1 .form_field');
 		//Drag
-        the_draggable.draggable(
+       /*the_draggable.draggable(
 			{
-			drag: function( event, ui ) { },
-			stop: function( event, ui ) {  setTimeout(function(){ jQuery('.col2 .admin-panel .panel-heading .btn.glyphicon-hand-down').trigger('click');},300 ); },
+			drag: function( event, ui ) {  ui.helper.addClass('moving'); },//ui.helper.addClass('moving');
+			stop: function( event, ui ) {  ui.helper.removeClass('moving'); setTimeout(function(){ jQuery('.col2 .admin-panel .panel-heading .btn.glyphicon-hand-down').trigger('click');},300 ); },
 			stack  : '.draggable',
 			revert : 'invalid', 
 			tolerance: 'intersect',
@@ -238,8 +330,7 @@ function create_droppable(obj){
 			snap:false,
 			helper : 'clone',
 			}
-        );
-		
+        );*/
 		
 		
 		//Enable panel nesting -> find a better way some day
@@ -247,66 +338,18 @@ function create_droppable(obj){
 			function()
 				{
 				jQuery('.panel-heading .btn').removeClass('btn-success').addClass('btn-primary');
-					if(jQuery('.trash-can ').droppable())
-						{
-						jQuery('.trash-can ').droppable('option','drop',
-							function(event, ui)
-									{
-									ui.draggable.remove();
-									jQuery('.trash-can ').animate(
-										{
-										fontSize:70
-										},50,
-										function()
-											{
-											jQuery('.trash-can ').animate(
-												{
-												fontSize:47
-												},200);
-											}
-										)
-									}
-								);
-						jQuery('.trash-can ').droppable('option','over',
-							function(event, ui)
-									{
-									ui.helper.css('opacity','0.6');
-									jQuery('.trash-can ').animate(
-										{
-										fontSize:60
-										},200
-										)
-									}
-							);
-						jQuery('.trash-can ').droppable('option','out',
-							function(event, ui)
-									{
-									ui.helper.css('opacity','1');
-									
-									jQuery('.trash-can ').animate(
-										{
-										fontSize:47
-										},200
-										)
-									}
-								);
-						}
-					else
-						{
-							
-						create_droppable(jQuery('.trash-can'));
-						}
+					
 				if(jQuery(this).hasClass('btn-success'))
 					{
 					jQuery(this).removeClass('btn-success');
 					jQuery(this).addClass('btn-primary');
-					the_draggable.draggable("option", "connectToSortable",the_droppable);
+					//the_draggable.draggable("option", "connectToSortable",the_droppable);
 					}
 				else
 					{
 					jQuery(this).addClass('btn-success');
 					jQuery(this).removeClass('btn-primary');
-					the_draggable.draggable("option", "connectToSortable", jQuery(this).parent().parent().find('.panel-body'));
+					//the_draggable.draggable("option", "connectToSortable", jQuery(this).parent().parent().find('.panel-body'));
 					}
 				}
 			);
@@ -314,9 +357,9 @@ function create_droppable(obj){
         	{
             drop   		: function(event, ui)
 							{
-							
+							if(!ui.draggable.hasClass('dropped'))
 							setup_form_element(ui.draggable);
-							//populate_current_form_fields();
+							reset_zindex();
 							jQuery(this).removeClass('over');							
 							},
 							
@@ -334,20 +377,12 @@ function create_droppable(obj){
 				ui.helper.find('div.form_object').show();
 				ui.helper.find('div.field_settings').hide();
 				ui.helper.removeClass('field');
+				//ui.helper.addClass('moving');
 			 	}, 
-			stop : function(event, ui){  setTimeout(function(){ jQuery('.col2 .admin-panel .panel-heading .btn.glyphicon-hand-down').trigger('click');},300 ); },           
-			placeholder: 'alert-info place-holder',
+			stop : function(event, ui){  setTimeout(function(){ reset_zindex(); jQuery('.col2 .admin-panel .panel-heading .btn.glyphicon-hand-down').trigger('click');},300 ); },           
+			placeholder: 'alert-warning place-holder',
 			forcePlaceholderSize : true,
 			connectWith:'.panel-body'
 			}
 		);
 }
-function move_to_container(theObj, newContainer) {
-	var set_Id = '_' + Math.round(Math.random()*99999);
-	if(theObj.hasClass('wa-sortable'))
-		return;
-	jQuery(theObj).attr('data-id', set_Id);
-	jQuery(theObj).addClass(set_Id);
-	theObj.addClass('wa-sortable');
-	return true;         
-}	

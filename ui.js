@@ -1,9 +1,118 @@
+function run_count(selector, to)
+{
+  var from = jQuery(selector).text()=='' ? 0 : parseFloat(jQuery(selector).find('.math_result').text());
+  jQuery({someValue: from}).animate({someValue: parseFloat(to)}, {
+    duration: 500,
+    easing:'swing',
+    step: function() {
+      jQuery(selector).find('.math_result').text(Math.ceil(this.someValue));
+	  jQuery(selector).find('input').val(Math.ceil(this.someValue))
+    }
+  });
+  setTimeout(function(){
+    jQuery(selector).find('.math_result').text(parseFloat(to));
+	 jQuery(selector).find('input').val(parseFloat(to));
+  }, 550);
+}
+
+function set_up_math_logic(target){
+	
+	var get_math = target.attr('data-original-math-equation');
+	var pattern = /\{(.*?)\}/g;
+	while ((match = pattern.exec(get_math)) != null)
+		{
+		var element = document.getElementsByName(match[1]);
+		 jQuery(element).on('change',
+			function()
+				{
+				run_math_logic(target);
+				}
+			);
+		}
+}
+
+function run_math_logic(target){
+
+	if(!strstr(target.attr('data-math-equation'),'['))
+		target.attr('data-math-equation',target.attr('data-original-math-equation'));
+		
+	var get_math = target.attr('data-math-equation');
+	var set_result = '';
+	var match_array = []
+	var pattern = /\{(.*?)\}/g;
+	var set_val = '';
+	var clean_math ='';
+	var i = 0;
+	var check_val = 0;
+	var select_val = 0;
+	
+	while ((match = pattern.exec(get_math)) != null)
+		{
+		match_array[i] = match[1];
+		i++;
+		}
+		
+	var arrayLength = match_array.length;
+	
+	for (var j = 0; j < arrayLength; j++)
+		{
+		 var set_match = match_array[j];
+		 var element = document.getElementsByName(match_array[j]);
+		 select_val = 0;
+		 if(jQuery(element).is('select'))
+			{
+			jQuery('select[name="'+match_array[j]+'"] option:selected').each(
+				function()
+					{
+					if(jQuery(this).prop('selected')==true)
+						{
+						if(jQuery(element).closest('.form_field').hasClass('multi-select'))
+							select_val += parseInt(jQuery(this).val());
+						else
+							select_val = parseInt(jQuery(this).val());	
+						}
+					else
+						select_val = 0;
+					}
+				);
+			set_val = select_val;	
+			}
+		 else if(jQuery(element).attr('type')=='checkbox')
+		 	{
+			jQuery('input[name="'+match_array[j]+'"]').each(
+				function()
+					{
+					if(jQuery(this).prop('checked')==true)
+						check_val += parseInt(jQuery(this).val());
+					}
+				);
+			set_val = check_val;
+			}
+		 else if(jQuery(element).attr('type')=='radio')
+		 	{
+			if(jQuery('input[name="'+match_array[j]+'"]:checked').val())
+				set_val = jQuery('input[name="'+match_array[j]+'"]:checked').val();	
+			else
+				set_val = 0;
+			}
+		else if(jQuery(element).is('textarea'))
+			{
+			set_val = (jQuery('textarea[name="'+match_array[j]+'"]').val()) ? jQuery('textarea[name="'+match_array[j]+'"]').val() : 0;
+			}
+		 else
+		 	set_val = (jQuery(element).val()) ? jQuery(element).val() : 0;
+			
+		 clean_math = target.attr('data-math-equation').replace(set_match,set_val).replace('{','').replace('}','');
+		 target.attr('data-math-equation',clean_math)
+		}
+	run_count(target,Math.ceil(math.eval(clean_math) * 100)/100);
+}
+
+
 var the_field ='';
-//var z_index = 1000;
 jQuery(document).ready(
 function()
 	{
-	
 	//jQuery('.the_input_element, .bootstrap-tagsinput, .radio-group a, .check-group a').addClass('ui-state-default')
 	//jQuery('.form_field .input-group-addon, .bootstrap-touchspin .btn').addClass('ui-state-active')
 	jQuery('.ui-state-default').live('mouseover',
@@ -106,7 +215,10 @@ function create_form(){
 	jQuery('div.ui-nex-forms-container div#the-radios input').prop('checked',false);
 	jQuery('div.ui-nex-forms-container div#the-radios a').attr('class','');
 	
+	jQuery('div.ui-nex-forms-container div.cd-dropdown').remove();
+	
 	jQuery('div.ui-nex-forms-container .editing-field').removeClass('editing-field')
+	jQuery('.form_field').removeClass('edit-field')
 	jQuery('div.ui-nex-forms-container .editing-field-container').removeClass('.editing-field-container')
 	jQuery('div.ui-nex-forms-container').find('div.trash-can').remove();
 	jQuery('div.ui-nex-forms-container').find('div.draggable_object').hide();
@@ -121,12 +233,12 @@ function create_form(){
 	
 	jQuery('div.ui-nex-forms-container .tab-pane').removeClass('tab-pane');
 
-	jQuery('#nex-forms .form_field').each(
+	jQuery('#nex-forms div.ui-nex-forms-container .form_field').each(
 		function(index)
 			{
 			jQuery(this).css('z-index',1000-index)
 
-			setup_ui_element(jQuery(this));
+			setup_preview_element(jQuery(this));
 			if(jQuery(this).hasClass('text') || jQuery(this).hasClass('textarea'))
 				{
 				if(jQuery(this).find('.the_input_element').attr('data-maxlength-show')=='true')
@@ -134,12 +246,118 @@ function create_form(){
 				}
 			}
 		);
-	jQuery('.the_input_element, .bootstrap-tagsinput, .radio-group a, .check-group a').addClass('ui-state-default')
-	jQuery('.form_field .input-group-addon, .bootstrap-touchspin .btn, .form_field .panel-heading').addClass('ui-state-active');
-	jQuery('.form_field.other-elements .panel-body').addClass('ui-widget-content');
-	jQuery('p.the_input_element, .heading .the_input_element').removeClass('ui-state-default');
-	jQuery('.form_field.grid-system .panel-body').removeClass('ui-widget-content');
+		
 	
+	
+	jQuery('div.ui-nex-forms-container .help-block.hidden, div.ui-nex-forms-container .is_required.hidden').remove();
+	jQuery('div.ui-nex-forms-container .has-pretty-child,div.ui-nex-forms-container  .slider').removeClass('svg_ready')
+	jQuery('div.ui-nex-forms-container .input-group').removeClass('date');
+	
+	jQuery('div.ui-nex-forms-container .the_input_element,div.ui-nex-forms-container  .row, .svg_ready,div.ui-nex-forms-container  .radio-inline').each(
+		function()
+			{
+			if(jQuery(this).parent().hasClass('input-inner') || jQuery(this).parent().hasClass('input_holder')){
+				jQuery(this).unwrap();
+				}	
+			}
+		);
+	
+	jQuery('div.ui-nex-forms-container div').each(
+		function()
+			{
+			if(jQuery(this).parent().hasClass('svg_ready') || jQuery(this).parent().hasClass('form_object') || jQuery(this).parent().hasClass('input-inner')){
+				jQuery(this).unwrap();
+				}
+			}
+		);
+		
+	jQuery('div.ui-nex-forms-container  div.form_field').each(
+		function()
+			{
+			if(jQuery(this).parent().parent().hasClass('panel-default') && !jQuery(this).parent().prev('div').hasClass('panel-heading')){
+				jQuery(this).parent().unwrap();
+				jQuery(this).unwrap();
+				}
+			}
+		);
+		
+	jQuery('div.ui-nex-forms-container .help-block').each(
+		function()
+			{
+			if(!jQuery(this).text())
+				jQuery(this).remove()
+			}
+		);
+	
+	jQuery('div.ui-nex-forms-container  .sub-text').each(
+		function()
+			{
+			if(jQuery(this).text()=='')
+				{
+				jQuery(this).parent().find('br').remove()
+				jQuery(this).remove();
+				}
+			}
+		);
+	
+	jQuery('div.ui-nex-forms-container  .label_container').each(
+		function()
+			{
+			if(jQuery(this).css('display')=='none')
+				{
+				jQuery(this).parent().find('.input_container').addClass('full_width');
+				jQuery(this).remove()
+				}
+			}
+		);
+	
+		
+	jQuery('div.ui-nex-forms-container .ui-draggable').removeClass('ui-draggable');
+	jQuery('div.ui-nex-forms-container .ui-draggable-handle').removeClass('ui-draggable-handle')
+	jQuery('div.ui-nex-forms-container .dropped').removeClass('dropped')
+	jQuery('div.ui-nex-forms-container .ui-sortable-handle').removeClass('ui-sortable-handle');
+	jQuery('div.ui-nex-forms-container .ui-sortable').removeClass('ui-sortable-handle');
+	jQuery('div.ui-nex-forms-container .ui-droppable').removeClass('ui-sortable-handle');
+	jQuery('div.ui-nex-forms-container .over').removeClass('ui-sortable-handle');
+	jQuery('div.ui-nex-forms-container .the_input_element.bs-tooltip').removeClass('bs-tooltip') 
+	jQuery('div.ui-nex-forms-container .bs-tooltip.glyphicon').removeClass('glyphicon');
+	jQuery('div.ui-nex-forms-container .grid-system.panel').removeClass('panel-body');
+	jQuery('div.ui-nex-forms-container .grid-system.panel').removeClass('panel');
+	jQuery('div.ui-nex-forms-container .form_field.grid').removeClass('grid').removeClass('form_field').addClass('is_grid');
+	jQuery('div.ui-nex-forms-container .grid-system').removeClass('grid-system');
+	
+	
+	jQuery('div.ui-nex-forms-container .input-group-addon.btn-file span').attr('class','fa fa-cloud-upload');
+	jQuery('div.ui-nex-forms-container .input-group-addon.fileinput-exists span').attr('class','fa fa-close');
+	
+	jQuery('div.ui-nex-forms-container .checkbox-inline').addClass('radio-inline');
+	jQuery('div.ui-nex-forms-container .check-group').addClass('radio-group');
+	
+	
+	jQuery('div.ui-nex-forms-container .submit-button br').remove();
+	jQuery('div.ui-nex-forms-container .submit-button small.svg_ready').remove();
+	
+	jQuery('div.ui-nex-forms-container .radio-group a,div.ui-nex-forms-container  .check-group a').addClass('ui-state-default')
+	jQuery('div.ui-nex-forms-container .is_grid .panel-body').removeClass('ui-widget-content');
+	jQuery('div.ui-nex-forms-container .bootstrap-select.ui-state-default').removeClass('ui-state-default');
+	jQuery('div.ui-nex-forms-container .bootstrap-select').removeClass('form-control').addClass('full_width');
+	jQuery('div.ui-nex-forms-container .selectpicker,div.ui-nex-forms-container  .dropdown-menu.the_input_element').addClass('ui-state-default');
+	jQuery('div.ui-nex-forms-container .selectpicker').removeClass('dropdown-toggle')
+	jQuery('div.ui-nex-forms-container .is_grid .panel-body').removeClass('ui-widget-content');
+	jQuery('div.ui-nex-forms-container .bootstrap-select.ui-state-default').removeClass('ui-state-default');
+	
+	jQuery('div.ui-nex-forms-container .is_grid .panel-body').removeClass('ui-sortable').removeClass('ui-droppable').removeClass('ui-widget-content').removeClass('');
+	
+	
+	
+	jQuery('.radio-group a, .check-group a').addClass('ui-state-default')
+	jQuery('.grid-system .panel-body').removeClass('ui-widget-content');
+	jQuery('.bootstrap-select.ui-state-default').removeClass('ui-state-default');
+	jQuery('.bootstrap-select').removeClass('form-control').addClass('full_width');
+	jQuery('.selectpicker, .dropdown-menu.the_input_element').addClass('ui-state-default')
+					jQuery('.grid-system .panel-body').removeClass('ui-widget-content');
+					jQuery('.bootstrap-select.ui-state-default').removeClass('ui-state-default');
+	//jQuery('.grid-system .field_settings').append('')
 }
 function isNumber(n) {
    if(n!='')
@@ -412,7 +630,7 @@ function run_conditions(){
 		
 }
 
-function setup_ui_element(obj){
+function setup_preview_element(obj){
 	
 	
 	jQuery('div.ui-nex-forms-container').find('.customcon').each(
@@ -427,22 +645,56 @@ function setup_ui_element(obj){
 
 	jQuery('div.ui-nex-forms-container').find('.bs-tooltip').tooltip();
 	
+	if(obj.hasClass('md-select'))
+		{
+		build_md_select(obj.find('#cd-dropdown'));
+		}
+	
 	if(obj.hasClass('text') || obj.hasClass('textarea'))
 		obj.find('.the_input_element').val(obj.find('.the_input_element').attr('data-default-value'));
 					
 	if(obj.hasClass('datetime'))
 		{
-		obj.find('#datetimepicker').datetimepicker();	
+		obj.find('#datetimepicker').datetimepicker( 
+				{ 
+				//pickTime:false,
+				format: (obj.find('#datetimepicker').attr('data-format')) ? obj.find('#datetimepicker').attr('data-format') : 'MM/DD/YYYY hh:mm A',
+				locale: (obj.find('#datetimepicker').attr('data-language')) ? obj.find('#datetimepicker').attr('data-language') : 'en'
+				} 
+			);	
 		}
 	if(obj.hasClass('date'))
 		{
-		obj.find('#datetimepicker').datetimepicker( { pickTime:false } );	
+		obj.find('#datetimepicker').datetimepicker( 
+				{ 
+				//pickTime:false,
+				format: (obj.find('#datetimepicker').attr('data-format')) ? obj.find('#datetimepicker').attr('data-format') : 'MM/DD/YYYY',
+				locale: (obj.find('#datetimepicker').attr('data-language')) ? obj.find('#datetimepicker').attr('data-language') : 'en'
+				} 
+			);	
+		}
+	if(obj.hasClass('paragraph') || obj.hasClass('heading'))
+		{
+		var text = obj.find('.the_input_element').text();
+		
+		set_text = text.replace('{math_result}','<span class="math_result">0</span>');
+		
+		obj.find('.the_input_element').html(set_text);
+			
+		set_up_math_logic(obj.find('.the_input_element'));
+		run_math_logic(obj.find('.the_input_element'))
+		
 		}
 	if(obj.hasClass('time'))
 		{
-		obj.find('#datetimepicker').datetimepicker( { pickDate:false });
+		obj.find('#datetimepicker').datetimepicker( 
+				{ 
+				//pickTime:false,
+				format: (obj.find('#datetimepicker').attr('data-format')) ? obj.find('#datetimepicker').attr('data-format') : 'hh:mm A',
+				locale:(obj.find('#datetimepicker').attr('data-language')) ? obj.find('#datetimepicker').attr('data-language') : 'en'
+				} 
+			);	
 		}
-	
 	
 	
 	if(obj.hasClass('touch_spinner'))
@@ -480,13 +732,15 @@ function setup_ui_element(obj){
 		var the_slider = obj.find( "#slider" )
 		var set_min = the_slider.attr('data-min-value');
 		var set_max = the_slider.attr('data-max-value')
-		var set_start = the_slider.attr('data-starting-value')
+		var set_start = the_slider.attr('data-starting-value');
+		var set_step = the_slider.attr('data-step-value')
 
 		obj.find( "#slider" ).slider({
 				range: "min",
 				min: parseInt(set_min),
 				max: parseInt(set_max),
 				value: parseInt(set_start),
+				step: parseInt(set_step),
 				slide: function( event, ui ) {	
 					count_text = '<span class="count-text">' + the_slider.attr('data-count-text').replace('{x}',ui.value) + '</span>';	
 					the_slider.find( '.ui-slider-handle' ).html( '<span id="icon" class="'+ the_slider.attr('data-dragicon') +'"></span> '+ count_text).addClass(the_slider.attr('data-dragicon-class')).removeClass('ui-state-default');
