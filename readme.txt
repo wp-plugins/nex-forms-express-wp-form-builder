@@ -206,6 +206,9 @@ There are 2 ways to install NEX-Forms. Please follow the steps for your NEX-Form
 1. Admin Interface
 
 == Changelog ==
+= 4.1 =
+* FIXED: Security vulnerabilities
+
 = 3.0 =
 * FIXED: "Form title can not be empty" bug
 * FIXED: Overcome styling interference from themes
