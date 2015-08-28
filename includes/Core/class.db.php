@@ -3,16 +3,10 @@
 add_action('wp_ajax_populate',array('IZC_Database','build_admin_table'));
 //This is a action for an AJAX function to delete table records
 add_action('wp_ajax_delete_record',array('IZC_Database','delete_record'));
-
 //DB actions
 add_action('wp_ajax_do_insert', array('IZC_Database','do_insert'));
 add_action('wp_ajax_do_edit', array('IZC_Database','update'));
 add_action('wp_ajax_duplicate_record', array('IZC_Database','duplicate_record'));
-
-add_action('wp_ajax_nopriv_do_insert', array('IZC_Database','insert'));
-add_action('wp_ajax_nopriv_do_edit', array('IZC_Database','update'));
-add_action('wp_ajax_nopriv_duplicate_record', array('IZC_Database','duplicate_record'));
-
 
 add_action('wp_ajax_insert_nex_form', array('IZC_Database','insert_nex_form'));
 add_action('wp_ajax_edit_form', array('IZC_Database','update_form'));
@@ -51,7 +45,8 @@ if(!class_exists('IZC_Database'))
 			
 			$args 		= str_replace('\\','',$_POST['args']);
 			$headings 	= json_decode($args);
-			$tree 		= $wpdb->query('SHOW FIELDS FROM '. $wpdb->prefix .$_POST['table'].' LIKE "parent_Id"');
+			$get_tree 	= $wpdb->prepare('SHOW FIELDS FROM '. $wpdb->prefix .filter_var($_POST['table'],FILTER_SANITIZE_STRING).' LIKE "parent_Id"');
+			$tree 		= $wpdb->query($get_tree);
 			
 			$additional_params = json_decode(str_replace('\\','',$_POST['additional_params']),true);
 			
@@ -65,14 +60,14 @@ if(!class_exists('IZC_Database'))
 				$where_str .= ' AND nex_forms_Id='.$_POST['nex_forms_id'];
 			
 			
-			$sql = 'SELECT * FROM '. $wpdb->prefix . $_POST['table'].' WHERE Id <> "" 
+			$sql = $wpdb->prepare('SELECT * FROM '. $wpdb->prefix . filter_var($_POST['table'],FILTER_SANITIZE_STRING).' WHERE Id <> "" 
 											'.(($tree) ? ' AND parent_Id="0"' : '').' 
-											'.(($_POST['plugin_alias']) ? ' AND (plugin="'.$_POST['plugin_alias'].'" || plugin="shared")' : '').' 
+											'.(($_POST['plugin_alias']) ? ' AND (plugin="'.filter_var($_POST['plugin_alias'],FILTER_SANITIZE_STRING).'" || plugin="shared")' : '').' 
 											'.$where_str.'   
 											ORDER BY 
-											'.((isset($_POST['orderby']) && !empty($_POST['orderby'])) ? $_POST['orderby'].' 
-											'.$_POST['order'] : 'Id DESC').' 
-											LIMIT '.((isset($_POST['current_page'])) ? $_POST['current_page']*10 : '0'  ).',10 ';
+											'.((isset($_POST['orderby']) && !empty($_POST['orderby'])) ? filter_var($_POST['orderby'],FILTER_SANITIZE_STRING).' 
+											'.filter_var($_POST['order'],FILTER_SANITIZE_STRING) : 'Id DESC').' 
+											LIMIT '.((isset($_POST['current_page'])) ? filter_var($_POST['current_page'],FILTER_SANITIZE_NUMBER_INT)*10 : '0'  ).',10 ');
 			$results 	= $wpdb->get_results($sql);
 			
 			$output .= '<div class="modal fade" id="viewFormEntry" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index:10001 !important;">
@@ -273,7 +268,9 @@ if(!class_exists('IZC_Database'))
 		
 		public function load_nex_form(){
 			global $wpdb;
-			$form = $wpdb->get_row('SELECT form_fields FROM '.$wpdb->prefix.'wap_nex_forms WHERE Id='.$_POST['form_Id']);
+			
+			$get_form = $wpdb->prepare('SELECT form_fields FROM '.$wpdb->prefix.'wap_nex_forms WHERE Id='.filter_var($_POST['form_Id'],FILTER_SANITIZE_NUMBER_INT));
+			$form = $wpdb->get_row($get_form);
 			echo str_replace('\\','',$form->form_fields);
 			die();	
 		}
@@ -333,7 +330,8 @@ Find input select etc inside here
 /* Add more custom styles */
 /**************************/';
 			
-			$form = $wpdb->get_row('SELECT * FROM '.$wpdb->prefix.'wap_nex_forms WHERE Id='.$_POST['form_Id']);
+			$get_form = $wpdb->prepare('SELECT * FROM '.$wpdb->prefix.'wap_nex_forms WHERE Id='.filter_var($_POST['form_Id'],FILTER_SANITIZE_NUMBER_INT));
+			$form = $wpdb->get_row($get_form);
 			$output .= '<div class="mail_to">'.$form->mail_to.'</div>';
 			$output .= '<div class="confirmation_mail_body">'.str_replace('\\','',$form->confirmation_mail_body).'</div>';
 			$output .= '<div class="admin_email_body">'.str_replace('\\','',$form->admin_email_body).'</div>';
@@ -360,7 +358,9 @@ Find input select etc inside here
 		
 		public function load_nex_form_hidden_fields(){
 			global $wpdb;
-			$form = $wpdb->get_row('SELECT hidden_fields FROM '.$wpdb->prefix.'wap_nex_forms WHERE Id='.$_POST['form_Id']);
+			
+			$get_form = $wpdb->prepare('SELECT hidden_fields FROM '.$wpdb->prefix.'wap_nex_forms WHERE Id='.filter_var($_POST['form_Id'],FILTER_SANITIZE_NUMBER_INT));
+			$form = $wpdb->get_row($get_form);
 			
 			$hidden_fields_raw = explode('[end]',$form->hidden_fields);
 			
@@ -380,102 +380,7 @@ Find input select etc inside here
 			die();	
 		}
 		
-		/***************************************/
-		/********   Dropdown Records   *********/
-		/***************************************/
-		public function populate_dropdown_list(){
-			global $wpdb;
-			$table 		= (isset($_POST['table'])) ? $_POST['table'] : $this->module_table;
-			$plugin		= (isset($_POST['plugin_alias'])) ? $_POST['plugin_alias'] : $this->plugin_alias;
-			$tree 		= $wpdb->query('SHOW FIELDS FROM '. $wpdb->prefix . $table .' LIKE "parent_Id"');
-			
-			
-			
-			$sql = 'SELECT * FROM '. $wpdb->prefix . $table .'  WHERE 1=1 
-											'.(($tree) ? ' 		AND parent_Id="0"' : '').'
-											'.(($plugin) ? ' 	AND (plugin="'.$plugin.'" || plugin="shared" )' : '');
-			$results	= $wpdb->get_results($sql);
-			//echo $sql;
-			if(isset($_REQUEST['Id'])){
-				global $wpdb;
-				$selected  = $wpdb->get_var('SELECT '.$table.'_Id FROM '.$wpdb->prefix . $_REQUEST['table'] .' WHERE Id='.$_REQUEST['Id']);
-			}
-			
-			//$output .= '<option value="0">---- Select ----</option>';
-			
-			if($results)
-				{			
-				foreach($results as $data)
-					{
-					$output .= '<option value="'.$data->Id.'" '.(($selected==$data->Id) ? 'selected="selected"' : '' ).'>'.(($data->title) ? $data->title : (($data->_name) ? $data->_name : (($data->mb_lacquer_ref) ? $data->mb_lacquer_ref : $data->code)) ).'</option>';
-					if($tree)
-						$output .= IZC_Database::build_descendants_list($data->Id, $headings, $table,0,'dropdown');
-					}
-				}
-	
-			if(isset($_POST['ajax'])) { echo $output; die(); }
-			return $output;
-		}
 		
-		public function populate_custom_dropdown_list($table,$field){
-			
-			global $wpdb;
-	
-			$results = $wpdb->get_results('SELECT '.$field.' FROM '. $wpdb->prefix . $table);
-		
-			$output .= '<option value="0">---- Select ----</option>';
-			
-			if($results)
-				{			
-				foreach($results as $data)
-					{
-					$output .= '<option value="'.$data->$field.'" '.(($selected==$data->$field) ? 'selected="selected"' : '' ).'>'.$data->$field.'</option>';
-					}
-				}
-			return $output;
-		}
-		
-		
-		/***************************************/
-		/**********   List Records   ***********/
-		/***************************************/
-		public function list_items(){
-			
-			global $wpdb;
-			
-			$table = (isset($_POST['table'])) ? $_POST['table'] : $this->module_table;
-			
-			$tree 		= $wpdb->query('SHOW FIELDS FROM '. $wpdb->prefix . $table .' LIKE "parent_Id"');
-			$results 	= $wpdb->get_results('SELECT * FROM '. $wpdb->prefix . $table .' '.(($tree) ? ' WHERE parent_Id="0"' : '') );
-			
-			if($results)
-				{			
-				foreach($results as $data)
-					{
-	
-					$output .= '<li value="'.$this->get_title($data->Id,$table).'"><a href="'.get_option('siteurl').'/listings/'.$this->get_title($data->Id,$table).'-'.$table.'_Id~'.$data->Id.'">'.$data->title.'</a>';
-					/*if($tree)
-						{
-						if(IZC_Database::has_child($data->Id,$table))
-							{
-							$output .= '<ul class="children '.((IZC_Database::count_children($data->Id,$table)>5) ? 'col2' : 'col1' ).'">';
-							}
-						$output .= IZC_Database::build_descendants_list($data->Id, $headings, $table,0,'list');
-						
-						if(IZC_Database::has_child($data->Id,$table))
-							{
-							$output .= '<li class="seam"> </li>';
-							$output .= '</ul>';
-							}
-						}*/
-					$output .= '</li>';
-					}
-				}
-				
-			if(isset($_POST['ajax'])) { echo $output; die(); }
-			
-			return $output;
-		}
 		
 		
 		
@@ -488,61 +393,7 @@ Find input select etc inside here
 			
 			for($i=1;$i<=$total_count;$i++)
 				$indent .= ($view=='table') ? '&mdash; ' : '&nbsp;&nbsp; ' ; $level = $i-1;;
-				
-	
-			/*if(IZC_Database::has_child($Id,$table))
-				{
-				switch($view)
-					{
-					case 'table': 
-						foreach(IZC_Database::get_children($Id,$table) as $child)
-							{	
-							$output .= '<tr id="tag-'.$child->Id.'" class="'.((IZC_Database::has_child($child->Id,$table)) ? 'has-child' : '').' row child '.IZC_Database::get_origen($child->Id,$table).'-level-'.$level.' level-'.$Id.'-'.$level.'" onClick="showHide(this,\'level-'.$child->Id.'\','.($level+1).',10,\''.IZC_Database::get_origen($child->Id,$table).'\');">';
-							$output .= '<th class="check-column" scope="row"><input type="checkbox" value="'.$child->Id.'" name="checked[]"></th>';
-							$k=1;
-							foreach($headings as $heading)	
-								{
-								$heading = IZC_Functions::format_name($heading);
-								$heading = str_replace('_id','_Id',$heading);
-								
-								$val = (stristr($heading,'id')) ? IZC_Database::get_title($child->$heading,str_replace('_Id','',$heading)) : $child->$heading;
-	
-								$output .= '<td class="manage-column   column-'.$val.'">'.(($k==1) ? $indent.' <strong><a href="" class="row-title">'.$val.'</a></strong>' : $val).'';
-								$output .= (($k==1) ? '<div class="row-actions"><span class="edit"><a href="?page='.$_POST['page'].'&Id='.$child->Id.'&table='.$_POST['table'].'" class="edit-tag">Edit</a> | </span><span class="delete"><a href="javascript:delete_record(\''.$child->Id.'\',\''.$_POST['table'].'\');" >Delete</a></span></div>' : '' ).'</td>';
-								$k++;
-								}
-							$output .= '<th class="expand" scope="row"></th>';
-							$output .= '</tr>';
-							$output .= IZC_Database::build_descendants_list($child->Id,$headings,$table,$level);
-							}
-					break;
-					
-					case 'dropdown': 
-						foreach(IZC_Database::get_children($Id,$table) as $child)
-							{	
-							$output .= '<option value="'.$child->Id.'" >'.$indent.$child->title.'</option>';
-							$output .= IZC_Database::build_descendants_list($child->Id,$headings,$table,$level,$view);
-							}
-					break;
-					
-					case 'list': 
-						foreach(IZC_Database::get_children($Id,$table) as $child)
-							{
-							$output .= '<li class="col1" id="item-'.$child->Id.'"><a href="'.get_option('siteurl').'/listings/'.$this->get_title($child->Id,$table).'-'.$table.'_Id~'.$child->Id.'">'.$child->title.'</a>';
-							
-							if(IZC_Database::has_child($child->Id,$table))
-								{
-								$output .= '<ul class="children">';
-								$output .= IZC_Database::build_descendants_list($child->Id,$headings,$table,$level,$view);
-								$output .= '</ul>';
-								}
-								
-							$output .= '</li>';
-							}
-					break;
-					}
-				return $output;
-				}*/
+			
 		}
 		
 		
@@ -550,14 +401,7 @@ Find input select etc inside here
 		/**********   Tree Traversal   *********/
 		/***************************************/
 		public function get_descendants($Id,$table){
-			/*if(IZC_Database::has_child($Id,$table))
-				{
-				foreach(IZC_Database::get_children($Id,$table) as $child)
-					{
-					$_SESSION['decendants'] .= $child->Id.',';
-					IZC_Database::get_descendants($child->Id,$table);
-					}
-				}*/
+			
 		}
 		
 		public function get_ancestors($Id,$table){
@@ -584,19 +428,23 @@ Find input select etc inside here
 		}
 		public function get_children($Id,$table){
 			global $wpdb;
-			return $wpdb->get_results("SELECT * FROM " . $wpdb->prefix . $table ." WHERE parent_Id = '".$Id."'");
+			$sql = $wpdb->prepare("SELECT * FROM " . $wpdb->prefix .filter_var($table,FILTER_SANITIZE_STRING) ." WHERE parent_Id = '".filter_var($Id,FILTER_SANITIZE_NUMBER_INT)."'");
+			return $wpdb->get_results($sql);
 		}
 		public function count_children($Id,$table){
 			global $wpdb;
-			return $wpdb->get_var("SELECT count(*) FROM " . $wpdb->prefix . $table ." WHERE parent_Id = '".$Id."'");
+			$sql = $wpdb->prepare("SELECT count(*) FROM " . $wpdb->prefix . filter_var($table,FILTER_SANITIZE_STRING)." WHERE parent_Id = '".filter_var($Id,FILTER_SANITIZE_NUMBER_INT)."'");
+			return $wpdb->get_var($sql);
 		}
 		public function is_child($Id,$table){
 			global $wpdb;
-			return $wpdb->get_results("SELECT * FROM " . $wpdb->prefix . $table ." WHERE Id = '".$Id."'");
+			$sql = $wpdb->prepare("SELECT * FROM " . $wpdb->prefix . filter_var($table,FILTER_SANITIZE_STRING) ." WHERE Id = '".filter_var($Id,FILTER_SANITIZE_NUMBER_INT)."'");
+			return $wpdb->get_results($sql);
 		}
 		public function get_parent($Id,$table){
 			global $wpdb;
-			return $wpdb->get_var("SELECT parent_Id FROM " . $wpdb->prefix . $table ." WHERE Id = '".$Id."'");
+			$sql = $wpdb->prepare("SELECT parent_Id FROM " . $wpdb->prefix . filter_var($table,FILTER_SANITIZE_STRING) ." WHERE Id = '".filter_var($Id,FILTER_SANITIZE_NUMBER_INT)."'");
+			return $wpdb->get_var($sql);
 		}
 		
 		
@@ -607,23 +455,28 @@ Find input select etc inside here
 		public function get_title($Id,$table){
 			global $wpdb;
 			
-			$the_title = $wpdb->get_var("SELECT title FROM " . $wpdb->prefix . $table ." WHERE Id = '".$Id."'");
+			$get_the_title = $wpdb->prepare("SELECT title FROM " . $wpdb->prefix . filter_var($table,FILTER_SANITIZE_STRING) ." WHERE Id = '".filter_var($Id,FILTER_SANITIZE_NUMBER_INT)."'");
+			$the_title = $wpdb->get_var($get_the_title);
 	
 			if(!$the_title)
-				$the_title = $wpdb->get_var("SELECT _name FROM " . $wpdb->prefix . $table ." WHERE Id = '".$Id."'");
-		
+				{
+				$get_the_title = $wpdb->prepare("SELECT _name FROM " . $wpdb->prefix . filter_var($table,FILTER_SANITIZE_STRING) ." WHERE Id = '".filter_var($Id,FILTER_SANITIZE_NUMBER_INT)."'");
+				$the_title = $wpdb->get_var($get_the_title);				
+				}
 			return $the_title;
 		}
 		
 		public function get_username($Id){
 			global $wpdb;
-			$username = $wpdb->get_var("SELECT display_name FROM " . $wpdb->prefix . "users WHERE ID = '".$Id."'");
+			$get_username = $wpdb->prepare("SELECT display_name FROM " . $wpdb->prefix . "users WHERE ID = '".filter_var($Id,FILTER_SANITIZE_NUMBER_INT)."'");
+			$username = $wpdb->get_var($get_username);
 			return $username;
 		}
 		
 		public function get_description($Id,$table){
 			global $wpdb;
-			return $wpdb->get_var("SELECT description FROM " . $wpdb->prefix . $table ." WHERE Id = '".$Id."'");
+			$sql = $wpdb->prepare("SELECT description FROM " . $wpdb->prefix . filter_var($table,FILTER_SANITIZE_STRING) ." WHERE Id = '".filter_var($Id,FILTER_SANITIZE_NUMBER_INT)."'");
+			return $wpdb->get_var($sql);
 		}
 		
 		
@@ -636,7 +489,8 @@ Find input select etc inside here
 			global $wpdb;
 			
 			
-			$fields 	= $wpdb->get_results("SHOW FIELDS FROM " . $wpdb->prefix . $_POST['table']);
+			$get_fields 	= $wpdb->prepare("SHOW FIELDS FROM " . $wpdb->prefix .filter_var($_POST['table'],FILTER_SANITIZE_STRING));
+			$fields 	= $wpdb->get_results($get_fields);
 			$field_array = array();
 			foreach($fields as $field)
 				{
@@ -645,8 +499,8 @@ Find input select etc inside here
 					$field_array[$field->Field] = $_POST[$field->Field];
 					}	
 				}
-			$insert = $wpdb->insert ( $wpdb->prefix . $_POST['table'], $field_array );
-			
+			$insert = $wpdb->prepare($wpdb->insert ( $wpdb->prefix . filter_var($_POST['table'],FILTER_SANITIZE_STRING), $field_array ));
+			$wpdb->query($insert);
 			echo mysql_insert_id();
 			
 			die();
@@ -654,7 +508,8 @@ Find input select etc inside here
 		
 		public function do_insert(){
 			global $wpdb;
-			$fields 	= $wpdb->get_results("SHOW FIELDS FROM " . $wpdb->prefix . $_POST['table']);
+			$get_fields 	= $wpdb->prepare("SHOW FIELDS FROM " . $wpdb->prefix .filter_var($_POST['table'],FILTER_SANITIZE_STRING));
+			$fields 	= $wpdb->get_results($get_fields);
 			$field_array = array();
 			foreach($fields as $field)
 				{
@@ -666,13 +521,15 @@ Find input select etc inside here
 						$field_array[$field->Field] = $_POST[$field->Field];
 					}	
 				}
-			$insert = $wpdb->insert ( $wpdb->prefix . $_POST['table'], $field_array );
+			$insert = $wpdb->prepare($wpdb->insert ( $wpdb->prefix . filter_var($_POST['table'],FILTER_SANITIZE_STRING), $field_array ));
+			$wpdb->query($insert);
 			echo mysql_insert_id();
 			die();
 		}
 		public function update(){
 		global $wpdb;
-		$fields 	= $wpdb->get_results("SHOW FIELDS FROM " . $wpdb->prefix . $_POST['table']);
+		$get_fields 	= $wpdb->prepare("SHOW FIELDS FROM " . $wpdb->prefix .filter_var($_POST['table'],FILTER_SANITIZE_STRING));
+		$fields 	= $wpdb->get_results($get_fields);
 		$field_array = array();
 		foreach($fields as $field)
 			{
@@ -684,14 +541,16 @@ Find input select etc inside here
 					$field_array[$field->Field] = $_POST[$field->Field];
 				}	
 			}
-		$update = $wpdb->update ( $wpdb->prefix . $_POST['table'], $field_array, array(	'Id' => $_POST['edit_Id']) );
+		$update = $wpdb->prepare($wpdb->update ( $wpdb->prefix . filter_var($_POST['table'],FILTER_SANITIZE_STRING), $field_array, array(	'Id' => filter_var($_POST['edit_Id'],FILTER_SANITIZE_NUMBER_INT)) ));
+		$wpdb->query($update);
 		echo $_POST['edit_Id'];
 		die();
 		}
 		public function update_form(){
 			global $wpdb;
 			
-			$fields 	= $wpdb->get_results("SHOW FIELDS FROM " . $wpdb->prefix . $_POST['table']);
+			$get_fields 	= $wpdb->prepare("SHOW FIELDS FROM " . $wpdb->prefix .filter_var($_POST['table'],FILTER_SANITIZE_STRING));
+			$fields 	= $wpdb->get_results($get_fields);
 			$field_array = array();
 			foreach($fields as $field)
 				{
@@ -701,15 +560,19 @@ Find input select etc inside here
 					$field_array[$field->Field] = $_POST[$field->Field];
 					}	
 				}
-			$update = $wpdb->update ( $wpdb->prefix . $_POST['table'], $field_array, array(	'Id' => $_POST['edit_Id']) );
+			$update = $wpdb->prepare($wpdb->update ( $wpdb->prefix . filter_var($_POST['table'],FILTER_SANITIZE_STRING), $field_array, array(	'Id' => filter_var($_POST['edit_Id'],FILTER_SANITIZE_NUMBER_INT)) ));
+			$wpdb->query($update);
 			die();
 		}
 		
 		public function duplicate_record(){
 		global $wpdb;
 
-		$record = $wpdb->get_row('SELECT * FROM ' .$wpdb->prefix. $_POST['table']. ' WHERE Id = '.$_POST['Id']);
-		$fields 	= $wpdb->get_results("SHOW FIELDS FROM " . $wpdb->prefix . $_POST['table']);
+		$get_record = $wpdb->prepare('SELECT * FROM ' .$wpdb->prefix. filter_var($_POST['table'],FILTER_SANITIZE_STRING). ' WHERE Id = '.filter_var($_POST['Id'],FILTER_SANITIZE_NUMBER_INT));
+		$record = $wpdb->get_row($get_record);
+		
+		$get_fields 	= $wpdb->prepare("SHOW FIELDS FROM " . $wpdb->prefix .filter_var($_POST['table'],FILTER_SANITIZE_STRING));
+		$fields 	= $wpdb->get_results($get_fields);
 		$field_array = array();
 		foreach($fields as $field)
 			{
@@ -722,8 +585,8 @@ Find input select etc inside here
 		//unset($field_array['session_Id']);
 		
 		//var_dump($field_array);
-		$insert = $wpdb->insert ( $wpdb->prefix . $_POST['table'], $field_array );
-		
+		$insert = $wpdb->prepare ( $wpdb->insert ( $wpdb->prefix . filter_var($_POST['table'],FILTER_SANITIZE_STRING), $field_array ));
+		$wpdb->query($insert);
 		//header("Location: http://localhost/db_thermal/wp-admin/admin.php?page=WA-documents-contacts&Id=".mysql_insert_id()."&table=wam_contacts");
 		//IZC_Functions::print_message( 'updated' , 'Record Duplicated' );
 		//echo mysql_insert_id();
@@ -732,13 +595,17 @@ Find input select etc inside here
 		
 		public function delete_record(){
 			global $wpdb;
-			IZC_Database::get_descendants($_POST['Id'],$_POST['table']);
+			IZC_Database::get_descendants(filter_var($_POST['Id'],FILTER_SANITIZE_NUMBER_INT),filter_var($_POST['table'],FILTER_SANITIZE_STRING));
 			$decendents = explode(',',$_SESSION['decendants']);
 			foreach($decendents as $child)
 				{
-				$wpdb->query('DELETE FROM ' .$wpdb->prefix. $_POST['table']. ' WHERE Id = '.$child);
+				$delete_child = $wpdb->prepare('DELETE FROM ' .$wpdb->prefix.filter_var($_POST['table'],FILTER_SANITIZE_STRING). ' WHERE Id = '.filter_var($child,FILTER_SANITIZE_NUMBER_INT));
+				$wpdb->query($delete_child);
 				}
-			$wpdb->query('DELETE FROM ' .$wpdb->prefix. $_POST['table']. ' WHERE Id = '.$_POST['Id']);
+			
+			$delete = $wpdb->prepare('DELETE FROM ' .$wpdb->prefix. filter_var($_POST['table'],FILTER_SANITIZE_STRING). ' WHERE Id = '.filter_var($_POST['Id'],FILTER_SANITIZE_NUMBER_INT));	
+			$wpdb->query($delete);
+			
 			$_SESSION['decendants'] = '';
 			IZC_Functions::print_message( 'updated' , 'Item deleted' );
 			die();
@@ -748,13 +615,17 @@ Find input select etc inside here
 			global $wpdb;
 			foreach($records as $record_Id)
 				{
-				IZC_Database::get_descendants($record_Id,$_POST['table']);
+				IZC_Database::get_descendants($record_Id,filter_var($_POST['table'],FILTER_SANITIZE_STRING));
 				$decendents = explode(',',$_SESSION['decendants']);
 				foreach($decendents as $child)
 					{
-					$wpdb->query('DELETE FROM ' .$wpdb->prefix. $table. ' WHERE Id = '.$child);
+					
+					$delete_child = $wpdb->prepare('DELETE FROM ' .$wpdb->prefix.filter_var($table,FILTER_SANITIZE_STRING). ' WHERE Id = '.filter_var($child,FILTER_SANITIZE_NUMBER_INT));
+					$wpdb->query($delete_child);	
+					
 					}
-				$delete = $wpdb->query('DELETE FROM ' .$wpdb->prefix. $table. ' WHERE Id = '.$record_Id);
+				$delete = $wpdb->prepare('DELETE FROM ' .$wpdb->prefix. filter_var($table,FILTER_SANITIZE_STRING). ' WHERE Id = '.filter_var($record_Id,FILTER_SANITIZE_NUMBER_INT));
+				$wpdb->query($delete);	
 				}
 			if($delete)
 				IZC_Functions::add_js_function( 'print_msg(\'updated\' , \'Items deleted\')' );
@@ -763,96 +634,10 @@ Find input select etc inside here
 		public function alter_plugin_table($table='', $col = '', $type='text'){
 			global $wpdb;
 			
-			$result = $wpdb->query("ALTER TABLE ".$wpdb->prefix . $table ." ADD ".$col." ".$type);
+			$sql = $wpdb->prepare("ALTER TABLE ".$wpdb->prefix . filter_var($table,FILTER_SANITIZE_STRING) ." ADD ".filter_var($col,FILTER_SANITIZE_STRING)." ".filter_var($type,FILTER_SANITIZE_STRING));
+			$result = $wpdb->query($sql);
 			
 		}
-		
-		public function alter_module_table(){
-			global $wpdb;
-			
-			$linked_modules = get_option('iz-linked-modules', array());
-			
-			if(!is_array($linked_modules))
-				$linked_modules = array();
-			
-			$i = 0;
-			if(is_array($this->link_modules))
-				{
-				foreach($this->link_modules as $link_module=>$val)
-					{
-					$links[$i] = $link_module;
-					$result = $wpdb->query("ALTER TABLE ".$wpdb->prefix . $link_module ." ADD ".$this->foreign_key." INT(11) unsigned NOT NULL");
-					$i++;
-					IZC_Modules::create_link_purpose($link_module,$val);
-					}
-				}
-	
-			$link_array[$this->module_table] = $links; 
-			$new_linked_modules = array_merge($linked_modules,$link_array);
-			update_option('iz-linked-modules',$new_linked_modules);
-			
-			
-		}
-		
-		public function share_item(){
-			global $wpdb;
-			
-			$is_multi = $wpdb->get_results('SELECT distinct(plugin) FROM ' . $wpdb->prefix . $this->plugin_table);
-			
-			if(count($is_multi)>1)
-				{
-				//<div class="form-field form-required"><label for="Title">Title</label><div class="iz-form-item"><input type="text" value="" name="title"></div></div>
-				//$output .= '<div class="form-field ">';
-					$output .= '<label >&nbsp;&nbsp;Share Item</label>';
-					$output .= '<div class="iz-form-item">';
-						$output .= '<input id="shared" type="radio" name="set_plugin" value="shared"><lable for="shared">&nbsp;&nbsp;Yes</label><br />';
-						$output .= '<input id="private" type="radio" name="set_plugin" value="'.$this->plugin_alias.'" checked="checked"><lable for="private">&nbsp;&nbsp;No</label>';	
-					$output .= '</div>';
-				//$output .= '</div>';
-				}
-			
-			return $output;
-		}
-		
-		public function get_plugin_table(){
-			global $wpdb;
-			$fields = $wpdb->get_results("SHOW FIELDS FROM " . $wpdb->prefix . $this->plugin_table);
-			
-			foreach($fields as $field)
-				{
-				$table_fields .= $field->Field.'<br />';
-				}
-			return $table_fields;
-		}
-		
-		public function get_foreign_fields($key){
-			global $wpdb;
-			$fields = $wpdb->get_results("SHOW FIELDS FROM " . $wpdb->prefix . $this->plugin_table . " LIKE '%".$key."%'");
-			
-			$foreign_fields = array();
-			
-			foreach($fields as $field)
-				{
-				array_push($foreign_fields,$field->Field);
-				}
-			return $foreign_fields;
-		}
-		
-		public function get_foreign_Id($Id,$foreign_key,$table){
-			global $wpdb;
-			return $wpdb->get_var("SELECT ".$foreign_key." FROM " . $wpdb->prefix . $table ." WHERE Id = '".$Id."'");
-		}
-		
-		public function get_module_table(){
-			global $wpdb;
-			$fields = $wpdb->get_results("SHOW FIELDS FROM " . $wpdb->prefix . $this->module_table);
-			$table_fields = '';
-			foreach($fields as $field)
-				{
-				$table_fields .= $field->Field.'<br />';
-				}
-			return $table_fields;
-		}	
 	}
 }
 ?>

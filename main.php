@@ -7,7 +7,7 @@ Module Ready: Yes
 Plugin TinyMCE: popup
 Description: (EXPRESS VERSION) The Ultimate Drag and Drop WordPress forms builder
 Author: Basix
-Version: 4.0
+Version: 4.1
 Author URI: http://codecanyon.net/user/Basix/portfolio?ref=Basix
 License: GPL
 */
@@ -443,7 +443,8 @@ public function generate_csv()
 {
 global $wpdb;
 
-	$form_data = $wpdb->get_results('SELECT * FROM '.$wpdb->prefix.'wap_nex_forms_entries WHERE nex_forms_Id = '.$_REQUEST['nex_forms_Id'].' ORDER BY date_time DESC');
+	$get_form_data = $wpdb->prepare('SELECT * FROM '.$wpdb->prefix.'wap_nex_forms_entries WHERE nex_forms_Id = '.filter_var($_REQUEST['nex_forms_Id'],FILTER_SANITIZE_NUMBER_INT).' ORDER BY date_time DESC');
+	$form_data = $wpdb->get_results($get_form_data);
 	$top = 1;	
 	foreach($form_data as $data)
 		{
@@ -519,7 +520,7 @@ function submit_nex_form(){
 
 	
 	
-	$get_form = $wpdb->prepare('SELECT * FROM '.$wpdb->prefix.'wap_nex_forms WHERE Id = '.$_POST['nex_forms_Id']);
+	$get_form = $wpdb->prepare('SELECT * FROM '.$wpdb->prefix.'wap_nex_forms WHERE Id = '.filter_var($_POST['nex_forms_Id'],FILTER_SANITIZE_NUMBER_INT));
 	$form_attr = $wpdb->get_row($get_form);
 	
 	if ( ! function_exists( 'wp_handle_upload' ) ) 
@@ -612,9 +613,9 @@ $data_array = array();
 	
 	$data_entry = $wpdb->prepare($wpdb->insert($wpdb->prefix.'wap_nex_forms_entries',
 		array(								
-			'nex_forms_Id'			=>	$_REQUEST['nex_forms_Id'],
-			'page'					=>	$_POST['page'],
-			'ip'					=>  $_POST['ip'],
+			'nex_forms_Id'			=>	filter_var($_REQUEST['nex_forms_Id'],FILTER_SANITIZE_NUMBER_INT),
+			'page'					=>	filter_var($_POST['page'],FILTER_SANITIZE_URL),
+			'ip'					=>  filter_var($_POST['ip'],FILTER_SANITIZE_NUMBER_FLOAT),
 			'user_Id'				=>	get_current_user_id(),
 			'viewed'				=>	'no',
 			'date_time'				=>  date('Y-m-d H:i:s'),
@@ -885,7 +886,7 @@ function NEXForms_ui_output( $atts , $echo=''){
 	else
 		$id=$atts;
 		
-		$get_form = $wpdb->prepare('SELECT * FROM '.$wpdb->prefix.'wap_nex_forms WHERE Id = '.$id);
+		$get_form = $wpdb->prepare('SELECT * FROM '.$wpdb->prefix.'wap_nex_forms WHERE Id = '.filter_var($id,FILTER_SANITIZE_NUMBER_INT));
 		$form_attr = $wpdb->get_row($get_form);
 		
 		if($make_sticky=='yes')
@@ -1038,8 +1039,8 @@ function NEXForms_ui_output( $atts , $echo=''){
 if(!function_exists('nex_forms_add_ons_dashboard_widget'))
 	{
 	function nex_forms_add_ons_dashboard_widget(){
-		wp_enqueue_style ('basix-dashboard',WP_PLUGIN_URL . '/nex-forms-express-wp-form-builder/css/basix-dashboard.css');
-		wp_enqueue_script('basix-dashboard-js',WP_PLUGIN_URL . '/nex-forms-express-wp-form-builder/js/basix-dashboard.js');
+		wp_enqueue_style ('basix-dashboard', plugins_url( '/css/basix-dashboard.css',__FILE__));
+		wp_enqueue_script('basix-dashboard-js',plugins_url( '/js/basix-dashboard.js',__FILE__));
 		global $wpdb;
 		$output .= '<p>These add-ons are available for the NEX-Forms Express version</p><div class="dashboard_wrapper">';
 			$output .= '<div class="item_logo "><a href="http://codecanyon.net/item/form-themes-for-nexforms/10037800?ref=Basix"><img width="80" height="80" border="0" title="" src="http://basixonline.net/add-ons/themes/logo.jpg" data-preview-width="" data-preview-height="" data-item-name="Form Themes for NEX-Forms" data-item-cost="12" data-item-category="WordPress / Forms" data-item-author="Basix" class="landscape-image-magnifier preload no_preview" alt="Form Themes for NEX-Forms - CodeCanyon Item for Sale" data-tooltip="Form Themes for NEX-Forms"></a><div class="cover_image"><img src="http://basixonline.net/add-ons/themes/cover.png" itemprop="image" alt="Form Themes for NEX-Forms - CodeCanyon Item for Sale"></div></div>';
@@ -1071,10 +1072,10 @@ if(!function_exists('nex_forms_add_ons_dashboard_widget'))
 
 
 function nex_forms_gopro_dashboard_widget(){
-		wp_enqueue_style ('basix-dashboard',WP_PLUGIN_URL . '/nex-forms-express-wp-form-builder/css/basix-dashboard.css');
-		wp_enqueue_style ('basix-font-awesome',WP_PLUGIN_URL . '/nex-forms-express-wp-form-builder/css/font-awesome.min.css');
-		wp_enqueue_style ('basix-BS',WP_PLUGIN_URL . '/nex-forms-express-wp-form-builder/css/bootstrap.min.css');
-		wp_enqueue_script('basix-dashboard-js',WP_PLUGIN_URL . '/nex-forms-express-wp-form-builder/js/basix-dashboard.js');
+		wp_enqueue_style ('basix-dashboard',plugins_url('/css/basix-dashboard.css',__FILE__));
+		wp_enqueue_style ('basix-font-awesome', plugins_url('/css/font-awesome.min.css',__FILE__));
+		wp_enqueue_style ('basix-BS', plugins_url('/css/bootstrap.min.css',__FILE__));
+		wp_enqueue_script('basix-dashboard-js', plugins_url('/js/basix-dashboard.js',__FILE__));
 		global $wpdb;
 		$output .= '<div class="dashboard_wrapper alert alert-success">';
 			$output .= '<ul>

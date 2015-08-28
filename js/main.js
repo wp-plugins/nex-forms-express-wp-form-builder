@@ -2685,6 +2685,7 @@ jQuery('select#date-picker-lang-selector').change(
 		
 		jQuery('#overall-label-color').bscolorpicker().on('changeColor', function(ev){
 			 $('#collapseFormsCanvas .nex-forms-container label span.the_label').css('color',ev.color.toHex());
+			 $('#collapseFormsCanvas .nex-forms-container label span.input-label').css('color',ev.color.toHex());
 			 $('#collapseFormsCanvas .nex-forms-container .is_required').css('color',ev.color.toHex());
 			});
 		

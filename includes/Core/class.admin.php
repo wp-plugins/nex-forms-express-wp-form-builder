@@ -74,7 +74,8 @@ if(!class_exists('Module_Admin'))
 				{ 
 				if($header!='Parent')
 					{
-					$is_foreing_key = $wpdb->query('SHOW FIELDS FROM '.$wpdb->prefix . $this->template->table. ' LIKE "'.IZC_Functions::format_name($header).'_Id"');
+					$get_is_foreing_key = $wpdb->prepare('SHOW FIELDS FROM '.$wpdb->prefix . $this->template->table. ' LIKE "'.IZC_Functions::format_name($header).'_Id"');
+					$is_foreing_key = $wpdb->query($get_is_foreing_key);
 					$headers[$i] = ($is_foreing_key) ? IZC_Functions::format_name($header).'_Id': $header;
 					$i++;
 					}
@@ -141,9 +142,7 @@ if(!class_exists('Plugin_Admin'))
 						$output .= '<input type="hidden" name="edit_Id" value="'.$_REQUEST['Id'].'">';
 						$output .= '<input type="hidden" name="edit_status" value="">';
 						
-						if(isset($_REQUEST['Id']))
-							$this->get_session = $wpdb->get_var('SELECT session_Id FROM '.$wpdb->prefix.$this->config->plugin_table.' WHERE Id='.$_REQUEST['Id']);
-							
+						
 						$output .= '<input type="hidden" name="session_Id" value="'.$this->get_session.'">';
 						
 						$output .= '<input type="hidden" name="page" value="'.$_REQUEST['page'].'">';

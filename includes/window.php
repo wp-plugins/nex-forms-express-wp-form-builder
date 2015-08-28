@@ -23,7 +23,8 @@ function populate_dropdown_list($table){
 		
 		global $wpdb;
 		
-		$results	= $wpdb->get_results('SELECT * FROM '. $wpdb->prefix . $table);
+		$sql	= $wpdb->prepare('SELECT * FROM '. $wpdb->prefix . filter_var($table,FILTER_SANITIZE_STRING));
+		$results	= $wpdb->get_results($sql);
 
 		if($results)
 			{			
