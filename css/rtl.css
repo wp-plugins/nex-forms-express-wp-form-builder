@@ -1,0 +1,35 @@
+
+.saved_calendars .btn-group-xs {
+    left: 7px !important;
+    right: auto;
+}
+div#nex-forms div.top-strip {
+    margin-left: 0 !important;
+    margin-right: -20px !important;
+}
+.overall-form-settings ul.dropdown-menu {
+    float: right;
+}
+.overall-form-settings {
+    clear: both;
+    float: right;
+}
+.field.common-fields.upload-image {
+    width: 32%;
+}
+ul#canvas_view {
+    float: right;
+}
+.colmask {
+    width: 91%;
+}
+div#nex-forms-field-settings {
+    left: -100%;
+    right: auto !important;
+}
+.col1 .field .form-control {
+    text-align: right !important;
+}
+#collapseFormsCanvas {
+    clear: both;
+}
