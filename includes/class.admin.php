@@ -16,10 +16,6 @@ add_action( 'wp_ajax_do_upload_image', array('NEXForms_admin','do_upload_image')
 add_action( 'wp_ajax_do_upload_image_select', array('NEXForms_admin','do_upload_image_select'));
 
 
-add_action( 'wp_ajax_save_email_config', array('NEXForms_admin','save_email_config'));
-add_action( 'wp_ajax_save_script_config', array('NEXForms_admin','save_script_config'));
-add_action( 'wp_ajax_save_style_config', array('NEXForms_admin','save_style_config'));
-add_action( 'wp_ajax_save_other_config', array('NEXForms_admin','save_other_config'));
 
 add_action('wp_ajax_delete_form_entry', array('NEXForms_form_entries','delete_form_entry'));
 
@@ -32,75 +28,6 @@ class NEXForms_admin{
 	/***************************************/
 	
 	
-	public function submit_nex_form(){
-		echo 'test';
-		
-		die();	
-	}
-	
-	public function save_email_config() {
-		update_option('nex-forms-email-config',$_POST);
-		die();
-	}
-	
-	public function save_script_config() {
-		//print_r($_POST);
-		
-		
-		if(!array_key_exists('inc-jquery',$_POST))
-			$_POST['inc-jquery'] = '0';
-		if(!array_key_exists('inc-jquery-ui-core',$_POST))
-			$_POST['inc-jquery-ui-core'] = '0';
-		if(!array_key_exists('inc-jquery-ui-autocomplete',$_POST))
-			$_POST['inc-jquery-ui-autocomplete'] = 0;
-		if(!array_key_exists('inc-jquery-ui-slider',$_POST))
-			$_POST['inc-jquery-ui-slider'] = 0;
-		if(!array_key_exists('inc-jquery-form',$_POST))
-			$_POST['inc-jquery-form'] = 0;
-		if(!array_key_exists('inc-onload',$_POST))
-			$_POST['inc-onload'] = 0;
-			
-		update_option('nex-forms-script-config',$_POST);
-		die();
-	}
-	public function save_style_config() {
-
-		if(!array_key_exists('incstyle-jquery',$_POST))
-			$_POST['incstyle-jquery'] = '0';
-		if(!array_key_exists('incstyle-font-awesome',$_POST))
-			$_POST['incstyle-font-awesome'] = '0';
-		if(!array_key_exists('incstyle-bootstrap',$_POST))
-			$_POST['incstyle-bootstrap'] = '0';
-		if(!array_key_exists('incstyle-jquery',$_POST))
-			$_POST['incstyle-custom'] = '0';
-
-		update_option('nex-forms-style-config',$_POST);
-		die();
-	}
-	public function save_other_config() {
-		
-		if(!get_option('nex-forms-other-config'))
-		{
-		add_option('nex-forms-other-config',array(
-				'enable-print-scripts'=>'1',
-				'enable-print-styles'=>'1',
-				'enable-tinymce'=>'1',
-				'enable-widget'=>'1',	
-			));
-		}
-		if(!array_key_exists('enable-print-scripts',$_POST))
-			$_POST['enable-print-scripts'] = '0';
-		if(!array_key_exists('enable-print-styles',$_POST))
-			$_POST['enable-print-styles'] = '0';
-		if(!array_key_exists('enable-tinymce',$_POST))
-			$_POST['enable-tinymce'] = '0';
-		if(!array_key_exists('enable-widget',$_POST))
-			$_POST['enable-widget'] = '0';
-		
-		
-		update_option('nex-forms-other-config',$_POST);
-		die();
-	}
 	
 	
 	public function do_upload_image_select() {
