@@ -57,7 +57,7 @@ if(!class_exists('IZC_Database'))
 				}
 			
 			if($_POST['nex_forms_id'])
-				$where_str .= ' AND nex_forms_Id='.$_POST['nex_forms_id'];
+				$where_str .= ' AND nex_forms_Id='.filter_var($_POST['nex_forms_id'],FILTER_SANITIZE_NUMBER_INT);
 			
 			
 			$sql = $wpdb->prepare('SELECT * FROM '. $wpdb->prefix . filter_var($_POST['table'],FILTER_SANITIZE_STRING).' WHERE Id <> "" 
@@ -240,8 +240,8 @@ if(!class_exists('IZC_Database'))
 				//Set who the message is to be sent from
 				//Set an alternative reply-to address
 			
-				$mail->setFrom($_POST['email_address'], 'You');
-				$mail->addCC($_POST['email_address'], 'You');
+				$mail->setFrom(filter_var($_POST['email_address'],FILTER_SANITIZE_EMAIL), 'You');
+				$mail->addCC(filter_var($_POST['email_address'],FILTER_SANITIZE_EMAIL), 'You');
 				//Set the subject line
 				$mail->Subject = 'NEX-Forms Test Mail';
 				//Read an HTML message body from an external file, convert referenced images to embedded,
@@ -543,7 +543,7 @@ Find input select etc inside here
 			}
 		$update = $wpdb->prepare($wpdb->update ( $wpdb->prefix . filter_var($_POST['table'],FILTER_SANITIZE_STRING), $field_array, array(	'Id' => filter_var($_POST['edit_Id'],FILTER_SANITIZE_NUMBER_INT)) ));
 		$wpdb->query($update);
-		echo $_POST['edit_Id'];
+		echo filter_var($_POST['edit_Id'],FILTER_SANITIZE_NUMBER_INT);
 		die();
 		}
 		public function update_form(){

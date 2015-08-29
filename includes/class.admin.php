@@ -6910,16 +6910,7 @@ class NEXForms_form_entries{
 			die();
 		}
 
-	public function update_form_settings(){
-		
-		if(!get_option('wNex-Forms-default-settings'))
-			add_option('wNex-Forms-default-settings',array());
-		
-		update_option('wNex-Forms-default-settings',$_POST);
-		
-		IZC_Functions::print_message( 'updated' , 'Settings Updated' );
-		die();
-	}
+	
 	
 	
 	public function convert_form_entries(){
@@ -7091,7 +7082,7 @@ class NEXForms_form_entries{
 							$output .= '<a class="first-page wafb-first-page">&lt;&lt;</a>&nbsp;';
 							$output .= '<a title="Go to the next page" class="wafb-prev-page prev-page">&lt;</a>&nbsp;';
 							$output .= '<span class="paging-input"> ';
-							$output .= '<span class="current-page">'.($_POST['current_page']+1).'</span> of <span class="total-pages">'.$total_pages.'</span>&nbsp;</span>';
+							$output .= '<span class="current-page">'.(filter_var($_POST['current_page'],FILTER_SANITIZE_NUMBER_INT)+1).'</span> of <span class="total-pages">'.$total_pages.'</span>&nbsp;</span>';
 							$output .= '<a title="Go to the next page" class="wafb-next-page next-page">&gt;</a>&nbsp;';
 							$output .= '<a title="Go to the last page" class="wafb-last-page last-page">&gt;&gt;</a></span>';
 							}
@@ -7237,7 +7228,7 @@ class NEXForms_form_entries{
 				$output .= '<input type="hidden" name="orderby" value="">';
 				$output .= '<input type="hidden" name="order" value="desc">';
 				$output .= '<input type="hidden" name="current_page" value="0">';
-				$output .= '<input type="hidden" name="wa_form_Id" value="'.$_POST['form_Id'].'">';
+				$output .= '<input type="hidden" name="wa_form_Id" value="'.filter_var($_POST['form_Id'],FILTER_SANITIZE_NUMBER_INT).'">';
 
 			$output .= '<form name="export_csv" method="post" action="'.plugins_url('export.php',__FILE__).'" id="posts-filter" style="display:none;">';
 				$output .= '<textarea name="csv_content">'.$csv_data.'</textarea>';	
@@ -7333,7 +7324,7 @@ class NEXForms_form_entries{
 			$output .= '<a class="first-page wafb-first-page">&lt;&lt;</a>&nbsp;';
 			$output .= '<a title="Go to the next page" class="wafb-prev-page prev-page">&lt;</a>&nbsp;';
 			$output .= '<span class="paging-input"> ';
-			$output .= '<span class="current-page">'.($_POST['current_page']+1).'</span> of <span class="total-pages">'.$total_pages.'</span>&nbsp;</span>';
+			$output .= '<span class="current-page">'.(filter_var($_POST['current_page'],FILTER_SANITIZE_NUMBER_INT)+1).'</span> of <span class="total-pages">'.$total_pages.'</span>&nbsp;</span>';
 			$output .= '<a title="Go to the next page" class="wafb-next-page next-page">&gt;</a>&nbsp;';
 			$output .= '<a title="Go to the last page" class="wafb-last-page last-page">&gt;&gt;</a></span>';
 			}

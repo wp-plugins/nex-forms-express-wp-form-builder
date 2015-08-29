@@ -251,7 +251,7 @@ if(!class_exists('IZC_Template'))
 				$output .= '<a class="first-page iz-first-page btn btn-default btn-sm"><span class="fa fa-angle-double-left"></span></a>&nbsp;';
 				$output .= '<a title="Go to the next page" class="iz-prev-page btn btn-sm btn-default prev-page"><span class="fa fa-angle-left"></span></a>&nbsp;';
 				$output .= '<span class="paging-input"> ';
-				$output .= '<span class="current-page">'.($_POST['current_page']+1).'</span> of <span class="total-pages">'.$total_pages.'</span>&nbsp;</span>';
+				$output .= '<span class="current-page">'.(filter_var($_POST['current_page'],FILTER_SANITIZE_NUMBER_INT)+1).'</span> of <span class="total-pages">'.$total_pages.'</span>&nbsp;</span>';
 				$output .= '<a title="Go to the next page" class="iz-next-page btn btn-default btn-sm next-page"><span class="fa fa-angle-right"></span></a>&nbsp;';
 				$output .= '<a title="Go to the last page" class="iz-last-page btn btn-default btn-sm last-page"><span class="fa fa-angle-double-right"></span></a></span>';
 				}
