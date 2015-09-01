@@ -1,0 +1,17 @@
+
+.wp-has-submenu.toplevel_page_nex-forms-main ul li:last-child {
+    display: none;
+}
+.toplevel_page_nex-forms-main .wp-menu-image img {
+    height: 22px !important;
+    opacity: 1 !important;
+    padding-top: 7px !important;
+    width: 22px !important;
+}
+.toplevel_page_nex-forms-main:hover .wp-menu-image {
+    transform: scale(1.2);
+    transition: all 0.2s ease-in-out;
+}
+.toplevel_page_nex-forms-main ul.wp-submenu{
+	display:none !important;
+}
