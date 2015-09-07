@@ -949,7 +949,7 @@ $output .= '</div>';
 												$output .= '</div>';
 												
 												
-												$output .= '<div class="col-xs-12 categorize_it-item no-transition categorize_it-hidden  setting-text setting-textarea">';
+												$output .= '<div class="col-xs-12 categorize_it-item no-transition categorize_it-hidden settings-date-time  setting-text setting-textarea">';
 													$output .= '<div class="input_holder ">';											
 														$output .= '<label>Place Holder</label>';
 														$output .= '<input id="set_place_holder" type="text" name="set_place_holder" class="form-control">';

@@ -230,6 +230,14 @@ var the_field ='';
 jQuery(document).ready(
 function()
 	{
+		
+	jQuery('#nex-forms input, #nex-forms textarea').each(
+		function()
+			{
+			jQuery(this).attr('autocomplete','off');
+			}
+		);
+		
 	jQuery(document).on('click', '.input-label', function(){	
 	/*jQuery('.input-label').live('click',
 		function()*

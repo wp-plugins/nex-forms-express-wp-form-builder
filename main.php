@@ -11,11 +11,14 @@ Version: 4.5
 Author URI: http://codecanyon.net/user/Basix/portfolio?ref=Basix
 License: GPL
 */
+
 //my_deregister_javascript();
 if($_REQUEST['page']=="nex-forms-main")
 	{
 	add_action( 'wp_print_scripts', 'nf_deregister_javascript',100);
 	add_action( 'wp_print_styles', 'nf_deregister_stylesheets',100);
+	add_action( 'init', 'nf_deregister_javascript',100);
+	add_action( 'init', 'nf_deregister_stylesheets',100);
 	}
 
 ini_set('error_reporting',0);
@@ -706,7 +709,7 @@ function NEXForms_main_page(){
 	$custom->plugin_table = $config->plugin_table;
 		
 	$template -> build_header( $config->plugin_name,'' , $template->build_menu($modules_menu),'',$config->plugin_alias);
-
+	
 	$body .= $custom->NEXForms_admin();	
 
 	echo $template -> build_body($body);
@@ -723,18 +726,13 @@ function NEXForms_main_page(){
 			}
 		}	
 	echo '</div>';
-	
-	
-	//echo '##'.get_user_option( 'admin_color' );
-	
-	
-	
+
 }
 
 
 function nf_deregister_javascript(){
 	global $wp_scripts; 
-
+	
 	$include_script_array = array('utils','common','wp-a11y','sack','quicktags','colorpicker','editor','wp-fullscreen','wp-ajax-response','wp-pointer','autosave','heartbeat','wp-auth-check','wp-lists','prototype','scriptaculous-root','scriptaculous-builder','scriptaculous-dragdrop','scriptaculous-effects','scriptaculous-slider','scriptaculous-sound','scriptaculous-controls','scriptaculous','cropper','jquery','jquery-core','jquery-migrate','jquery-ui-core','jquery-effects-core','jquery-effects-blind','jquery-effects-bounce','jquery-effects-clip','jquery-effects-drop','jquery-effects-explode','jquery-effects-fade','jquery-effects-fold','jquery-effects-highlight','jquery-effects-puff','jquery-effects-pulsate','jquery-effects-scale','jquery-effects-shake','jquery-effects-size','jquery-effects-slide','jquery-effects-transfer','jquery-ui-accordion','jquery-ui-autocomplete','jquery-ui-button','jquery-ui-datepicker','jquery-ui-dialog','jquery-ui-draggable','jquery-ui-droppable','jquery-ui-menu','jquery-ui-mouse','jquery-ui-position','jquery-ui-progressbar','jquery-ui-resizable','jquery-ui-selectable','jquery-ui-selectmenu','jquery-ui-slider','jquery-ui-sortable','jquery-ui-spinner','jquery-ui-tabs','jquery-ui-tooltip','jquery-ui-widget','jquery-form','jquery-color','suggest','schedule','jquery-query','jquery-serialize-object','jquery-hotkeys','jquery-table-hotkeys','jquery-touch-punch','masonry','jquery-masonry','thickbox','jcrop','swfobject','plupload','plupload-all','plupload-html5','plupload-flash','plupload-silverlight','plupload-html4','plupload-handlers','wp-plupload','swfupload','swfupload-swfobject','swfupload-queue','swfupload-speed','swfupload-all','swfupload-handlers','comment-reply','json2','underscore','backbone','wp-util','wp-backbone','revisions','imgareaselect','mediaelement','wp-mediaelement','froogaloop','wp-playlist','zxcvbn-async','password-strength-meter','user-profile','language-chooser','user-suggest','admin-bar','wplink','wpdialogs','word-count','media-upload','hoverIntent','customize-base','customize-loader','customize-preview','customize-models','customize-views','customize-controls','customize-widgets','customize-preview-widgets','accordion','shortcode','media-models','media-views','media-editor','media-audiovideo','mce-view','admin-tags','admin-comments','xfn','postbox','tags-box','post','press-this','editor-expand','link','comment','admin-gallery','admin-widgets','theme','inline-edit-post','inline-edit-tax','plugin-install','updates','farbtastic','iris','wp-color-picker','dashboard','list-revisions','media-grid','media','image-edit','set-post-thumbnail','nav-menu','custom-header','custom-background','media-gallery','svg-painter','nex-forms-bootstrap.min','nex-forms-moment.min','nex-forms-locales.min','nex-forms-bootstrap-datetimepicker','nex-forms-fields','nex-forms-ui','nex-forms-onload','nex-forms-form-validation','nex-forms-drag-and-drop','nex-forms-form-controls','nex-forms-math.min','nex-forms-jquery.tinymce','nex-forms-field-settings-main','nex-forms-field-logic','core-functions','nex-forms-jquery.dropdown','nex-forms-themes-add-on','styles-chosen','styles-font-menu');
 	
 	foreach($wp_scripts->registered as $wp_script=>$array)
@@ -743,6 +741,7 @@ function nf_deregister_javascript(){
 			{
 			wp_deregister_script($array->handle);
 			wp_dequeue_script($array->handle);
+			wp_scripts()->remove($array->handle);
 			}
 		}	
 }
@@ -1121,15 +1120,15 @@ function submit_nex_form(){
 	$email_config = get_option('nex-forms-email-config');
 	
 	//SETUP CC
-	if(strstr(',',$mail_to))
+	if(strstr($mail_to,','))
 		$mail_to = explode(',',$mail_to);
 	
 	//SETUP BCC
-	if(strstr(',',$bcc))
+	if(strstr($bcc,','))
 		$bcc = explode(',',$bcc);
 	
 	//SETUP USERMAIL BCC
-	if(strstr(',',$bcc_user_mail))
+	if(strstr($bcc_user_mail,','))
 		$bcc_user_mail 	= explode(',',$bcc_user_mail);
 		
 	//SETUP FROM ADRRESS	
@@ -1222,7 +1221,7 @@ function submit_nex_form(){
 		if($email_config['email_content']!='pt')	
 			$mail->msgHTML($admin_body, dirname(__FILE__));
 		else
-			$mail->Body = $admin_body;
+			$mail->Body = strip_tags($admin_body);
 
 		for($x = 0; $x < count($files); $x++){  
 			$file = fopen($files[$x],"r");  
@@ -1286,7 +1285,7 @@ function submit_nex_form(){
 			if($email_config['email_content']=='html')	
 				$confirmation_mail->msgHTML($body, dirname(__FILE__));
 			else
-				$confirmation_mail->Body = $body;
+				$confirmation_mail->Body = strip_tags($body);
 			//send the message, check for errors
 			if (!$confirmation_mail->send())
 				{
