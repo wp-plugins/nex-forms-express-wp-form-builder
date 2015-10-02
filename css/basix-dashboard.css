@@ -1,0 +1,45 @@
+div.item_logo {
+  	margin-bottom:10px;
+    float: left;
+    height: 80px;
+    margin-right: 10px;
+    width: 80px;
+	position:relative;
+}
+div.item_logo a{
+	display:block;
+	width:100%;
+	height:100%;
+}
+div.item_logo.empty{
+	 border: 1px dotted #CCCCCC;
+}
+div.item_logo.xforms{
+	background:url(../images/xforms_logo.jpg);
+}
+div.item_logo.xpsk{
+	background:url(../images/xpsk_logo.jpg);
+}
+div.item_logo.xcalendar{
+	background:url(../images/xcalendar_logo.jpg);
+}
+div.item_logo div.cover_image{
+	border: 1px solid #ccc;
+    height: 300px;
+    left: 80px;
+    position: absolute;
+    top: -1px;
+    width: 590px;
+    z-index: 999999;
+	display:none;
+	box-shadow: 3px 3px 8px #bbb;
+}
+div.item_logo.xforms div.cover_image{
+	background:url(../images/xforms_cover_image.jpg);
+}
+div.item_logo.xcalendar div.cover_image{
+	background:url(../images/xcalendar_cover_image.jpg);
+}
+div.item_logo.xpsk div.cover_image{
+	background:url(../images/xpsk_cover_image.jpg);
+}
