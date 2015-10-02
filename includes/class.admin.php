@@ -1967,7 +1967,7 @@ $output .= '</div>';
 														<div class="btn-group btn-group-xs ">
 														<button data-toggle="dropdown" class="btn btn-default down_icon dropdown-toggle" type="button">
 														Color
-														</button><ul class="dropdown-menu spinner-down-color" style="z-index:10000 !important;">
+														</button><ul class="dropdown-menu spinner-down-color" style="">
 															  <li><a href="#" class="ui-state-default" style="border:1px solid #ccc"></a></li>	
 															  <li><a href="#" class="label-primary"></a></li>
 															  <li><a href="#" class="label-info"></a></li>
@@ -1985,7 +1985,7 @@ $output .= '</div>';
 												//up arrow
 												
 												
-												$output .= '<div class="col-xs-12 categorize_it-item no-transition categorize_it-hidden  setting-spinner icons">';
+												$output .= '<div class="col-xs-12 categorize_it-item no-transition categorize_it-hidden  setting-spinner icons" style="z-index:1000000 !important;">';
 													$output .= '<div class="input_holder ">';											
 														$output .= '<label>Touch Up Icon</label><br />';
 														$output .= '<div class="btn-group">';
@@ -2004,7 +2004,7 @@ $output .= '</div>';
 												
 												
 												
-												$output .= '<div class="col-xs-12 categorize_it-item no-transition categorize_it-hidden  setting-spinner icons selected-color">';
+												$output .= '<div class="col-xs-12 categorize_it-item no-transition categorize_it-hidden  setting-spinner icons selected-color" style="z-index:1000000 !important;">';
 															$output .= '<div class="input_holder ">';											
 																$output .= '<label>Color</label><br />';
 														
