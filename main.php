@@ -7,7 +7,7 @@ Module Ready: Yes
 Plugin TinyMCE: popup
 Description: Premium WordPress Plugin - Ultimate Drag and Drop WordPress Forms Builder.
 Author: Basix
-Version: 4.6
+Version: 4.6.1
 Author URI: http://codecanyon.net/user/Basix/portfolio?ref=Basix
 License: GPL
 */
@@ -915,8 +915,16 @@ global $wpdb;
 				$field_value = str_replace(chr(525),' ',$field_value);
 				
 				
-				
-				$content .= $field_value;				
+				if(is_array($field_value))
+					{
+						foreach($field_value as $val)
+							{
+							if($val)
+								$content .= '-'.$val.' ';	
+							}
+					}
+				else
+					$content .= $field_value;				
 				$content .= ($i<=count($form_values)-1) ? ',' : '
 ';
 				$i++;
@@ -1128,11 +1136,13 @@ function submit_nex_form(){
 				$the_val = str_replace('Array','',$the_val);
 				$admin_body = str_replace($match,$the_val,$admin_body);
 				$subject = str_replace($match,$the_val,$subject);
+				$from_address = str_replace($match,$the_val,$from_address);
 				}
 			else
 				{
 				$admin_body = str_replace($match,$_REQUEST[IZC_Functions::format_name($match)],$admin_body);
 				$subject = str_replace($match,$_REQUEST[IZC_Functions::format_name($match)],$subject);	
+				$from_address = str_replace($match,$_REQUEST[IZC_Functions::format_name($match)],$from_address);
 				}
 			}
 
@@ -1152,7 +1162,7 @@ function submit_nex_form(){
 		$bcc_user_mail 	= explode(',',$bcc_user_mail);
 		
 	//SETUP FROM ADRRESS	
-	$from_address = ($_REQUEST[$form_attr->user_email_field]) ? $_REQUEST[$form_attr->user_email_field] : $from_address;  
+	//$from_address = ($_REQUEST[$form_attr->user_email_field]) ? $_REQUEST[$form_attr->user_email_field] : $from_address;  
 	
 	//SETUP EMAIL FORMAT
 	$message = $admin_body;
